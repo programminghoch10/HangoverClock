@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.jj.hangoverclock">
+    android:installLocation="internalOnly"
+    package="com.JJ.hangoverclock">
 
     <application
         android:allowBackup="true"
@@ -13,9 +14,15 @@
         <receiver android:name="ClockWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.JJ.hangoverclock.widgetupdate" />
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/appwidgetproviderinfo" />
+        </receiver>
+        <receiver android:name="BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
         </receiver>
     </application>
 </manifest>

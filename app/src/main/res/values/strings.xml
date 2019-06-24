@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HangoverClock</string>
+    <string name="widget_start_text">legitclock</string>
 </resources>
