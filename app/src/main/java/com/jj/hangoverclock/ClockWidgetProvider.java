@@ -90,9 +90,33 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         int minutes = Calendar.getInstance().get(Calendar.MINUTE);
         //int seconds = Calendar.getInstance().get(Calendar.SECOND);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
-        remoteViews.setTextViewText(R.id.clock, hour + ":" + minutes);
+        //remoteViews.setTextViewText(R.id.clock, hour + ":" + minutes);
+        remoteViews.setTextViewText(R.id.clock, calculatetime((double)hour*60*60+minutes*60,20));
         //remoteViews.setTextViewText(R.id.clock, hour + ":" + minutes + ":" + seconds);
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         Log.i("info", "updateAppWidget: updated widget " + appWidgetId);
+    }
+
+    public static String calculatetime(double time, int overhang) {
+        //inputs: double time in seconds
+        //        int overhang in seconds
+        if (overhang>60) overhang = 60;
+        int h = (int) Math.floor(time / 60 / 60);
+        int m = (int) Math.floor(time / 60) - (h*60);
+        //int s = (int) Math.floor(time) - (m*60) - (h*60*60);
+        //int ms = (int) ((time - (h*60*60) - (m*60) - s) * 100);
+        //final String timetext2 = String.format();
+        //final String timetext2 = String.format("%02d", h)+":"+String.format("%02d", m)+":"+String.format("%02d", s)+"."+String.format("%02d", ms);
+        if (h>0 & m<overhang) {
+            m = m+60;
+            if(m>=60) h--;
+        }
+        /*if (m>0 & s<overhang) {
+            s = s+60;
+            if(s>=60) m--;
+        }*/
+        //final String timetext = h+":"+m+":"+s+"."+ms;
+        //final String timetext = String.format("%02d", h)+":"+String.format("%02d", m)+":"+String.format("%02d", s)+"."+String.format("%02d", ms);
+        return String.format("%02d", h)+":"+String.format("%02d", m);
     }
 }
