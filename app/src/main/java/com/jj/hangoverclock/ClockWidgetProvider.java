@@ -80,17 +80,18 @@ public class ClockWidgetProvider extends AppWidgetProvider {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.add(Calendar.MINUTE, 1);
-        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 60000, createClockTickIntent(context));
+        calendar.add(Calendar.SECOND, 60 - calendar.get(Calendar.SECOND));
+        alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 60000, createClockTickIntent(context));
     }
 
     public static void updateAppWidget(Context context,	AppWidgetManager appWidgetManager, int appWidgetId) {
         Log.i("info", "updateAppWidget: i have been called");
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         int minutes = Calendar.getInstance().get(Calendar.MINUTE);
-        int seconds = Calendar.getInstance().get(Calendar.SECOND);
+        //int seconds = Calendar.getInstance().get(Calendar.SECOND);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
-        remoteViews.setTextViewText(R.id.clock, hour + ":" + minutes + ":" + seconds);
+        remoteViews.setTextViewText(R.id.clock, hour + ":" + minutes);
+        //remoteViews.setTextViewText(R.id.clock, hour + ":" + minutes + ":" + seconds);
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         Log.i("info", "updateAppWidget: updated widget " + appWidgetId);
     }
