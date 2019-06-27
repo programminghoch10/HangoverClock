@@ -13,6 +13,7 @@ public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "onReceive: BOOT COMPLETE RECEIVED");
-        //AlarmManager alarmManager = (AlarmManager) Context.getSystemService(Context.ALARM_SERVICE);
+        ClockWidgetProvider clockWidgetProvider = new ClockWidgetProvider();
+        clockWidgetProvider.onEnabled(context);
     }
 }
