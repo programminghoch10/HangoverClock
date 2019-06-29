@@ -42,7 +42,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     /**
      * Custom Intent name that is used by the AlarmManager to tell us to update the clock once per second.
      */
-    public static int overhang = 20;
+    public static int overhang;
     public static boolean controlsvisible = false;
     public static String CLOCK_WIDGET_UPDATE = "com.JJ.hangoverclock.widgetupdate";
     public static String controlbutton = "controlbuttonclicklistener";
@@ -52,6 +52,8 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        overhang = sharedPreferences.getInt("overhang", overhang);
 
         if (controlbutton.equals(intent.getAction())) {
             Log.i(TAG, "onReceive: controlbutton pressed");
@@ -88,7 +90,6 @@ public class ClockWidgetProvider extends AppWidgetProvider {
                 remoteViews.setTextViewText(R.id.clock, "+" + overhang);
                 appWidgetManager.updateAppWidget(appWidgetID, remoteViews);
             }
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
             SharedPreferences.Editor editor= sharedPreferences.edit();
             editor.putInt("overhang", overhang);
             editor.apply();
@@ -106,7 +107,6 @@ public class ClockWidgetProvider extends AppWidgetProvider {
                 remoteViews.setTextViewText(R.id.clock, "+" + overhang);
                 appWidgetManager.updateAppWidget(appWidgetID, remoteViews);
             }
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
             SharedPreferences.Editor editor= sharedPreferences.edit();
             editor.putInt("overhang", overhang);
             editor.apply();
@@ -159,6 +159,8 @@ public class ClockWidgetProvider extends AppWidgetProvider {
 
     public void updateAppWidget(Context context,	AppWidgetManager appWidgetManager, int appWidgetId) {
         Log.i("info", "updateAppWidget: i have been called");
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        overhang = sharedPreferences.getInt("overhang", overhang);
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         int minutes = Calendar.getInstance().get(Calendar.MINUTE);
         //int seconds = Calendar.getInstance().get(Calendar.SECOND);
