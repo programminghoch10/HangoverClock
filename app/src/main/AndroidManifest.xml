@@ -5,9 +5,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/clock"
+        android:icon="@mipmap/clock_c"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/clock"
+        android:roundIcon="@mipmap/clock_c_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
