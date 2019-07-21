@@ -21,6 +21,7 @@ import java.util.Calendar;
 public class ClockWidgetProvider extends AppWidgetProvider {
     
     static String TAG = "info";
+    static final int houroverhang = 1;
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Log.i("info", "onUpdate: i have been called");
@@ -212,7 +213,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         while (m<overhang) {
             m = m+60;
             if(m>=60) h--;
-            if(h<0) h=h+24;
+            if(h<houroverhang) h+=24;
         }
         //final String timetext = h+":"+m+":"+s+"."+ms;
         //final String timetext = String.format("%02d", h)+":"+String.format("%02d", m)+":"+String.format("%02d", s)+"."+String.format("%02d", ms);
