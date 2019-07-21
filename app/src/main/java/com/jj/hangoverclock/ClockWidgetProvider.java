@@ -57,11 +57,21 @@ public class ClockWidgetProvider extends AppWidgetProvider {
 
         if (controlbutton.equals(intent.getAction())) {
             Log.i(TAG, "onReceive: controlbutton pressed");
-            controlsvisible = !controlsvisible;
-            Log.i(TAG, "onReceive: new controlbutton state: " + controlsvisible);
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] ids = appWidgetManager.getAppWidgetIds(thisAppWidget);
+            if(!controlsvisible) {
+                boolean switchcheck = true;
+                for (int appWidgetID : ids) {
+                    String timebefore = sharedPreferences.getString("time", "");
+                    updateAppWidget(context, appWidgetManager, appWidgetID);
+                    String timeafter = sharedPreferences.getString("time", "");
+                    if (timebefore != timeafter) switchcheck = false;
+                }
+                if (!switchcheck) return;
+            }
+            controlsvisible = !controlsvisible;
+            Log.i(TAG, "onReceive: new controlbutton state: " + controlsvisible);
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
             for (int appWidgetID: ids) {
                 if (controlsvisible) {
@@ -80,8 +90,9 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         }
         if (plusbutton.equals(intent.getAction())) {
             Log.i(TAG, "onReceive: plusbutton pressed");
-            overhang += 10;
-            overhang = Math.min(overhang, 60);
+            if (overhang>=60) overhang += 60;
+            if (overhang<60) overhang += 10;
+            //overhang = Math.min(overhang, 60);
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] ids = appWidgetManager.getAppWidgetIds(thisAppWidget);
@@ -97,7 +108,8 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         }
         if (minusbutton.equals(intent.getAction())) {
             Log.i(TAG, "onReceive: minusbutton pressed");
-            overhang -= 10;
+            if (overhang<=60) overhang -= 10;
+            if (overhang>60) overhang -= 60;
             overhang = Math.max(overhang, 0);
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
@@ -166,7 +178,11 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         //int seconds = Calendar.getInstance().get(Calendar.SECOND);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
         //remoteViews.setTextViewText(R.id.clock, hour + ":" + minutes);
-        remoteViews.setTextViewText(R.id.clock, calculatetime((double)hour*60*60+minutes*60,overhang));
+        String time = calculatetime((double)hour*60*60+minutes*60,overhang);
+        remoteViews.setTextViewText(R.id.clock, time);
+        SharedPreferences.Editor editor= sharedPreferences.edit();
+        editor.putString("time", time);
+        editor.apply();
         //remoteViews.setTextViewText(R.id.clock, hour + ":" + minutes + ":" + seconds);
         remoteViews.setOnClickPendingIntent(R.id.controlbutton, getPendingSelfIntent(context, controlbutton));
         remoteViews.setOnClickPendingIntent(R.id.plus, getPendingSelfIntent(context, plusbutton));
@@ -178,21 +194,26 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     public static String calculatetime(double time, int overhang) {
         //inputs: double time in seconds
         //        int overhang in seconds
-        if (overhang>60) overhang = 60;
+        //if (overhang>60) overhang = 60;
         int h = (int) Math.floor(time / 60 / 60);
         int m = (int) Math.floor(time / 60) - (h*60);
         //int s = (int) Math.floor(time) - (m*60) - (h*60*60);
         //int ms = (int) ((time - (h*60*60) - (m*60) - s) * 100);
         //final String timetext2 = String.format();
         //final String timetext2 = String.format("%02d", h)+":"+String.format("%02d", m)+":"+String.format("%02d", s)+"."+String.format("%02d", ms);
-        if (h>0 & m<overhang) {
+        /*if (h>0 & m<overhang) {
             m = m+60;
             if(m>=60) h--;
-        }
+        }/*
         /*if (m>0 & s<overhang) {
             s = s+60;
             if(s>=60) m--;
         }*/
+        while (m<overhang) {
+            m = m+60;
+            if(m>=60) h--;
+            if(h<0) h=h+24;
+        }
         //final String timetext = h+":"+m+":"+s+"."+ms;
         //final String timetext = String.format("%02d", h)+":"+String.format("%02d", m)+":"+String.format("%02d", s)+"."+String.format("%02d", ms);
         return String.format("%02d", h)+":"+String.format("%02d", m);
