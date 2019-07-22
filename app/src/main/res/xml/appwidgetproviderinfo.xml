@@ -4,7 +4,7 @@
     android:minWidth="160dp"
     android:minHeight="40dp"
     android:updatePeriodMillis="1800000"
-    android:previewImage="@mipmap/clock_c"
+    android:previewImage="@mipmap/clock"
     android:initialLayout="@layout/widget"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen">
