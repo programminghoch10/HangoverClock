@@ -25,36 +25,12 @@
         android:visibility="visible">
 
         <Button
-            android:id="@+id/plus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#00FFFFFF"
-            android:gravity="center_horizontal|top"
-            android:text="+"
-            android:textColor="@color/WidgetTextColor"
-            android:textSize="24sp"
-            android:visibility="gone" />
-
-        <Button
             android:id="@+id/controlbutton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3"
             android:alpha="0"
             android:textColor="@color/WidgetTextColor" />
 
-        <Button
-            android:id="@+id/minus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#00FFFFFF"
-            android:gravity="bottom|center_horizontal"
-            android:text="-"
-            android:textColor="@color/WidgetTextColor"
-            android:textSize="30sp"
-            android:visibility="gone" />
     </LinearLayout>
 
 </FrameLayout>

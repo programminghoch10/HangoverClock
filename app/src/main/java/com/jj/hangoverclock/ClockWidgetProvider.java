@@ -30,8 +30,6 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     public static boolean controlsvisible = false;
     public static String CLOCK_WIDGET_UPDATE = "com.JJ.hangoverclock.widgetupdate";
     public static String controlbutton = "controlbuttonclicklistener";
-    public static String plusbutton = "plusbuttonclicklistener";
-    public static String minusbutton = "minusbuttonclicklistener";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -46,58 +44,16 @@ public class ClockWidgetProvider extends AppWidgetProvider {
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] ids = appWidgetManager.getAppWidgetIds(thisAppWidget);
-            if(!controlsvisible) {
-                boolean switchcheck = true;
-                for (int appWidgetID : ids) {
-                    if (!sharedPreferences.getBoolean("controlsvisible" + appWidgetID, false)) {
-                        String timebefore = sharedPreferences.getString("time" + appWidgetID, "");
-                        updateAppWidget(context, appWidgetManager, appWidgetID);
-                        String timeafter = sharedPreferences.getString("time" + appWidgetID, "");
-                        if (!timebefore.equals(timeafter)) switchcheck = false;
-                    }
+            boolean switchcheck = true;
+            for (int appWidgetID : ids) {
+                if (!sharedPreferences.getBoolean("controlsvisible" + appWidgetID, false)) {
+                    String timebefore = sharedPreferences.getString("time" + appWidgetID, "");
+                    updateAppWidget(context, appWidgetManager, appWidgetID);
+                    String timeafter = sharedPreferences.getString("time" + appWidgetID, "");
+                    if (!timebefore.equals(timeafter)) switchcheck = false;
                 }
-                if (!switchcheck) return;
             }
-            controlsvisible = !controlsvisible;
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("controlsvisible" + intent.getAction().split("#")[1], controlsvisible);
-            editor.apply();
-            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
-            if (controlsvisible) {
-                remoteViews.setViewVisibility(R.id.plus, View.VISIBLE);
-                remoteViews.setViewVisibility(R.id.minus, View.VISIBLE);
-                remoteViews.setTextViewText(R.id.clock, "+" + overhang);
-            } else {
-                remoteViews.setViewVisibility(R.id.plus, View.GONE);
-                remoteViews.setViewVisibility(R.id.minus, View.GONE);
-                updateAppWidget(context, appWidgetManager, Integer.valueOf(intent.getAction().split("#")[1]));
-            }
-            appWidgetManager.updateAppWidget(Integer.valueOf(intent.getAction().split("#")[1]), remoteViews);
-        }
-        if (plusbutton.equals(intent.getAction().split("#")[0])) {
-            if (overhang>=60) overhang += 60;
-            if (overhang<60) overhang += 10;
-            //overhang = Math.min(overhang, 60); //Limit of 1 hour
-            //overhang = Math.min(overhang, 60*24); //Limit of a day
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
-            remoteViews.setTextViewText(R.id.clock, "+" + overhang);
-            appWidgetManager.updateAppWidget(Integer.valueOf(intent.getAction().split("#")[1]), remoteViews);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt("overhang" + Integer.valueOf(intent.getAction().split("#")[1]), overhang);
-            editor.apply();
-        }
-        if (minusbutton.equals(intent.getAction().split("#")[0])) {
-            if (overhang<=60) overhang -= 10;
-            if (overhang>60) overhang -= 60;
-            overhang = Math.max(overhang, 0);
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
-            remoteViews.setTextViewText(R.id.clock, "+" + overhang);
-            appWidgetManager.updateAppWidget(Integer.valueOf(intent.getAction().split("#")[1]), remoteViews);
-            SharedPreferences.Editor editor= sharedPreferences.edit();
-            editor.putInt("overhang" + Integer.valueOf(intent.getAction().split("#")[1]), overhang);
-            editor.apply();
+            if (!switchcheck) return;
         }
 
         if (CLOCK_WIDGET_UPDATE.equals(intent.getAction())) {
@@ -139,10 +95,10 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.add(Calendar.SECOND, 60 - calendar.get(Calendar.SECOND));
-        alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 60000, createClockTickIntent(context));
+        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 60000, createClockTickIntent(context));
     }
 
-    public void updateAppWidget(Context context,	AppWidgetManager appWidgetManager, int appWidgetId) {
+    public void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         overhang = sharedPreferences.getInt("overhang" + appWidgetId, overhang);
         controlsvisible = sharedPreferences.getBoolean("controlsvisible" + appWidgetId, false);
@@ -150,18 +106,11 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         int minutes = Calendar.getInstance().get(Calendar.MINUTE);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
         String time = calculatetime((double)hour*60*60+minutes*60,overhang);
-        if (controlsvisible) {
-            remoteViews.setViewVisibility(R.id.plus, View.GONE);
-            remoteViews.setViewVisibility(R.id.minus, View.GONE);
-            controlsvisible = false;
-        }
         remoteViews.setTextViewText(R.id.clock, time);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("time" + appWidgetId, time);
         editor.apply();
         remoteViews.setOnClickPendingIntent(R.id.controlbutton, getPendingSelfIntent(context, controlbutton + "#" + appWidgetId));
-        remoteViews.setOnClickPendingIntent(R.id.plus, getPendingSelfIntent(context, plusbutton + "#" + appWidgetId));
-        remoteViews.setOnClickPendingIntent(R.id.minus, getPendingSelfIntent(context, minusbutton + "#" + appWidgetId));
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
     }
 

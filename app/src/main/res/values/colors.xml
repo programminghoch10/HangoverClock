@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="WidgetTextColor">#00FF00</color>
+    <color name="configurebackground">#000</color>
+    <color name="configureText">#FFFFFF</color>
 </resources>
