@@ -9,13 +9,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.view.View;
+import android.support.v4.app.AlarmManagerCompat;
+import android.util.Log;
 import android.widget.RemoteViews;
-
 import java.util.Calendar;
 
 public class ClockWidgetProvider extends AppWidgetProvider {
 
+    static final String TAG = "ClockWidgetProvider";
     static final int houroverhang = 1;
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -27,17 +28,16 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     }
 
     public static int overhang;
-    public static boolean controlsvisible = false;
     public static String CLOCK_WIDGET_UPDATE = "com.JJ.hangoverclock.widgetupdate";
     public static String controlbutton = "controlbuttonclicklistener";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
+        Log.d(TAG, "onReceive: got intent " + intent.getAction());
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         if (intent.getAction().split("#").length != 1) {
             overhang = sharedPreferences.getInt("overhang" + intent.getAction().split("#")[1], overhang);
-            controlsvisible = sharedPreferences.getBoolean("controlsvisible" + intent.getAction().split("#")[1], false);
         }
 
         if (controlbutton.equals(intent.getAction().split("#")[0])) {
@@ -49,6 +49,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
                 if (!sharedPreferences.getBoolean("controlsvisible" + appWidgetID, false)) {
                     String timebefore = sharedPreferences.getString("time" + appWidgetID, "");
                     updateAppWidget(context, appWidgetManager, appWidgetID);
+                    onEnabled(context);
                     String timeafter = sharedPreferences.getString("time" + appWidgetID, "");
                     if (!timebefore.equals(timeafter)) switchcheck = false;
                 }
@@ -57,6 +58,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         }
 
         if (CLOCK_WIDGET_UPDATE.equals(intent.getAction())) {
+            Log.d(TAG, "onReceive: Recieved Clock Update");
             // Get the widget manager and ids for this widget provider, then call the shared clock update method.
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
@@ -64,12 +66,14 @@ public class ClockWidgetProvider extends AppWidgetProvider {
             for (int appWidgetID: ids) {
                 updateAppWidget(context, appWidgetManager, appWidgetID);
             }
+            onEnabled(context);
         }
     }
 
     private PendingIntent createClockTickIntent(Context context) {
-        Intent intent = new Intent(CLOCK_WIDGET_UPDATE);
-        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(context, getClass());
+        intent.setAction(CLOCK_WIDGET_UPDATE);
+        return PendingIntent.getBroadcast(context, 23, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
     protected PendingIntent getPendingSelfIntent(Context context, String action) {
         Intent intent = new Intent(context, getClass());
@@ -86,22 +90,25 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         SharedPreferences.Editor editor= sharedPreferences.edit();
         editor.clear();
         editor.commit();
+        Log.i(TAG, "onDisabled: Final cleanup done, Goodbye!");
     }
 
     @Override
     public void onEnabled(Context context) {
         super.onEnabled(context);
-        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.add(Calendar.SECOND, 60 - calendar.get(Calendar.SECOND));
-        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 60000, createClockTickIntent(context));
+        calendar.add(Calendar.SECOND, (60 - calendar.get(Calendar.SECOND)));
+        Log.d(TAG, "onEnabled: scheduling timer: " + ((calendar.getTimeInMillis() - System.currentTimeMillis())/1000) + "s");
+        //alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 60000, createClockTickIntent(context));
+        //alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), createClockTickIntent(context));
+        AlarmManagerCompat.setExact(alarmManager, AlarmManager.RTC, calendar.getTimeInMillis(), createClockTickIntent(context));
     }
 
     public void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         overhang = sharedPreferences.getInt("overhang" + appWidgetId, overhang);
-        controlsvisible = sharedPreferences.getBoolean("controlsvisible" + appWidgetId, false);
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         int minutes = Calendar.getInstance().get(Calendar.MINUTE);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
