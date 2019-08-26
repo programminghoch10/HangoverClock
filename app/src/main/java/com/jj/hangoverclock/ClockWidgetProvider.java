@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.app.AlarmManagerCompat;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -23,6 +24,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
             updateAppWidget(context, appWidgetManager, appWidgetId);
+            onEnabled(context);
         }
     }
 
@@ -108,12 +110,14 @@ public class ClockWidgetProvider extends AppWidgetProvider {
             for (int appWidgetID: ids) {
                 updateAppWidget(context, appWidgetManager, appWidgetID);
             }
+            onEnabled(context);
         }
     }
 
     private PendingIntent createClockTickIntent(Context context) {
-        Intent intent = new Intent(CLOCK_WIDGET_UPDATE);
-        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(context, getClass());
+        intent.setAction(CLOCK_WIDGET_UPDATE);
+        return PendingIntent.getBroadcast(context, 23, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
     protected PendingIntent getPendingSelfIntent(Context context, String action) {
         Intent intent = new Intent(context, getClass());
@@ -135,11 +139,12 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         super.onEnabled(context);
-        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.add(Calendar.SECOND, 60 - calendar.get(Calendar.SECOND));
-        alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 60000, createClockTickIntent(context));
+        //alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 60000, createClockTickIntent(context));
+        AlarmManagerCompat.setExact(alarmManager, AlarmManager.RTC, calendar.getTimeInMillis(), createClockTickIntent(context));
     }
 
     public void updateAppWidget(Context context,	AppWidgetManager appWidgetManager, int appWidgetId) {
