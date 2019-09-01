@@ -3,4 +3,5 @@
     <string name="widget_start_text" translatable="false">hangover</string>
     <string name="savewidget">Create Widget</string>
     <string name="overhanginputhint">Overhang</string>
+    <string name="colorpicker">Choose Color</string>
 </resources>

@@ -66,7 +66,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
             for (int appWidgetID: ids) {
                 updateAppWidget(context, appWidgetManager, appWidgetID);
             }
-            onEnabled(context);
+            setAlarmManager(context);
         }
     }
 
@@ -96,6 +96,9 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         super.onEnabled(context);
+        setAlarmManager(context);
+    }
+    private void setAlarmManager(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -118,6 +121,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         editor.putString("time" + appWidgetId, time);
         editor.apply();
         remoteViews.setOnClickPendingIntent(R.id.controlbutton, getPendingSelfIntent(context, controlbutton + "#" + appWidgetId));
+        remoteViews.setTextColor(R.id.clock, sharedPreferences.getInt("color" + appWidgetId, context.getResources().getColor(R.color.defaultWidgetColor)));
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
     }
 

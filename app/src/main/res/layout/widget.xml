@@ -14,7 +14,7 @@
         android:alpha="1"
         android:gravity="center"
         android:text="@string/widget_start_text"
-        android:textColor="@color/WidgetTextColor"
+        android:textColor="@color/defaultWidgetColor"
         android:textSize="36sp" />
 
     <LinearLayout
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0"
-            android:textColor="@color/WidgetTextColor" />
+            android:textColor="@color/defaultWidgetColor" />
 
     </LinearLayout>
 
