@@ -17,7 +17,7 @@ import java.util.Calendar;
 public class ClockWidgetProvider extends AppWidgetProvider {
 
     static final String TAG = "ClockWidgetProvider";
-    static final int houroverhang = 1;
+    static final int houroverhang = R.integer.houroverhang;
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
@@ -25,6 +25,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
+        setAlarmManager(context);
     }
 
     public static int overhang;
@@ -39,24 +40,15 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         if (intent.getAction().split("#").length != 1) {
             overhang = sharedPreferences.getInt("overhang" + intent.getAction().split("#")[1], overhang);
         }
-
         if (controlbutton.equals(intent.getAction().split("#")[0])) {
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] ids = appWidgetManager.getAppWidgetIds(thisAppWidget);
-            boolean switchcheck = true;
             for (int appWidgetID : ids) {
-                if (!sharedPreferences.getBoolean("controlsvisible" + appWidgetID, false)) {
-                    String timebefore = sharedPreferences.getString("time" + appWidgetID, "");
-                    updateAppWidget(context, appWidgetManager, appWidgetID);
-                    onEnabled(context);
-                    String timeafter = sharedPreferences.getString("time" + appWidgetID, "");
-                    if (!timebefore.equals(timeafter)) switchcheck = false;
-                }
+                updateAppWidget(context, appWidgetManager, appWidgetID);
             }
-            if (!switchcheck) return;
+            setAlarmManager(context);
         }
-
         if (CLOCK_WIDGET_UPDATE.equals(intent.getAction())) {
             //Log.d(TAG, "onReceive: Recieved Clock Update");
             // Get the widget manager and ids for this widget provider, then call the shared clock update method.
