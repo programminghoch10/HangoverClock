@@ -3,10 +3,6 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
     <color name="defaultWidgetColor">#00FF00</color>
-    <color name="configurebackground">#000</color>
-    <color name="configureText">#FFFFFF</color>
-    <color name="sliderred">#FF0000</color>
-    <color name="slidergreen">#00FF00</color>
-    <color name="sliderblue">#0000FF</color>
 </resources>

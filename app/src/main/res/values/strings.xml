@@ -3,5 +3,5 @@
     <string name="widget_start_text" translatable="false">hangover</string>
     <string name="savewidget">Create Widget</string>
     <string name="overhanginputhint">Overhang</string>
-    <string name="colorpicker">Choose Color</string>
+    <string name="use12h">Use 12h format</string>
 </resources>
