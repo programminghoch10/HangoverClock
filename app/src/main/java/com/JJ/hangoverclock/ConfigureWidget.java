@@ -60,6 +60,10 @@ public class ConfigureWidget extends Activity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(Editable s) {
+                EditText editText = ((EditText) findViewById(R.id.overhanginput));
+                String input = editText.getText().toString();
+                String regexed = input.replaceAll("[^0-9]", "");
+                if (!regexed.equals(input)) editText.setText(regexed);
                 updatepreview();
             }
         });

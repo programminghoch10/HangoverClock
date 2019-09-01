@@ -97,7 +97,6 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     public void onEnabled(Context context) {
         super.onEnabled(context);
         Log.i(TAG, "onEnabled: Hello World!");
-        Log.i(TAG, "onEnabled: Welcome back, hope you have a good one!");
         setAlarmManager(context);
     }
     private void setAlarmManager(Context context) {
