@@ -39,7 +39,7 @@ public class ConfigureWidget extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ClockWidgetProvider.collectfonts();
+        ClockWidgetProvider.collectfonts(ConfigureWidget.this);
         // Set the result to CANCELED.  This will cause the widget host to cancel
         // out of the widget placement if they press the back button.
         setResult(RESULT_CANCELED);

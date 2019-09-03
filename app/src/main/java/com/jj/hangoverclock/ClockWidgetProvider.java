@@ -106,11 +106,12 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         super.onEnabled(context);
         Log.i(TAG, "onEnabled: Hello World!");
         setAlarmManager(context);
-        collectfonts();
+        collectfonts(context);
     }
 
-    public static void collectfonts() {
+    public static void collectfonts(Context context) {
         Field[] fontfields = R.font.class.getFields();
+        fonts.set(0, context.getString(R.string.defaultfonttext));
         for (int i = 1; i < fontfields.length + 1; i++) {
             Field fontfield = fontfields[i - 1];
             String fontname;
@@ -176,7 +177,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         int pad = (fontSizePX / 9);
         Paint paint = new Paint();
         Typeface typeface = Typeface.defaultFromStyle(Typeface.NORMAL);
-        if (!font.equals("default")) {
+        if (!font.equals(context.getString(R.string.defaultfonttext))) {
             try {
                 typeface = ResourcesCompat.getFont(context, context.getResources().getIdentifier(font, "font", context.getPackageName()));
             } catch (Resources.NotFoundException notfounderr) {
