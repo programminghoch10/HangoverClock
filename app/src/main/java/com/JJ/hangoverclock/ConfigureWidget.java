@@ -196,7 +196,7 @@ public class ConfigureWidget extends Activity {
             //Expected error if no value was choosen, just set to default value
             overhang = getResources().getInteger(R.integer.defaultoverhang);
         }
-        int houroverhang = ConfigureWidget.this.getResources().getInteger(R.integer.houroverhang);
+        int houroverhang = getResources().getInteger(R.integer.houroverhang);
         String time = ClockWidgetProvider.calculatetime((double) hour * 60 * 60 + minutes * 60, overhang, houroverhang, twelvehour);
         SeekBar seekbarred = (SeekBar) findViewById(R.id.seekbarred);
         SeekBar seekbargreen = (SeekBar) findViewById(R.id.seekbargreen);

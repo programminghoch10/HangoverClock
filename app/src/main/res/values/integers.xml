@@ -2,5 +2,5 @@
 <resources>
     <integer name="defaultoverhang">0</integer>
     <integer name="houroverhang">1</integer>
-    <integer name="widgetfontsize">72</integer>
+    <integer name="widgetfontsize">72</integer> <!--i guess it should only affect resolution and not size du to scaled bitmap-->
 </resources>

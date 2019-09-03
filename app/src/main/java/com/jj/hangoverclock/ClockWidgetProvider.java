@@ -210,6 +210,10 @@ public class ClockWidgetProvider extends AppWidgetProvider {
                 if (twelvehours) h-=12;
             }
         }
+        if(h<houroverhang) {
+            h+=24;
+            if (twelvehours) h-=12;
+        }
         return String.format("%02d", h)+":"+String.format("%02d", m);
     }
 
