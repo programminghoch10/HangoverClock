@@ -4,4 +4,6 @@
     <string name="overhanginputhint">Overhang</string>
     <string name="use12h">12h Format benutzen</string>
     <string name="defaultfonttext">Standart</string>
+    <string name="enablesecondsswitch">Sekunden benutzen</string>
+    <string name="secondsresourceheavywarning">Sekunden zu benutzen ist sehr Resourcenintensiv und wird nicht empfohlen!</string>
 </resources>

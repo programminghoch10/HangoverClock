@@ -5,4 +5,6 @@
     <string name="overhanginputhint">Overhang</string>
     <string name="use12h">Use 12h format</string>
     <string name="defaultfonttext">default</string>
+    <string name="enablesecondsswitch">Enable seconds</string>
+    <string name="secondsresourceheavywarning" >Using seconds is a big system load and is not recommended!</string>
 </resources>

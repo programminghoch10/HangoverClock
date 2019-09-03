@@ -161,14 +161,37 @@
             android:layout_height="1dp"
             android:background="?android:attr/listDivider" />
 
-        <Switch
-            android:id="@+id/hourselector"
+        <LinearLayout
+            android:id="@+id/switchlayout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:singleLine="true"
-            android:switchPadding="10dp"
-            android:text="@string/use12h" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <Switch
+                android:id="@+id/hourselector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:switchPadding="10dp"
+                android:text="@string/use12h" />
+
+            <Switch
+                android:id="@+id/secondsselector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:switchPadding="10dp"
+                android:text="@string/enablesecondsswitch" />
+
+            <TextView
+                android:id="@+id/secondsinfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/secondsresourceheavywarning"
+                android:textColor="#FFAF00"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <View
             android:id="@+id/divider3"

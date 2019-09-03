@@ -84,6 +84,19 @@ public class ConfigureWidget extends Activity {
                 updatepreview();
             }
         });
+        ((Switch) findViewById(R.id.secondsselector)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                TextView info = ((TextView) findViewById(R.id.secondsinfo));
+                if (isChecked) {
+                    info.setVisibility(View.VISIBLE);
+                    info.setWidth(((TextView) findViewById(R.id.secondsselector)).getWidth());
+                } else {
+                    info.setVisibility(View.GONE);
+                }
+                updatepreview();
+            }
+        });
         Spinner fontspinner = (Spinner) findViewById(R.id.fontspinner);
         ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
         for (String font : ClockWidgetProvider.fonts) {
@@ -137,6 +150,8 @@ public class ConfigureWidget extends Activity {
                 //maybe default language?
                 text = "default";
             }
+            boolean withseconds = ((Switch) findViewById(R.id.secondsselector)).isChecked();
+            editor.putBoolean("seconds" + mAppWidgetId, withseconds);
             editor.putString("font" + mAppWidgetId, text);
             editor.putInt("overhang" + mAppWidgetId, overhang);
             editor.putInt("color" + mAppWidgetId, color);
@@ -189,6 +204,7 @@ public class ConfigureWidget extends Activity {
             hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         }
         int minutes = Calendar.getInstance().get(Calendar.MINUTE);
+        int seconds = Calendar.getInstance().get(Calendar.SECOND);
         int overhang;
         try {
             overhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginput)).getText().toString());
@@ -197,7 +213,8 @@ public class ConfigureWidget extends Activity {
             overhang = getResources().getInteger(R.integer.defaultoverhang);
         }
         int houroverhang = getResources().getInteger(R.integer.houroverhang);
-        String time = ClockWidgetProvider.calculatetime((double) hour * 60 * 60 + minutes * 60, overhang, houroverhang, twelvehour);
+        boolean withseconds = ((Switch) findViewById(R.id.secondsselector)).isChecked();
+        String time = ClockWidgetProvider.calculatetime((double)hour*60*60+minutes*60+seconds, overhang, houroverhang, twelvehour, withseconds);
         SeekBar seekbarred = (SeekBar) findViewById(R.id.seekbarred);
         SeekBar seekbargreen = (SeekBar) findViewById(R.id.seekbargreen);
         SeekBar seekbarblue = (SeekBar) findViewById(R.id.seekbarblue);

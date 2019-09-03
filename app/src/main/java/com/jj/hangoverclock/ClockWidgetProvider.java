@@ -70,9 +70,14 @@ public class ClockWidgetProvider extends AppWidgetProvider {
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] ids = appWidgetManager.getAppWidgetIds(thisAppWidget);
+            boolean increaserefreshrate = false;
             for (int appWidgetID: ids) {
+                if (sharedPreferences.getBoolean("seconds"+appWidgetID, false)) increaserefreshrate = true;
                 updateAppWidget(context, appWidgetManager, appWidgetID);
             }
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("increaserefreshrate", increaserefreshrate);
+            editor.apply();
             setAlarmManager(context);
         }
     }
@@ -142,10 +147,11 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.add(Calendar.SECOND, (60 - calendar.get(Calendar.SECOND)));
-        //Log.d(TAG, "setAlarmManager: scheduling timer: " + ((calendar.getTimeInMillis() - System.currentTimeMillis())/1000) + "s");
-        //alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 60000, createClockTickIntent(context));
-        //alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), createClockTickIntent(context));
+        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("increaserefreshrate", false)) {
+            calendar.add(Calendar.SECOND, 1);
+        } else {
+            calendar.add(Calendar.SECOND, (60 - calendar.get(Calendar.SECOND)));
+        }
         AlarmManagerCompat.setExact(alarmManager, AlarmManager.RTC, calendar.getTimeInMillis(), createClockTickIntent(context));
     }
 
@@ -160,8 +166,10 @@ public class ClockWidgetProvider extends AppWidgetProvider {
             hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         }
         int minutes = Calendar.getInstance().get(Calendar.MINUTE);
+        int seconds = Calendar.getInstance().get(Calendar.SECOND);
         int houroverhang = context.getResources().getInteger(R.integer.houroverhang);
-        String time = calculatetime((double)hour*60*60+minutes*60, overhang, houroverhang, twelvehour);
+        boolean withseconds = sharedPreferences.getBoolean("seconds" + appWidgetId, false);
+        String time = calculatetime((double)hour*60*60+minutes*60+seconds, overhang, houroverhang, twelvehour, withseconds);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
         /*remoteViews.setTextViewText(R.id.clock, time);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -197,12 +205,16 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
     }
 
-    public static String calculatetime(double time, int overhang, int houroverhang ,boolean twelvehours) {
+    public static String calculatetime(double time, int overhang, int houroverhang, boolean twelvehours, boolean withseconds) {
         //inputs: double time in seconds
         //        int overhang in seconds
+        //        int overhang of hours
         //        boolean if clock is using 12 hour format
+        //        boolean if seconds shall be shown
         int h = (int) Math.floor(time / 60 / 60);
         int m = (int) Math.floor(time / 60) - (h*60);
+        int s = 0;
+        if (withseconds) s = (int) Math.floor(time) - (m*60) - (h*60*60);
         while (m<overhang) {
             m = m+60;
             if(m>=60) h--;
@@ -210,11 +222,16 @@ public class ClockWidgetProvider extends AppWidgetProvider {
                 h+=24;
                 if (twelvehours) h-=12;
             }
+            if (withseconds & s<overhang) {
+                s = s+60;
+                if(s>=60) m--;
+            }
         }
         if(h<houroverhang) {
             h+=24;
             if (twelvehours) h-=12;
         }
+        if (withseconds) return String.format("%02d", h)+":"+String.format("%02d", m)+":"+String.format("%02d", s);
         return String.format("%02d", h)+":"+String.format("%02d", m);
     }
 
