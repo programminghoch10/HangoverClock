@@ -189,14 +189,15 @@ public class ConfigureWidget extends Activity {
             hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         }
         int minutes = Calendar.getInstance().get(Calendar.MINUTE);
-        int overhang = 0;
+        int overhang;
         try {
             overhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginput)).getText().toString());
         } catch (NumberFormatException numerr) {
             //Expected error if no value was choosen, just set to default value
             overhang = getResources().getInteger(R.integer.defaultoverhang);
         }
-        String time = ClockWidgetProvider.calculatetime((double) hour * 60 * 60 + minutes * 60, overhang, twelvehour);
+        int houroverhang = ConfigureWidget.this.getResources().getInteger(R.integer.houroverhang);
+        String time = ClockWidgetProvider.calculatetime((double) hour * 60 * 60 + minutes * 60, overhang, houroverhang, twelvehour);
         SeekBar seekbarred = (SeekBar) findViewById(R.id.seekbarred);
         SeekBar seekbargreen = (SeekBar) findViewById(R.id.seekbargreen);
         SeekBar seekbarblue = (SeekBar) findViewById(R.id.seekbarblue);

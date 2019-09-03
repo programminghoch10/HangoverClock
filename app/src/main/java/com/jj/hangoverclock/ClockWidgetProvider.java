@@ -28,7 +28,6 @@ import java.util.Calendar;
 public class ClockWidgetProvider extends AppWidgetProvider {
 
     static final String TAG = "ClockWidgetProvider";
-    static final int houroverhang = R.integer.houroverhang;
     public static ArrayList<String> fonts = new ArrayList<String>() {{
         add("default");
     }};
@@ -160,7 +159,8 @@ public class ClockWidgetProvider extends AppWidgetProvider {
             hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         }
         int minutes = Calendar.getInstance().get(Calendar.MINUTE);
-        String time = calculatetime((double)hour*60*60+minutes*60, overhang, twelvehour);
+        int houroverhang = context.getResources().getInteger(R.integer.houroverhang);
+        String time = calculatetime((double)hour*60*60+minutes*60, overhang, houroverhang, twelvehour);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
         /*remoteViews.setTextViewText(R.id.clock, time);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -196,7 +196,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
     }
 
-    public static String calculatetime(double time, int overhang, boolean twelvehours) {
+    public static String calculatetime(double time, int overhang, int houroverhang ,boolean twelvehours) {
         //inputs: double time in seconds
         //        int overhang in seconds
         //        boolean if clock is using 12 hour format
