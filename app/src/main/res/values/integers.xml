@@ -2,4 +2,5 @@
 <resources>
     <integer name="defaultoverhang">0</integer>
     <integer name="houroverhang">1</integer>
+    <integer name="widgetfontsize">72</integer>
 </resources>

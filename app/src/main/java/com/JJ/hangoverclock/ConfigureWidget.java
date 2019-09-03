@@ -7,22 +7,31 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.res.ResourcesCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ConfigureWidget extends Activity {
+
+    String TAG = "ConfigureWidget";
+
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     public ConfigureWidget() {
         super();
@@ -30,6 +39,7 @@ public class ConfigureWidget extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ClockWidgetProvider.collectfonts();
         // Set the result to CANCELED.  This will cause the widget host to cancel
         // out of the widget placement if they press the back button.
         setResult(RESULT_CANCELED);
@@ -74,6 +84,22 @@ public class ConfigureWidget extends Activity {
                 updatepreview();
             }
         });
+        Spinner fontspinner = (Spinner) findViewById(R.id.fontspinner);
+        ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
+        for (String font : ClockWidgetProvider.fonts) {
+            RowItem item = new RowItem(font);
+            rowItems.add(item);
+        }
+        final SpinnerAdapter spinnerAdapter = new CustomAdapter(ConfigureWidget.this, R.layout.listitems_layout, R.id.spinnerview, rowItems);
+        fontspinner.setAdapter(spinnerAdapter);
+        fontspinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                updatepreview();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+            });
         updatepreview();
         // Find the widget id from the intent.
         Intent intent = getIntent();
@@ -104,6 +130,14 @@ public class ConfigureWidget extends Activity {
                 //Expected error if no value was choosen, just set to default value
                 overhang = getResources().getInteger(R.integer.defaultoverhang);
             }
+            String text;
+            try {
+                text = ((Spinner) findViewById(R.id.fontspinner)).getSelectedItem().toString().replace(" ", "_");
+            } catch (NullPointerException nulle) {
+                //maybe default language?
+                text = "default";
+            }
+            editor.putString("font" + mAppWidgetId, text);
             editor.putInt("overhang" + mAppWidgetId, overhang);
             editor.putInt("color" + mAppWidgetId, color);
             editor.putBoolean("twelvehour" + mAppWidgetId, ((Switch) findViewById(R.id.hourselector)).isChecked());
@@ -162,7 +196,7 @@ public class ConfigureWidget extends Activity {
             //Expected error if no value was choosen, just set to default value
             overhang = getResources().getInteger(R.integer.defaultoverhang);
         }
-        String time = ClockWidgetProvider.calculatetime((double) hour * 60 * 60 + minutes * 60, overhang);
+        String time = ClockWidgetProvider.calculatetime((double) hour * 60 * 60 + minutes * 60, overhang, twelvehour);
         SeekBar seekbarred = (SeekBar) findViewById(R.id.seekbarred);
         SeekBar seekbargreen = (SeekBar) findViewById(R.id.seekbargreen);
         SeekBar seekbarblue = (SeekBar) findViewById(R.id.seekbarblue);
@@ -170,5 +204,24 @@ public class ConfigureWidget extends Activity {
         int color = Color.argb(seekbaralpha.getProgress() ,seekbarred.getProgress(), seekbargreen.getProgress(), seekbarblue.getProgress());
         previewclock.setText(time);
         previewclock.setTextColor(color);
+        previewclock.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+        Spinner spinner = (Spinner) findViewById(R.id.fontspinner);
+        String text;
+        try {
+            text = spinner.getSelectedItem().toString();
+        } catch (NullPointerException nulle) {
+            //Expected if called to early
+            return;
+        }
+        if (text.equals(ClockWidgetProvider.fonts.get(0))) return;
+        try {
+            //Log.d(TAG, "updatepreview: tf string is " + rowItem.getTitleFont(position));
+            //Log.d(TAG, "updatepreview: identifier is " + getContext().getResources().getIdentifier(rowItem.getTitleFont(position), "font", getContext().getPackageName()));
+            //Log.d(TAG, "updatepreview: typefont is " + ResourcesCompat.getFont(getContext(), getContext().getResources().getIdentifier(rowItem.getTitleFont(position), "font", getContext().getPackageName())));
+            previewclock.setTypeface(ResourcesCompat.getFont(ConfigureWidget.this, ConfigureWidget.this.getResources().getIdentifier(text.replace(" ", "_"), "font", ConfigureWidget.this.getPackageName())));
+        } catch (Exception e) {
+            Log.e(TAG, "updatepreview: error occured while determiting font", e);
+        }
+
     }
 }

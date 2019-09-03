@@ -7,15 +7,11 @@
     android:layout_height="match_parent"
     android:alpha="1">
 
-    <TextView
+    <ImageView
         android:id="@+id/clock"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="1"
-        android:gravity="center"
-        android:text="@string/widget_start_text"
-        android:textColor="@color/defaultWidgetColor"
-        android:textSize="36sp" />
+        app:srcCompat="@mipmap/clock" />
 
     <LinearLayout
         android:id="@+id/controls"
