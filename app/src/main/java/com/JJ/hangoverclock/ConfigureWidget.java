@@ -21,6 +21,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Switch;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -61,70 +62,48 @@ public class ConfigureWidget extends Activity {
         ((SeekBar)findViewById(R.id.seekbarred)).setProgress(Color.red(defaultColor));
         ((SeekBar)findViewById(R.id.seekbargreen)).setProgress(Color.green(defaultColor));
         ((SeekBar)findViewById(R.id.seekbarblue)).setProgress(Color.blue(defaultColor));
-        ((EditText) findViewById(R.id.overhanginputtime)).addTextChangedListener(new TextWatcher() {
+        ((SeekBar)findViewById(R.id.seekbaralpha)).setProgress(Color.alpha(defaultColor));
+        TextWatcher inputwatcher = new TextWatcher() {
+            final int[] ids = {
+                    R.id.overhanginputtimeminutes,
+                    R.id.overhanginputtimehours,
+                    R.id.overhanginputdatedays,
+                    R.id.overhanginputdatemonths,
+            };
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(Editable s) {
-                EditText editText = ((EditText) findViewById(R.id.overhanginputtime));
-                String input = editText.getText().toString();
-                String regexed = input.replaceAll("[^0-9]", "");
-                if (!regexed.equals(input)) editText.setText(regexed);
+                for (int id: ids) {
+                    EditText editText = ((EditText) findViewById(id));
+                    String input = editText.getText().toString();
+                    String regexed = input.replaceAll("[^0-9]", "");
+                    if (!input.equals(regexed)) editText.setText(regexed);
+                }
                 updatepreview();
             }
-        });
+        };
+        ((EditText) findViewById(R.id.overhanginputtimeminutes)).addTextChangedListener(inputwatcher);
+        ((EditText) findViewById(R.id.overhanginputdatedays)).addTextChangedListener(inputwatcher);
+        ((EditText) findViewById(R.id.overhanginputtimehours)).addTextChangedListener(inputwatcher);
+        ((EditText) findViewById(R.id.overhanginputdatemonths)).addTextChangedListener(inputwatcher);
+        CompoundButton.OnCheckedChangeListener updatepreviewlistener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                updatepreview();
+            }
+        };
         ((Switch) findViewById(R.id.hourselector)).setChecked(!DateFormat.is24HourFormat(ConfigureWidget.this));
-        ((Switch) findViewById(R.id.hourselector)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                updatepreview();
-            }
-        });
-        ((Switch) findViewById(R.id.dateselector)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                EditText dateoverhanginput = findViewById(R.id.overhanginputdate);
-                SeekBar datefontsizeseekbar = findViewById(R.id.datefontsizeseekbar);
-                if (isChecked) {
-                    dateoverhanginput.setVisibility(View.VISIBLE);
-                    datefontsizeseekbar.setVisibility(View.VISIBLE);
-                } else {
-                    dateoverhanginput.setVisibility(View.GONE);
-                    datefontsizeseekbar.setVisibility(View.GONE);
-                }
-                updatepreview();
-            }
-        });
-        ((Switch) findViewById(R.id.secondsselector)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Switch secondselector = findViewById(R.id.secondsselector);
-                TextView secondsinfo = ((TextView) findViewById(R.id.secondsinfo));
-                if (isChecked) {
-                    secondsinfo.setVisibility(View.VISIBLE);
-                    secondsinfo.setWidth(secondselector.getWidth());
-                } else {
-                    secondsinfo.setVisibility(View.GONE);
-                }
-                updatepreview();
-            }
-        });
-        ((Switch) findViewById(R.id.autohourselector)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Switch hourselector = findViewById(R.id.hourselector);
-                if (isChecked) {
-                    hourselector.setEnabled(false);
-                    hourselector.setChecked(!DateFormat.is24HourFormat(ConfigureWidget.this));
-                } else {
-                    hourselector.setEnabled(true);
-                }
-                updatepreview();
-            }
-        });
+        ((Switch) findViewById(R.id.dateselector)).setChecked(ConfigureWidget.this.getResources().getBoolean(R.bool.defaultenabledate));
+        ((Switch) findViewById(R.id.secondsselector)).setChecked(ConfigureWidget.this.getResources().getBoolean(R.bool.defaultenableseconds));
+        ((Switch) findViewById(R.id.autohourselector)).setChecked(ConfigureWidget.this.getResources().getBoolean(R.bool.defaultautotimeselector));
         ((Switch) findViewById(R.id.hourselector)).setEnabled(!((Switch) findViewById(R.id.autohourselector)).isChecked());
+        ((Switch) findViewById(R.id.hourselector)).setOnCheckedChangeListener(updatepreviewlistener);
+        ((Switch) findViewById(R.id.dateselector)).setOnCheckedChangeListener(updatepreviewlistener);
+        ((Switch) findViewById(R.id.secondsselector)).setOnCheckedChangeListener(updatepreviewlistener);
+        ((Switch) findViewById(R.id.autohourselector)).setOnCheckedChangeListener(updatepreviewlistener);
         Spinner fontspinner = (Spinner) findViewById(R.id.fontspinner);
         ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
         for (String font : ClockWidgetProvider.fonts) {
@@ -173,6 +152,8 @@ public class ConfigureWidget extends Activity {
                     AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         }
         // If they gave us an intent without the widget id, just bail.
+        // i guess this is a bit late,
+        //TODO: move this crap up
         if (appWidgetID == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish();
         }
@@ -188,13 +169,37 @@ public class ConfigureWidget extends Activity {
             int color = Color.argb(seekbaralpha.getProgress() ,seekbarred.getProgress(), seekbargreen.getProgress(), seekbarblue.getProgress());
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            int minuteoverhang = 0;
+            int minuteoverhang;
             try {
-                minuteoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputtime)).getText().toString());
+                minuteoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimeminutes)).getText().toString());
             } catch (NumberFormatException numerr) {
                 //Expected error if no value was choosen, just set to default value
-                minuteoverhang = context.getResources().getInteger(R.integer.defaultminuteoverhang);
+                minuteoverhang = getResources().getInteger(R.integer.defaultminuteoverhang);
             }
+            int houroverhang;
+            try {
+                houroverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimehours)).getText().toString());
+            } catch (NumberFormatException numerr) {
+                //Expected error if no value was choosen, just set to default value
+                houroverhang = context.getResources().getInteger(R.integer.defaulthouroverhang);
+            }
+            int secondoverhang = context.getResources().getInteger(R.integer.defaultsecondoverhang);
+            secondoverhang = minuteoverhang;
+            int dayoverhang;
+            try {
+                dayoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputdatedays)).getText().toString());
+            } catch (NumberFormatException numerr) {
+                //Expected error if no value was choosen, just set to default value
+                dayoverhang = getResources().getInteger(R.integer.defaultdayoverhang);
+            }
+            int monthoverhang;
+            try {
+                monthoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputdatemonths)).getText().toString());
+            } catch (NumberFormatException numerr) {
+                //Expected error if no value was choosen, just set to default value
+                monthoverhang = context.getResources().getInteger(R.integer.defaultmonthoverhang);
+            }
+            int yearoverhang = context.getResources().getInteger(R.integer.defaultyearoverhang);
             String font;
             try {
                 font = ((Spinner) findViewById(R.id.fontspinner)).getSelectedItem().toString().replace(" ", "_");
@@ -212,7 +217,12 @@ public class ConfigureWidget extends Activity {
             if (as| context.getResources().getBoolean(R.bool.defaultenableseconds) != enableseconds) editor.putBoolean(context.getResources().getString(R.string.keyenableseconds) + appWidgetID, enableseconds);
             if (as| !context.getResources().getString(R.string.defaultfonttext).equals(font)) editor.putString(context.getResources().getString(R.string.keyfont) + appWidgetID, font);
             if (as| (context.getResources().getInteger(R.integer.defaultdatefontscale) != fontscale & enabledate)) editor.putFloat(context.getResources().getString(R.string.keyfontscale) + appWidgetID, fontscale);
+            if (as| context.getResources().getInteger(R.integer.defaulthouroverhang) != houroverhang) editor.putInt(context.getResources().getString(R.string.keyhouroverhang) + appWidgetID, houroverhang);
             if (as| context.getResources().getInteger(R.integer.defaultminuteoverhang) != minuteoverhang) editor.putInt(context.getResources().getString(R.string.keyminuteoverhang) + appWidgetID, minuteoverhang);
+            if (as| context.getResources().getInteger(R.integer.defaultsecondoverhang) != secondoverhang) editor.putInt(context.getResources().getString(R.string.keysecondoverhang) + appWidgetID, secondoverhang);
+            if (as| context.getResources().getInteger(R.integer.defaultdayoverhang) != dayoverhang) editor.putInt(context.getResources().getString(R.string.keydayoverhang) + appWidgetID, dayoverhang);
+            if (as| context.getResources().getInteger(R.integer.defaultmonthoverhang) != monthoverhang) editor.putInt(context.getResources().getString(R.string.keymonthoverhang) + appWidgetID, monthoverhang);
+            if (as| context.getResources().getInteger(R.integer.defaultyearoverhang) != yearoverhang) editor.putInt(context.getResources().getString(R.string.keyyearoverhang) + appWidgetID, yearoverhang);
             if (as| context.getResources().getColor(R.color.defaultWidgetColor) != color) editor.putInt(context.getResources().getString(R.string.keycolor) + appWidgetID, color);
             if (!autotwelvehours) editor.putBoolean(context.getResources().getString(R.string.keytwelvehour) + appWidgetID, twelvehours);
             if (as| context.getResources().getBoolean(R.bool.defaultenabledate) != enabledate) editor.putBoolean(context.getResources().getString(R.string.keyenabledate) + appWidgetID, enabledate);
@@ -262,22 +272,34 @@ public class ConfigureWidget extends Activity {
         boolean withdate = ((Switch) findViewById(R.id.dateselector)).isChecked();
         int minuteoverhang;
         try {
-            minuteoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputtime)).getText().toString());
+            minuteoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimeminutes)).getText().toString());
         } catch (NumberFormatException numerr) {
             //Expected error if no value was choosen, just set to default value
             minuteoverhang = getResources().getInteger(R.integer.defaultminuteoverhang);
         }
-        int houroverhang = context.getResources().getInteger(R.integer.defaulthouroverhang);
+        int houroverhang;
+        try {
+            houroverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimehours)).getText().toString());
+        } catch (NumberFormatException numerr) {
+            //Expected error if no value was choosen, just set to default value
+            houroverhang = context.getResources().getInteger(R.integer.defaulthouroverhang);
+        }
         int secondoverhang = context.getResources().getInteger(R.integer.defaultsecondoverhang);
         secondoverhang = minuteoverhang;
         int dayoverhang;
         try {
-            dayoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputdate)).getText().toString());
+            dayoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputdatedays)).getText().toString());
         } catch (NumberFormatException numerr) {
             //Expected error if no value was choosen, just set to default value
             dayoverhang = getResources().getInteger(R.integer.defaultdayoverhang);
         }
-        int monthoverhang = context.getResources().getInteger(R.integer.defaultmonthoverhang);
+        int monthoverhang;
+        try {
+            monthoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputdatemonths)).getText().toString());
+        } catch (NumberFormatException numerr) {
+            //Expected error if no value was choosen, just set to default value
+            monthoverhang = context.getResources().getInteger(R.integer.defaultmonthoverhang);
+        }
         int yearoverhang = context.getResources().getInteger(R.integer.defaultyearoverhang);
         boolean withseconds = ((Switch) findViewById(R.id.secondsselector)).isChecked();
         SeekBar seekbarred = (SeekBar) findViewById(R.id.seekbarred);
@@ -287,6 +309,25 @@ public class ConfigureWidget extends Activity {
         int color = Color.argb(seekbaralpha.getProgress() ,seekbarred.getProgress(), seekbargreen.getProgress(), seekbarblue.getProgress());
         SeekBar fontsizedividerseekbar = ((SeekBar) findViewById(R.id.datefontsizeseekbar));
         float fontsizedivider = context.getResources().getInteger(R.integer.maxfontscale) - (float)(fontsizedividerseekbar.getMax() - fontsizedividerseekbar.getProgress())/100;
+        if (((Switch) findViewById(R.id.dateselector)).isChecked()) {
+            findViewById(R.id.overhanginputdate).setVisibility(View.VISIBLE);
+            fontsizedividerseekbar.setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.overhanginputdate).setVisibility(View.GONE);
+            fontsizedividerseekbar.setVisibility(View.GONE);
+        }
+        if (((Switch) findViewById(R.id.secondsselector)).isChecked()) {
+            findViewById(R.id.secondsinfo).setVisibility(View.VISIBLE);
+            ((TextView) findViewById(R.id.secondsinfo)).setWidth(((Switch) findViewById(R.id.secondsselector)).getWidth());
+        } else {
+            findViewById(R.id.secondsinfo).setVisibility(View.GONE);
+        }
+        if (((Switch) findViewById(R.id.autohourselector)).isChecked()) {
+            findViewById(R.id.hourselector).setEnabled(false);
+            ((Switch) findViewById(R.id.hourselector)).setChecked(!DateFormat.is24HourFormat(ConfigureWidget.this));
+        } else {
+            findViewById(R.id.hourselector).setEnabled(true);
+        }
         Spinner spinner = (Spinner) findViewById(R.id.fontspinner);
         String font;
         try {

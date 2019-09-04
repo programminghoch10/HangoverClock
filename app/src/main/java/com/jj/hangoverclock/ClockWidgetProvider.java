@@ -18,7 +18,6 @@ import android.widget.RemoteViews;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class ClockWidgetProvider extends AppWidgetProvider {
 

@@ -35,22 +35,67 @@
             android:layout_height="3dp"
             android:background="?android:attr/listDivider" />
 
-        <EditText
-            android:id="@+id/overhanginputtime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/timeoverhanginput"
-            android:inputType="numberSigned|numberDecimal" />
-
-        <EditText
-            android:id="@+id/overhanginputdate"
+        <TextView
+            android:id="@+id/overhangheader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/dateoverhanginput"
-            android:inputType="numberSigned|numberDecimal"
-            android:visibility="gone" />
+            android:gravity="center_horizontal"
+            android:text="@string/overhangheader" />
+
+        <TableLayout
+            android:id="@+id/overhanginputlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:id="@+id/overhanginputtime"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/overhanginputtimeminutes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/inputoverhangminutes"
+                    android:inputType="numberSigned|numberDecimal" />
+
+                <EditText
+                    android:id="@+id/overhanginputtimehours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:ems="10"
+                    android:hint="@string/inputoverhanghours"
+                    android:inputType="numberSigned|numberDecimal" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/overhanginputdate"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/overhanginputdatedays"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/inputoverhangday"
+                    android:inputType="numberSigned|numberDecimal" />
+
+                <EditText
+                    android:id="@+id/overhanginputdatemonths"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:ems="10"
+                    android:hint="@string/inputoverhangmonths"
+                    android:inputType="numberSigned|numberDecimal" />
+            </TableRow>
+
+        </TableLayout>
 
         <View
             android:id="@+id/divider"
@@ -59,6 +104,7 @@
             android:background="?android:attr/listDivider" />
 
         <TableLayout
+            android:id="@+id/colorselector"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -206,8 +252,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/secondsresourceheavywarning"
-                android:textColor="#FFAF00"
-                android:visibility="gone" />
+                android:textColor="#FFAF00" />
 
             <Switch
                 android:id="@+id/dateselector"
@@ -222,8 +267,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="@integer/maxfontscale"
-                android:progress="@integer/defaultdatefontscale"
-                android:visibility="gone" />
+                android:progress="@integer/defaultdatefontscale" />
         </LinearLayout>
 
         <View

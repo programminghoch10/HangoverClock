@@ -9,8 +9,8 @@ import android.graphics.Typeface;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.TypedValue;
 
-import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 class WidgetGenerator {
 
@@ -114,31 +114,51 @@ class WidgetGenerator {
         int m = calendar.get(Calendar.MINUTE);
         int s = 0;
         if (withseconds) s = calendar.get(Calendar.SECOND);
-        while (m<minuteoverhang) {
-            m = m+60;
-            if(m>=60) h--;
+        while (m<minuteoverhang | h<houroverhang | (withseconds & s<secondoverhang)) {
+            if (m<minuteoverhang) {
+                m += 60;
+                h--;
+            }
             if(h<houroverhang) {
                 h+=24;
                 if (twelvehours) h-=12;
             }
             if (withseconds & s<secondoverhang) {
-                s = s+60;
-                if(s>=60) m--;
+                s += 60;
+                m--;
             }
         }
         if(h<houroverhang) {
             h+=24;
             if (twelvehours) h-=12;
         }
-        if (withseconds) return String.format("%02d", h)+":"+String.format("%02d", m)+":"+String.format("%02d", s);
-        return String.format("%02d", h)+":"+String.format("%02d", m);
+        if (withseconds) return String.format(Locale.GERMANY, "%02d", h)+":"+String.format(Locale.GERMANY, "%02d", m)+":"+String.format(Locale.GERMANY, "%02d", s);
+        return String.format(Locale.GERMANY, "%02d", h)+":"+String.format(Locale.GERMANY, "%02d", m);
     }
 
     private static String calculatedate(long timestamp, int dayoverhang, int monthoverhang, int yearoverhang) {
+        //yearoverhang = 0; //as far as i can think yearoverhang should never be of use
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(timestamp);
-        String datestring =
-                calendar.get(Calendar.DAY_OF_MONTH) + "." + calendar.get(Calendar.MONTH) + "." + calendar.get(Calendar.YEAR);
-        return datestring;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH)+1;
+        int year = calendar.get(Calendar.YEAR);
+        while (day <= dayoverhang | month <= monthoverhang /*| year <= yearoverhang*/) {
+            if (day <= dayoverhang) {
+                calendar.add(Calendar.MONTH, -1);
+                day += calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                month -= 1;
+            }
+            if (month <= monthoverhang+1) {
+                month += calendar.getMaximum(Calendar.MONTH)+1;
+                year -= 1;
+                calendar.add(Calendar.YEAR, -1);
+            }
+            /*if (year <= yearoverhang) {
+                // idk what to do this should never happen wtf
+                break;
+            }*/
+        }
+        return day+"."+month+"."+year;
     }
 }
