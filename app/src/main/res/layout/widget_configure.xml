@@ -5,25 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/previewclock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="1"
-            android:gravity="center"
-            android:text="@string/widget_start_text"
-            android:textColor="@color/defaultWidgetColor"
-            android:textSize="36sp" />
-    </FrameLayout>
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
@@ -35,24 +16,47 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="32dp"
         android:orientation="vertical"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/previewclock"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/clock" />
+
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="?android:attr/listDivider" />
+
         <EditText
-            android:id="@+id/overhanginput"
+            android:id="@+id/overhanginputtime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/overhanginputhint"
+            android:hint="@string/timeoverhanginput"
             android:inputType="numberSigned|numberDecimal" />
+
+        <EditText
+            android:id="@+id/overhanginputdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/dateoverhanginput"
+            android:inputType="numberSigned|numberDecimal"
+            android:visibility="gone" />
 
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2dp"
             android:background="?android:attr/listDivider" />
 
         <TableLayout
@@ -158,7 +162,13 @@
         <View
             android:id="@+id/divider2"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="10dp"
+            android:visibility="invisible" />
+
+        <View
+            android:id="@+id/divider5"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
             android:background="?android:attr/listDivider" />
 
         <LinearLayout
@@ -169,12 +179,22 @@
             android:orientation="vertical">
 
             <Switch
+                android:id="@+id/autohourselector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:switchPadding="10dp"
+                android:text="@string/usesystemtimeformat" />
+
+            <Switch
                 android:id="@+id/hourselector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="true"
                 android:singleLine="true"
                 android:switchPadding="10dp"
-                android:text="@string/use12h" />
+                android:text="@string/use12h"
+                tools:visibility="gone" />
 
             <Switch
                 android:id="@+id/secondsselector"
@@ -191,12 +211,28 @@
                 android:text="@string/secondsresourceheavywarning"
                 android:textColor="#FFAF00"
                 android:visibility="gone" />
+
+            <Switch
+                android:id="@+id/dateselector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:switchPadding="10dp"
+                android:text="@string/enabledateswitch" />
+
+            <SeekBar
+                android:id="@+id/datefontsizeseekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="@integer/maxfontscale"
+                android:progress="@integer/defaultdatefontscale"
+                android:visibility="gone" />
         </LinearLayout>
 
         <View
             android:id="@+id/divider3"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2dp"
             android:background="?android:attr/listDivider" />
 
         <Spinner

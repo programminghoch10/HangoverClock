@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="keytwelvehour" translatable="false">12h</string>
+    <string name="keyenableseconds" translatable="false">seconds</string>
+    <string name="keyenabledate" translatable="false">date</string>
+    <string name="keyfont" translatable="false">font</string>
+    <string name="keyfontscale" translatable="false">fontscale</string>
+    <string name="keycolor" translatable="false">color</string>
+    <string name="keydayoverhang" translatable="false">dayoverhang</string>
+    <string name="keymonthoverhang" translatable="false">monthoverhang</string>
+    <string name="keyyearoverhang" translatable="false">yearoverhang</string>
+    <string name="keysecondoverhang" translatable="false">secondoverhang</string>
+    <string name="keyminuteoverhang" translatable="false">minuteoverhang</string>
+    <string name="keyhouroverhang" translatable="false">houroverhang</string>
+</resources>
