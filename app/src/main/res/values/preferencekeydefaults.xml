@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- defaults for widgets -->
-    <bool name="defaulttwelvehours">false</bool>
     <bool name="defaultenableseconds">false</bool>
     <bool name="defaultenabledate">false</bool>
     <integer name="defaultdayoverhang">0</integer>

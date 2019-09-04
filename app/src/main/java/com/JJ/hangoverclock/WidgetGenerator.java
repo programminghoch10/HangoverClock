@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.TypedValue;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 
 class WidgetGenerator {
@@ -32,7 +33,6 @@ class WidgetGenerator {
         }
     }
 
-    //constructors
     private static Bitmap generateBitmap(Context context, String time, String date, String font, int color, float datefontscale) {
         if (date == null) {
             return generateBitmap(context, time, font, color);
@@ -42,7 +42,7 @@ class WidgetGenerator {
     }
     private static Bitmap generateBitmap(Context context, String time, String timefont, int timecolor) {
         return generateBitmap(context, false, time, timefont, timecolor, null, null, 0,
-                context.getResources().getInteger(R.integer.defaultdatefontscale));
+                0);
     }
     private static Bitmap generateBitmap(Context context, String time, String timefont, int timecolor,
                                          String date, String datefont, int datecolor, float datefontscale) {

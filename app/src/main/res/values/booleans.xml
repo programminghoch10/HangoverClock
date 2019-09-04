@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <bool name="alwayssavepreference">false</bool> <!-- always save preference, even if it is default -->
+    <bool name="defaultautotimeselector">true</bool>
 </resources>

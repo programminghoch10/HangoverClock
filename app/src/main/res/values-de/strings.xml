@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="savewidget">Widget erstellen</string>
-    <string name="timeoverhanginput">Overhang Uhrzeit in Minuten</string>
+    <string name="timeoverhanginput">Overhang in Minuten</string>
     <string name="use12h">12h Format benutzen</string>
     <string name="defaultfonttext">Standart</string>
     <string name="enablesecondsswitch">Sekunden benutzen</string>
     <string name="secondsresourceheavywarning">Sekunden zu benutzen ist sehr Resourcenintensiv und wird nicht empfohlen!</string>
     <string name="enabledateswitch">Datum aktivieren</string>
-    <string name="dateoverhanginput">Overhang Datum in Tagen</string>
+    <string name="dateoverhanginput">Overhang in Tagen</string>
     <string name="usesystemtimeformat">Systemzeitformat benutzen</string>
 </resources>

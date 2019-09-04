@@ -12,13 +12,13 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class CustomAdapter extends ArrayAdapter<RowItem> {
+public class CustomSpinnerAdapter extends ArrayAdapter<RowItem> {
 
     int spinner = R.id.spinnerview;
-    String TAG = "CustomAdapter";
+    String TAG = "CustomSpinnerAdapter";
     LayoutInflater flater;
 
-    CustomAdapter(Activity context,int resouceId, int textviewId, List<RowItem> list){
+    CustomSpinnerAdapter(Activity context, int resouceId, int textviewId, List<RowItem> list){
 
         super(context,resouceId,textviewId, list);
         flater = context.getLayoutInflater();

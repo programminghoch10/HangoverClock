@@ -75,21 +75,19 @@ public class ConfigureWidget extends Activity {
                 updatepreview();
             }
         });
-        final CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        ((Switch) findViewById(R.id.hourselector)).setChecked(!DateFormat.is24HourFormat(ConfigureWidget.this));
+        ((Switch) findViewById(R.id.hourselector)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Switch secondselector = findViewById(R.id.secondsselector);
-                Switch dateselector = findViewById(R.id.dateselector);
-                TextView secondsinfo = ((TextView) findViewById(R.id.secondsinfo));
+                updatepreview();
+            }
+        });
+        ((Switch) findViewById(R.id.dateselector)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 EditText dateoverhanginput = findViewById(R.id.overhanginputdate);
                 SeekBar datefontsizeseekbar = findViewById(R.id.datefontsizeseekbar);
-                if (secondselector.isChecked()) {
-                    secondsinfo.setVisibility(View.VISIBLE);
-                    secondsinfo.setWidth(secondselector.getWidth());
-                } else {
-                    secondsinfo.setVisibility(View.GONE);
-                }
-                if (dateselector.isChecked()) {
+                if (isChecked) {
                     dateoverhanginput.setVisibility(View.VISIBLE);
                     datefontsizeseekbar.setVisibility(View.VISIBLE);
                 } else {
@@ -98,18 +96,42 @@ public class ConfigureWidget extends Activity {
                 }
                 updatepreview();
             }
-        };
-        ((Switch) findViewById(R.id.hourselector)).setChecked(!DateFormat.is24HourFormat(ConfigureWidget.this));
-        ((Switch) findViewById(R.id.hourselector)).setOnCheckedChangeListener(onCheckedChangeListener);
-        ((Switch) findViewById(R.id.dateselector)).setOnCheckedChangeListener(onCheckedChangeListener);
-        ((Switch) findViewById(R.id.secondsselector)).setOnCheckedChangeListener(onCheckedChangeListener);
+        });
+        ((Switch) findViewById(R.id.secondsselector)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Switch secondselector = findViewById(R.id.secondsselector);
+                TextView secondsinfo = ((TextView) findViewById(R.id.secondsinfo));
+                if (isChecked) {
+                    secondsinfo.setVisibility(View.VISIBLE);
+                    secondsinfo.setWidth(secondselector.getWidth());
+                } else {
+                    secondsinfo.setVisibility(View.GONE);
+                }
+                updatepreview();
+            }
+        });
+        ((Switch) findViewById(R.id.autohourselector)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Switch hourselector = findViewById(R.id.hourselector);
+                if (isChecked) {
+                    hourselector.setEnabled(false);
+                    hourselector.setChecked(!DateFormat.is24HourFormat(ConfigureWidget.this));
+                } else {
+                    hourselector.setEnabled(true);
+                }
+                updatepreview();
+            }
+        });
+        ((Switch) findViewById(R.id.hourselector)).setEnabled(!((Switch) findViewById(R.id.autohourselector)).isChecked());
         Spinner fontspinner = (Spinner) findViewById(R.id.fontspinner);
         ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
         for (String font : ClockWidgetProvider.fonts) {
             RowItem item = new RowItem(font);
             rowItems.add(item);
         }
-        final SpinnerAdapter spinnerAdapter = new CustomAdapter(ConfigureWidget.this, R.layout.listitems_layout, R.id.spinnerview, rowItems);
+        final SpinnerAdapter spinnerAdapter = new CustomSpinnerAdapter(ConfigureWidget.this, R.layout.listitems_layout, R.id.spinnerview, rowItems);
         fontspinner.setAdapter(spinnerAdapter);
         fontspinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
             @Override
@@ -183,6 +205,7 @@ public class ConfigureWidget extends Activity {
             SeekBar fontsizedividerseekbar = ((SeekBar) findViewById(R.id.datefontsizeseekbar));
             float fontscale = context.getResources().getInteger(R.integer.maxfontscale) - (float)(fontsizedividerseekbar.getMax() - fontsizedividerseekbar.getProgress())/100;
             boolean enableseconds = ((Switch) findViewById(R.id.secondsselector)).isChecked();
+            boolean autotwelvehours = ((Switch) findViewById(R.id.autohourselector)).isChecked();
             boolean twelvehours = ((Switch) findViewById(R.id.hourselector)).isChecked();
             boolean enabledate = ((Switch) findViewById(R.id.dateselector)).isChecked();
             boolean as = context.getResources().getBoolean(R.bool.alwayssavepreference); //wether preferences should always be saved
@@ -191,8 +214,7 @@ public class ConfigureWidget extends Activity {
             if (as| (context.getResources().getInteger(R.integer.defaultdatefontscale) != fontscale & enabledate)) editor.putFloat(context.getResources().getString(R.string.keyfontscale) + appWidgetID, fontscale);
             if (as| context.getResources().getInteger(R.integer.defaultminuteoverhang) != minuteoverhang) editor.putInt(context.getResources().getString(R.string.keyminuteoverhang) + appWidgetID, minuteoverhang);
             if (as| context.getResources().getColor(R.color.defaultWidgetColor) != color) editor.putInt(context.getResources().getString(R.string.keycolor) + appWidgetID, color);
-            //TODO: add auto system adjust for twelvehours setting
-            if (as| context.getResources().getBoolean(R.bool.defaulttwelvehours) != twelvehours) editor.putBoolean(context.getResources().getString(R.string.keytwelvehour) + appWidgetID, twelvehours);
+            if (!autotwelvehours) editor.putBoolean(context.getResources().getString(R.string.keytwelvehour) + appWidgetID, twelvehours);
             if (as| context.getResources().getBoolean(R.bool.defaultenabledate) != enabledate) editor.putBoolean(context.getResources().getString(R.string.keyenabledate) + appWidgetID, enabledate);
             editor.apply();
             // Push widget update to surface with newly set prefix

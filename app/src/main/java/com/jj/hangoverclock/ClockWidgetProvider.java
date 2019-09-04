@@ -11,12 +11,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.AlarmManagerCompat;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class ClockWidgetProvider extends AppWidgetProvider {
 
@@ -148,7 +150,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         int dayoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.keydayoverhang) + appWidgetId, context.getResources().getInteger(R.integer.defaultdayoverhang));
         int monthoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.keymonthoverhang) + appWidgetId, context.getResources().getInteger(R.integer.defaultmonthoverhang));
         int yearoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.keyyearoverhang) + appWidgetId, context.getResources().getInteger(R.integer.defaultyearoverhang));
-        boolean twelvehour = sharedPreferences.getBoolean(context.getResources().getString(R.string.keytwelvehour) + appWidgetId, context.getResources().getBoolean(R.bool.defaulttwelvehours));
+        boolean twelvehour = sharedPreferences.getBoolean(context.getResources().getString(R.string.keytwelvehour) + appWidgetId, !DateFormat.is24HourFormat(context));
         boolean enableseconds = sharedPreferences.getBoolean(context.getResources().getString(R.string.keyenableseconds) + appWidgetId, context.getResources().getBoolean(R.bool.defaultenableseconds));
         boolean enabledate = sharedPreferences.getBoolean(context.getResources().getString(R.string.keyenabledate) + appWidgetId, context.getResources().getBoolean(R.bool.defaultenabledate));
         String font = sharedPreferences.getString(context.getResources().getString(R.string.keyfont) + appWidgetId, context.getResources().getString(R.string.defaultfonttext));
@@ -161,7 +163,6 @@ public class ClockWidgetProvider extends AppWidgetProvider {
                         secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang, yearoverhang,
                         twelvehour, enableseconds, enabledate, font, color, fontscale)
         );
-        Log.d(TAG, "updateAppWidget: sharedpreferencesmap is " + sharedPreferences.getAll().toString());
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
     }
 }

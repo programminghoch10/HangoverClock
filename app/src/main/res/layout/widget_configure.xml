@@ -16,7 +16,6 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="32dp"
         android:orientation="vertical"
-        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -182,7 +181,7 @@
                 android:id="@+id/autohourselector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checked="true"
+                android:checked="@bool/defaultautotimeselector"
                 android:switchPadding="10dp"
                 android:text="@string/usesystemtimeformat" />
 
@@ -190,11 +189,9 @@
                 android:id="@+id/hourselector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="true"
                 android:singleLine="true"
                 android:switchPadding="10dp"
-                android:text="@string/use12h"
-                tools:visibility="gone" />
+                android:text="@string/use12h" />
 
             <Switch
                 android:id="@+id/secondsselector"
