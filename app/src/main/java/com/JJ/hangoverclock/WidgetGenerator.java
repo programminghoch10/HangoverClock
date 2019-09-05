@@ -89,7 +89,7 @@ class WidgetGenerator {
             datepaint.setTextSize(fontSizePX / fontscale);
         }
         int textWidth = (int) (timepaint.measureText(time) + pad * 2);
-        int height = (int) (fontSizePX / 0.75);
+        int height = (int) (fontSizePX / 0.70);
         Bitmap bitmap = Bitmap.createBitmap(textWidth, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         canvas.drawText(time, (float) pad, fontSizePX, timepaint);

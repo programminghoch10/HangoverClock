@@ -49,7 +49,7 @@ public class CustomSpinnerAdapter extends ArrayAdapter<RowItem> {
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         if(convertView == null){
-            convertView = flater.inflate(R.layout.listitems_layout,parent, false);
+            convertView = flater.inflate(R.layout.listitems_layout, parent, false);
         }
         RowItem rowItem = getItem(position);
         TextView txtTitle = (TextView) convertView.findViewById(spinner);

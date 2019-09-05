@@ -162,6 +162,10 @@ public class ClockWidgetProvider extends AppWidgetProvider {
                         secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang, yearoverhang,
                         twelvehour, enableseconds, enabledate, font, color, fontscale)
         );
-        appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+        try {
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 }

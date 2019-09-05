@@ -280,6 +280,8 @@
             android:id="@+id/fontspinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:dropDownWidth="wrap_content"
+            android:spinnerMode="dialog"
             android:visibility="visible" />
 
         <Button
