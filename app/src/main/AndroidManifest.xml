@@ -4,6 +4,10 @@
     package="com.JJ.hangoverclock"
     android:installLocation="internalOnly">
 
+    <uses-feature android:name="android.hardware.type.watch" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/clock_c"
@@ -12,6 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <!--<activity
+            android:name=".WatchFaceConfig"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.JJ.hangoverclock.WatchFace.watchfaceconfig" />
+                <category android:name="com.google.android.wearable.watchface.category.WEARABLE_CONFIGURATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>-->
         <activity android:name=".ConfigureWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
@@ -21,6 +34,11 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <meta-data
+            android:name="com.google.android.wearable.standalone"
+            android:value="true" />
+
         <receiver android:name=".BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -37,6 +55,35 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/appwidgetproviderinfo" />
         </receiver>
+
+        <service
+            android:name=".WatchFace"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_WALLPAPER">
+
+            <!-- companion configuration activity -->
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+                <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE" />
+            </intent-filter>
+            <!-- wearable configuration activity -->
+            <meta-data
+                android:name="com.google.android.wearable.watchface.wearableConfigurationAction"
+                android:value="com.JJ.hangoverclock.WatchFace.watchfaceconfig" />
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/watchface" />
+            <meta-data
+                android:name="com.google.android.wearable.watchface.preview"
+                android:resource="@drawable/clock" />
+            <meta-data
+                android:name="com.google.android.wearable.watchface.preview_circular"
+                android:resource="@drawable/clock" />
+
+            <meta-data
+                android:name="com.google.android.wearable.watchface.companionConfigurationAction"
+                android:value="com.JJ.hangoverclock.WatchFace.watchfaceconfig" />
+        </service>
     </application>
 
 </manifest>
