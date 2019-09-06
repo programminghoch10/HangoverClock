@@ -26,9 +26,12 @@ class WidgetGenerator {
                     calculatetime(timestamp, houroverhang, minuteoverhang, secondoverhang, twelvehours, withseconds),
                     font, color);
         } else {
+            String[] hangovertext = combinedcalculate(timestamp,
+                    monthoverhang, dayoverhang,
+                    houroverhang, minuteoverhang, secondoverhang,
+                    withseconds, twelvehours);
             return generateBitmap(context,
-                    calculatetime(timestamp, houroverhang, minuteoverhang, secondoverhang, twelvehours, withseconds),
-                    calculatedate(timestamp, dayoverhang, monthoverhang, yearoverhang),
+                    hangovertext[0], hangovertext[1],
                     font, color, fontscale);
         }
     }
@@ -137,6 +140,7 @@ class WidgetGenerator {
     }
 
     private static String calculatedate(long timestamp, int dayoverhang, int monthoverhang, int yearoverhang) {
+        // i guess this function is redundant now, meh still gonna leave it here, i dont wanna scrap all that effort
         //yearoverhang = 0; //as far as i can think yearoverhang should never be of use
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(timestamp);
@@ -160,5 +164,57 @@ class WidgetGenerator {
             }*/
         }
         return day+"."+month+"."+year;
+    }
+    
+    private static String[] combinedcalculate(long timestamp,
+                                              int monthoverhang, int dayoverhang,
+                                              int houroverhang, int minuteoverhang, int secondoverhang,
+                                              boolean withseconds, boolean twelvehours) {
+        String[] returnstring = new String[2];
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timestamp);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH)+1;
+        int year = calendar.get(Calendar.YEAR);
+        int h;
+        if (twelvehours) {
+            h = calendar.get(Calendar.HOUR);
+        } else {
+            h = calendar.get(Calendar.HOUR_OF_DAY);
+        }
+        int m = calendar.get(Calendar.MINUTE);
+        int s = calendar.get(Calendar.SECOND);
+        while (day <= dayoverhang | month <= monthoverhang | m<minuteoverhang | h<houroverhang | (withseconds & s<secondoverhang)) {
+            if (withseconds & s<secondoverhang) {
+                s += 60;
+                m--;
+                calendar.add(Calendar.MINUTE, -1);
+            }
+            if (m<minuteoverhang) {
+                m += 60;
+                h--;
+                calendar.add(Calendar.HOUR_OF_DAY, -1);
+            }
+            if(h<houroverhang) {
+                h+=24;
+                if (twelvehours) h-=12;
+                day--;
+                calendar.add(Calendar.DAY_OF_MONTH, -1);
+            }
+            if (day <= dayoverhang) {
+                calendar.add(Calendar.MONTH, -1);
+                day += calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                month -= 1;
+            }
+            if (month <= monthoverhang+1) {
+                month += calendar.getMaximum(Calendar.MONTH) + 1;
+                year -= 1;
+                calendar.add(Calendar.YEAR, -1);
+            }
+        }
+        if (withseconds) returnstring[0] = String.format(Locale.GERMANY, "%02d", h)+":"+String.format(Locale.GERMANY, "%02d", m)+":"+String.format(Locale.GERMANY, "%02d", s);
+        returnstring[0] = String.format(Locale.GERMANY, "%02d", h)+":"+String.format(Locale.GERMANY, "%02d", m);
+        returnstring[1] = day+"."+month+"."+year;
+        return returnstring;
     }
 }
