@@ -6,7 +6,7 @@ android {
         applicationId "com.JJ.hangoverclock"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 8
+        versionCode 9
         versionName "dynamite"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
