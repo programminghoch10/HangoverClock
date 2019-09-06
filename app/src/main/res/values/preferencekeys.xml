@@ -12,4 +12,5 @@
     <string name="keysecondoverhang" translatable="false">secondoverhang</string>
     <string name="keyminuteoverhang" translatable="false">minuteoverhang</string>
     <string name="keyhouroverhang" translatable="false">houroverhang</string>
+    <string name="keyincreaserefreshrate" translatable="false">increaserefresrate</string>
 </resources>

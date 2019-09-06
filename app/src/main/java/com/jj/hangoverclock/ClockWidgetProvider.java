@@ -38,22 +38,12 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     }
 
     private static String CLOCK_WIDGET_UPDATE = "com.JJ.hangoverclock.widgetupdate";
-    static String controlbutton = "controlbuttonclicklistener";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         //Log.d(TAG, "onReceive: got intent " + intent.getAction());
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (controlbutton.equals(intent.getAction().split("#")[0])) {
-            ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            int[] ids = appWidgetManager.getAppWidgetIds(thisAppWidget);
-            for (int appWidgetID : ids) {
-                updateAppWidget(context, appWidgetManager, appWidgetID);
-            }
-            setAlarmManager(context);
-        }
         if (CLOCK_WIDGET_UPDATE.equals(intent.getAction())) {
             //Log.d(TAG, "onReceive: Recieved Clock Update");
             // Get the widget manager and ids for this widget provider, then call the shared clock update method.
@@ -62,11 +52,14 @@ public class ClockWidgetProvider extends AppWidgetProvider {
             int[] ids = appWidgetManager.getAppWidgetIds(thisAppWidget);
             boolean increaserefreshrate = false;
             for (int appWidgetID: ids) {
-                if (sharedPreferences.getBoolean("seconds"+appWidgetID, false)) increaserefreshrate = true;
+                if (sharedPreferences.getBoolean(context.getResources().getString(R.string.keyenableseconds)+appWidgetID,
+                        context.getResources().getBoolean(R.bool.defaultenableseconds))) increaserefreshrate = true;
                 updateAppWidget(context, appWidgetManager, appWidgetID);
             }
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("increaserefreshrate", increaserefreshrate);
+            if (context.getResources().getBoolean(R.bool.alwayssavepreference)
+                    | increaserefreshrate != context.getResources().getBoolean(R.bool.defaultincreaserefreshrate))
+                editor.putBoolean(context.getResources().getString(R.string.keyincreaserefreshrate), increaserefreshrate);
             editor.apply();
             setAlarmManager(context);
         }
@@ -133,7 +126,9 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("increaserefreshrate", false)) {
+        if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+                context.getResources().getString(R.string.keyincreaserefreshrate),
+                context.getResources().getBoolean(R.bool.defaultincreaserefreshrate))) {
             calendar.add(Calendar.SECOND, 1);
         } else {
             calendar.add(Calendar.SECOND, (60 - calendar.get(Calendar.SECOND)));
