@@ -13,24 +13,24 @@ import android.widget.TextView;
 import java.util.List;
 
 public class CustomSpinnerAdapter extends ArrayAdapter<RowItem> {
-
+    
     int spinner = R.id.spinnerview;
     String TAG = "CustomSpinnerAdapter";
     LayoutInflater flater;
-
-    CustomSpinnerAdapter(Activity context, int resouceId, int textviewId, List<RowItem> list){
-
-        super(context,resouceId,textviewId, list);
+    
+    CustomSpinnerAdapter(Activity context, int resouceId, int textviewId, List<RowItem> list) {
+        
+        super(context, resouceId, textviewId, list);
         flater = context.getLayoutInflater();
     }
-
+    
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+        
         RowItem rowItem = getItem(position);
-
-        View rowview = flater.inflate(R.layout.listitems_layout,null,true);
-
+        
+        View rowview = flater.inflate(R.layout.listitems_layout, null, true);
+        
         TextView txtTitle = (TextView) rowview.findViewById(spinner);
         txtTitle.setText(rowItem.getTitle());
         txtTitle.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
@@ -45,10 +45,10 @@ public class CustomSpinnerAdapter extends ArrayAdapter<RowItem> {
         }
         return rowview;
     }
-
+    
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        if(convertView == null){
+        if (convertView == null) {
             convertView = flater.inflate(R.layout.listitems_layout, parent, false);
         }
         RowItem rowItem = getItem(position);
@@ -71,27 +71,28 @@ public class CustomSpinnerAdapter extends ArrayAdapter<RowItem> {
 
 
 class RowItem {
-
+    
     private String Title;
-
-    public RowItem(String Title){
+    
+    public RowItem(String Title) {
         this.Title = Title;
     }
-
-    public String getTitle(){
+    
+    public String getTitle() {
         return Title;
     }
+    
+    public void setTitle(String Title) {
+        
+        this.Title = Title;
+    }
+    
     public String getTitleFont(int position) {
         return ClockWidgetProvider.fonts.get(position).replace(" ", "_");
     }
-
-    public void setTitle(String Title){
-
-        this.Title = Title;
-    }
-
+    
     @Override
     public String toString() {
-        return Title ;
+        return Title;
     }
 }

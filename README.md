@@ -26,7 +26,7 @@ Its obvious that 10:65 would actually be 11:05.
 My first test of this was my [Stopwatch](https://github.com/programminghoch10/Stopwatch).
 
 To describe how many minutes the clock should go over the full hour, I used the word "Overhang". 
-An Overhang of 0 would result in the clock beeing totally normal. 
+An Overhang of 0 would result in the clock being totally normal. 
 Any Overhang above 0 would result in the clock counting over 60 until the Overhang is reached, at which point it shows the real time again. 
 E.g. With an overhang of 10 the clock would go up to 10:69 and the next minute to 11:10.
 Of course you could also go insane with this setting, which results in ridiculous clocks like 03:384829323 
