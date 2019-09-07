@@ -39,7 +39,7 @@ And because of that variable, which makes the clock unique, its named HangoverCl
 ![HangoverClock Toxic Picture 1](pictures/toxic1.png)
 ![HangoverClock Toxic Picture 2](pictures/toxic2.png)
 
-This was Hangoverclock "Toxic". A simple widget which displayed the time.
+This was HangoverClock "Toxic". A simple widget which displayed the time.
 You were able to modify the Overhang, by clicking in the middle once. 
 Then the current overhang was displayed and you could increase or decrease it by clicking the + or - button.
 Also the text was always the same size, no matter how big the widget was resized too.
@@ -82,7 +82,7 @@ and months defines how much to go over a year.
 ***Special info for 12h users:***
 
 Overhang calculation turns out to be really difficult and confusing in the 12h format.
-Thats why whole calculation happens in 24h format and then gets later substracted down,
+That's why whole calculation happens in 24h format and then gets later subtracted down,
 if the hour field is between or equal of 12+houroverhang and 24.
 Try setting houroverhang to 0 or 1 and watch what suits you better.
 *This behaviour is only relevant when using the date,* 
@@ -92,7 +92,7 @@ But maybe nobody will notice...
 ## The Future
 
 I'm always trying to leave as much options open as possible, but at some point there are too much settings for the user to choose.
-Apple already learned that ;) So its probably not getting more costumizable in regards to the current features,
+Apple already learned that ;) So its probably not getting more customizable in regards to the current features,
 but I'm always thinking of new features.
 I'm always on the quest to make this the best HangoverClock ever.
 
