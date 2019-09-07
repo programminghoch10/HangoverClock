@@ -181,12 +181,7 @@ class WidgetGenerator {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
-        int h;
-        if (twelvehours) {
-            h = calendar.get(Calendar.HOUR);
-        } else {
-            h = calendar.get(Calendar.HOUR_OF_DAY);
-        }
+        int h = calendar.get(Calendar.HOUR_OF_DAY);
         int m = calendar.get(Calendar.MINUTE);
         int s = calendar.get(Calendar.SECOND);
         while (day <= dayoverhang | month <= monthoverhang | m < minuteoverhang | h < houroverhang | (withseconds & s < secondoverhang)) {
@@ -202,7 +197,6 @@ class WidgetGenerator {
             }
             if (h < houroverhang) {
                 h += 24;
-                if (twelvehours) h -= 12;
                 day--;
                 calendar.add(Calendar.DAY_OF_MONTH, -1);
             }
@@ -217,6 +211,7 @@ class WidgetGenerator {
                 calendar.add(Calendar.YEAR, -1);
             }
         }
+        if (twelvehours & (h >= 12+houroverhang & h <= 24)) h -= 12;
         if (withseconds)
             returnstring[0] = String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m) + ":" + String.format(Locale.GERMANY, "%02d", s);
         returnstring[0] = String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m);

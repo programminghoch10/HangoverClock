@@ -77,6 +77,18 @@ and months defines how much to go over a year.
 
 [@IlijazM](https://github.com/IlijazM) im expecting you to live in 2017 :)
 
+&nbsp;
+
+***Special info for 12h users:***
+
+Overhang calculation turns out to be really difficult and confusing in the 12h format.
+Thats why whole calculation happens in 24h format and then gets later substracted down,
+if the hour field is between or equal of 12+houroverhang and 24.
+Try setting houroverhang to 0 or 1 and watch what suits you better.
+*This behaviour is only relevant when using the date,* 
+so please remember that using the 12h setting may not reflect the real time!
+But maybe nobody will notice...
+
 ## The Future
 
 I'm always trying to leave as much options open as possible, but at some point there are too much settings for the user to choose.
