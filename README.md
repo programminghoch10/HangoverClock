@@ -9,7 +9,7 @@ please click [here](https://github.com/programminghoch10/HangoverClock#the-next-
 or look at the
 [latest stable releases](https://github.com/programminghoch10/HangoverClock/releases)
 
-For Wear OS Users, please look [here](https://github.com/programminghoch10/HangoverClock/tree/wear)
+For Wear OS Users, please look [here](https://github.com/programminghoch10/HangoverClock/tree/weardev)
 
 ![HangoverClock Icon new](icon/clock.png)
 ![HangoverClock Icon old](app/src/main/res/drawable-v24/clock.png)
