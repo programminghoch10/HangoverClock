@@ -10,7 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.app.AlarmManagerCompat;
+import androidx.core.app.AlarmManagerCompat;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.RemoteViews;
