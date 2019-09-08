@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/caesar_dressing</item>
+        <item>@font/faster_one</item>
+        <item>@font/nosifer</item>
+        <item>@font/orbitron</item>
+        <item>@font/oswald</item>
+        <item>@font/permanent_marker</item>
+        <item>@font/press_start_2p</item>
+    </array>
+</resources>

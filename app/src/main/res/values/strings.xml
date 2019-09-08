@@ -1,4 +1,16 @@
 <resources>
-    <string name="app_name">HangoverClock</string>
-    <string name="widget_start_text">hangover</string>
+    <string name="app_name" translatable="false">HangoverClock</string>
+    <string name="widget_start_text" translatable="false">hangover</string>
+    <string name="savewidget">Create Widget</string>
+    <string name="inputoverhangminutes">minutes</string>
+    <string name="use12h">Use 12h format</string>
+    <string name="defaultfonttext">system default</string>
+    <string name="enablesecondsswitch">Enable seconds</string>
+    <string name="secondsresourceheavywarning">Using seconds is a big system load and is not recommended!</string>
+    <string name="enabledateswitch">Enable Date</string>
+    <string name="inputoverhangday">days</string>
+    <string name="usesystemtimeformat">Use system timeformat</string>
+    <string name="overhangheader">Overhang:</string>
+    <string name="inputoverhanghours">hours</string>
+    <string name="inputoverhangmonths">months</string>
 </resources>
