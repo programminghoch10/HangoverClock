@@ -2,7 +2,7 @@ package com.JJ.hangoverclock;
 
 import android.app.Activity;
 import android.graphics.Typeface;
-import android.support.v4.content.res.ResourcesCompat;
+import androidx.core.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;

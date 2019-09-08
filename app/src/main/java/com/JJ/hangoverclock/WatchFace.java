@@ -324,8 +324,7 @@ public class WatchFace extends CanvasWatchFaceService {
                 case TAP_TYPE_TAP:
                     // The user has completed the tap gesture.
                     // TODO: Add code to handle the tap gesture.
-                    Toast.makeText(getApplicationContext(), "tapped", Toast.LENGTH_SHORT)
-                            .show();
+                    //Toast.makeText(getApplicationContext(), "tapped", Toast.LENGTH_SHORT).show();
                     break;
             }
             invalidate();
@@ -438,7 +437,7 @@ public class WatchFace extends CanvasWatchFaceService {
             Bitmap clockbitmap = WidgetGenerator.generateWidget(WatchFace.this, mCalendar.getTimeInMillis(),
                     0, 60, 1,
                     0,0,0,
-                    true, !mAmbient, true,
+                    false, !mAmbient, true,
                     font, Color.WHITE, 4);
             /*canvas.drawBitmap(clockbitmap,
                     canvas.getWidth()/2-clockbitmap.getWidth()/2,
