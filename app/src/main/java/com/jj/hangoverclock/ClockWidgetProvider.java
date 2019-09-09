@@ -10,10 +10,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import androidx.core.app.AlarmManagerCompat;
+
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import androidx.core.app.AlarmManagerCompat;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     public static ArrayList<String> fonts = new ArrayList<String>() {{
         add("default");
     }};
-    //public static final String[] fonts = new String[] { "default", "faster one", "magneto", "nosifer", "orbitron", "oswald", "permanent marker", "press start 2p" };
+
     private static String CLOCK_WIDGET_UPDATE = "com.JJ.hangoverclock.widgetupdate";
     
     public static void collectfonts(Context context) {
@@ -70,11 +72,8 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        //Log.d(TAG, "onReceive: got intent " + intent.getAction());
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         if (CLOCK_WIDGET_UPDATE.equals(intent.getAction())) {
-            //Log.d(TAG, "onReceive: Recieved Clock Update");
-            // Get the widget manager and ids for this widget provider, then call the shared clock update method.
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] ids = appWidgetManager.getAppWidgetIds(thisAppWidget);
