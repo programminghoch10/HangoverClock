@@ -70,7 +70,6 @@ public class ConfigureWidget extends Activity {
                 //Expected error if no value was choosen, just set to default value
                 monthoverhang = context.getResources().getInteger(R.integer.defaultmonthoverhang);
             }
-            int yearoverhang = context.getResources().getInteger(R.integer.defaultyearoverhang);
             String font;
             try {
                 font = ((Spinner) findViewById(R.id.fontspinner)).getSelectedItem().toString().replace(" ", "_");
@@ -101,8 +100,6 @@ public class ConfigureWidget extends Activity {
                 editor.putInt(context.getResources().getString(R.string.keydayoverhang) + appWidgetID, dayoverhang);
             if (as | context.getResources().getInteger(R.integer.defaultmonthoverhang) != monthoverhang)
                 editor.putInt(context.getResources().getString(R.string.keymonthoverhang) + appWidgetID, monthoverhang);
-            if (as | context.getResources().getInteger(R.integer.defaultyearoverhang) != yearoverhang)
-                editor.putInt(context.getResources().getString(R.string.keyyearoverhang) + appWidgetID, yearoverhang);
             if (as | context.getResources().getColor(R.color.defaultWidgetColor) != color)
                 editor.putInt(context.getResources().getString(R.string.keycolor) + appWidgetID, color);
             if (!autotwelvehours)
@@ -325,7 +322,6 @@ public class ConfigureWidget extends Activity {
             //Expected error if no value was choosen, just set to default value
             monthoverhang = context.getResources().getInteger(R.integer.defaultmonthoverhang);
         }
-        int yearoverhang = context.getResources().getInteger(R.integer.defaultyearoverhang);
         boolean withseconds = ((Switch) findViewById(R.id.secondsselector)).isChecked();
         SeekBar seekbarred = (SeekBar) findViewById(R.id.seekbarred);
         SeekBar seekbargreen = (SeekBar) findViewById(R.id.seekbargreen);
@@ -361,12 +357,13 @@ public class ConfigureWidget extends Activity {
             //Expected if called to early
             font = context.getResources().getString(R.string.defaultfonttext);
         }
+        int fontresolution = context.getResources().getInteger(R.integer.widgetfontresolution);
         imageView.setImageBitmap(
                 WidgetGenerator.generateWidget(
                         context, Calendar.getInstance().getTimeInMillis(),
-                        secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang, yearoverhang,
+                        secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
                         twelvehour, withseconds, withdate,
-                        font, color, fontsizedivider
+                        font, color, fontsizedivider, fontresolution
                 )
         );
         

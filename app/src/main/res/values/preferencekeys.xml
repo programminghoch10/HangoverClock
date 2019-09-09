@@ -8,7 +8,6 @@
     <string name="keycolor" translatable="false">color</string>
     <string name="keydayoverhang" translatable="false">dayoverhang</string>
     <string name="keymonthoverhang" translatable="false">monthoverhang</string>
-    <string name="keyyearoverhang" translatable="false">yearoverhang</string>
     <string name="keysecondoverhang" translatable="false">secondoverhang</string>
     <string name="keyminuteoverhang" translatable="false">minuteoverhang</string>
     <string name="keyhouroverhang" translatable="false">houroverhang</string>

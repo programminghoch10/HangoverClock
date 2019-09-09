@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="widgetfontsize">200</integer> <!--i guess it should only affect resolution and not size due to scaled bitmap-->
+    <integer name="widgetfontresolution">200</integer> <!--i guess it should only affect resolution and not size due to scaled bitmap-->
     <integer name="defaultdatefontscale">5</integer> <!-- scale date between 3 (largest) and maxfontscale (smallest) -->
     <integer name="maxfontscale">5</integer> <!-- defines maximum smallness of font -->
 </resources>
