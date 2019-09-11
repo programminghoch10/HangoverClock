@@ -206,9 +206,9 @@ class WidgetGenerator {
             }
         }
         if (twelvehours & (h >= 12+houroverhang & h <= 24)) h -= 12;
+        returnstring[0] = String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m);
         if (withseconds)
             returnstring[0] = String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m) + ":" + String.format(Locale.GERMANY, "%02d", s);
-        returnstring[0] = String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m);
         returnstring[1] = day + "." + month + "." + year;
         return returnstring;
     }
