@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.support.v4.content.res.ResourcesCompat;
+import androidx.core.content.res.ResourcesCompat;
 import android.util.TypedValue;
 
 import java.util.Calendar;
@@ -16,15 +16,13 @@ class WidgetGenerator {
     
     static Bitmap generateWidget(Context context, long timestamp,
                                  int secondoverhang, int minuteoverhang, int houroverhang,
-                                 int dayoverhang, int monthoverhang, int yearoverhang,
+                                 int dayoverhang, int monthoverhang,
                                  boolean twelvehours, boolean withseconds, boolean withdate,
-                                 String font, int color, float fontscale) {
-        //Calendar calendar = Calendar.getInstance();
-        //calendar.setTimeInMillis(timestamp);
+                                 String font, int color, float fontscale, int fontresolution) {
         if (!withdate) {
             return generateBitmap(context,
                     calculatetime(timestamp, houroverhang, minuteoverhang, secondoverhang, twelvehours, withseconds),
-                    font, color);
+                    font, color, fontresolution);
         } else {
             String[] hangovertext = combinedcalculate(timestamp,
                     monthoverhang, dayoverhang,
@@ -32,35 +30,36 @@ class WidgetGenerator {
                     withseconds, twelvehours);
             return generateBitmap(context,
                     hangovertext[0], hangovertext[1],
-                    font, color, fontscale);
+                    font, color, fontscale, fontresolution);
         }
     }
     
-    private static Bitmap generateBitmap(Context context, String time, String date, String font, int color, float datefontscale) {
+    private static Bitmap generateBitmap(Context context, String time, String date, String font, int color, float datefontscale, int fontresolution) {
         if (date == null) {
-            return generateBitmap(context, time, font, color);
+            return generateBitmap(context, time, font, color, fontresolution);
         } else {
-            return generateBitmap(context, time, font, color, date, font, color, datefontscale);
+            return generateBitmap(context, time, font, color, date, font, color, datefontscale, fontresolution);
         }
     }
     
-    private static Bitmap generateBitmap(Context context, String time, String timefont, int timecolor) {
+    private static Bitmap generateBitmap(Context context, String time, String timefont, int timecolor, int fontresolution) {
         return generateBitmap(context, false, time, timefont, timecolor, null, null, 0,
-                0);
+                0, fontresolution);
     }
     
     private static Bitmap generateBitmap(Context context, String time, String timefont, int timecolor,
-                                         String date, String datefont, int datecolor, float datefontscale) {
-        return generateBitmap(context, true, time, timefont, timecolor, date, datefont, datecolor, datefontscale);
+                                         String date, String datefont, int datecolor, float datefontscale, int fontresolution) {
+        return generateBitmap(context, true, time, timefont, timecolor, date, datefont, datecolor, datefontscale, fontresolution);
     }
     
     private static Bitmap generateBitmap(Context context, boolean withdate,
                                          String time, String timefont, int timecolor,
-                                         String date, String datefont, int datecolor, float fontscale) {
+                                         String date, String datefont, int datecolor,
+                                         float fontscale, int fontresolution) {
         //ah shit .settypeface doesnt exist in remoteviews wth do I do now? guess ill be rendering a bitmap
         //solution: https://stackoverflow.com/questions/4318572/how-to-use-a-custom-typeface-in-a-widget
         //but i added the date myself
-        int fontSizePX = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, context.getResources().getInteger(R.integer.widgetfontsize), context.getResources().getDisplayMetrics());
+        int fontSizePX = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, fontresolution, context.getResources().getDisplayMetrics());
         int pad = (fontSizePX / 9);
         Typeface timetypeface = Typeface.defaultFromStyle(Typeface.NORMAL);
         timefont = timefont.replace(" ", "_");
@@ -143,16 +142,15 @@ class WidgetGenerator {
             return String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m) + ":" + String.format(Locale.GERMANY, "%02d", s);
         return String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m);
     }
-    
-    private static String calculatedate(long timestamp, int dayoverhang, int monthoverhang, int yearoverhang) {
+    /*
+    private static String calculatedate(long timestamp, int dayoverhang, int monthoverhang) {
         // i guess this function is redundant now, meh still gonna leave it here, i dont wanna scrap all that effort
-        //yearoverhang = 0; //as far as i can think yearoverhang should never be of use
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(timestamp);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
-        while (day <= dayoverhang | month <= monthoverhang /*| year <= yearoverhang*/) {
+        while (day <= dayoverhang | month <= monthoverhang) {
             if (day <= dayoverhang) {
                 calendar.add(Calendar.MONTH, -1);
                 day += calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -163,14 +161,10 @@ class WidgetGenerator {
                 year -= 1;
                 calendar.add(Calendar.YEAR, -1);
             }
-            /*if (year <= yearoverhang) {
-                // idk what to do this should never happen wtf
-                break;
-            }*/
         }
         return day + "." + month + "." + year;
     }
-    
+    */
     private static String[] combinedcalculate(long timestamp,
                                               int monthoverhang, int dayoverhang,
                                               int houroverhang, int minuteoverhang, int secondoverhang,
@@ -212,9 +206,9 @@ class WidgetGenerator {
             }
         }
         if (twelvehours & (h >= 12+houroverhang & h <= 24)) h -= 12;
+        returnstring[0] = String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m);
         if (withseconds)
             returnstring[0] = String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m) + ":" + String.format(Locale.GERMANY, "%02d", s);
-        returnstring[0] = String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m);
         returnstring[1] = day + "." + month + "." + year;
         return returnstring;
     }

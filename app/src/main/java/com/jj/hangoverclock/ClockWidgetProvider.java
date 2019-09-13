@@ -10,10 +10,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.app.AlarmManagerCompat;
+
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import androidx.core.app.AlarmManagerCompat;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     public static ArrayList<String> fonts = new ArrayList<String>() {{
         add("default");
     }};
-    //public static final String[] fonts = new String[] { "default", "faster one", "magneto", "nosifer", "orbitron", "oswald", "permanent marker", "press start 2p" };
+
     private static String CLOCK_WIDGET_UPDATE = "com.JJ.hangoverclock.widgetupdate";
     
     public static void collectfonts(Context context) {
@@ -71,11 +73,8 @@ public class ClockWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        //Log.d(TAG, "onReceive: got intent " + intent.getAction());
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         if (CLOCK_WIDGET_UPDATE.equals(intent.getAction())) {
-            //Log.d(TAG, "onReceive: Recieved Clock Update");
-            // Get the widget manager and ids for this widget provider, then call the shared clock update method.
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] ids = appWidgetManager.getAppWidgetIds(thisAppWidget);
@@ -143,19 +142,19 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         int secondoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.keysecondoverhang) + appWidgetId, context.getResources().getInteger(R.integer.defaultsecondoverhang));
         int dayoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.keydayoverhang) + appWidgetId, context.getResources().getInteger(R.integer.defaultdayoverhang));
         int monthoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.keymonthoverhang) + appWidgetId, context.getResources().getInteger(R.integer.defaultmonthoverhang));
-        int yearoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.keyyearoverhang) + appWidgetId, context.getResources().getInteger(R.integer.defaultyearoverhang));
         boolean twelvehour = sharedPreferences.getBoolean(context.getResources().getString(R.string.keytwelvehour) + appWidgetId, !DateFormat.is24HourFormat(context));
         boolean enableseconds = sharedPreferences.getBoolean(context.getResources().getString(R.string.keyenableseconds) + appWidgetId, context.getResources().getBoolean(R.bool.defaultenableseconds));
         boolean enabledate = sharedPreferences.getBoolean(context.getResources().getString(R.string.keyenabledate) + appWidgetId, context.getResources().getBoolean(R.bool.defaultenabledate));
         String font = sharedPreferences.getString(context.getResources().getString(R.string.keyfont) + appWidgetId, context.getResources().getString(R.string.defaultfonttext));
         float fontscale = sharedPreferences.getFloat(context.getResources().getString(R.string.keyfontscale) + appWidgetId, context.getResources().getInteger(R.integer.defaultdatefontscale));
         int color = sharedPreferences.getInt(context.getResources().getString(R.string.keycolor) + appWidgetId, context.getResources().getColor(R.color.defaultWidgetColor));
+        int fontresolution = context.getResources().getInteger(R.integer.widgetfontresolution);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
         remoteViews.setImageViewBitmap(R.id.clock,
                 WidgetGenerator.generateWidget(
                         context, Calendar.getInstance().getTimeInMillis(),
-                        secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang, yearoverhang,
-                        twelvehour, enableseconds, enabledate, font, color, fontscale)
+                        secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
+                        twelvehour, enableseconds, enabledate, font, color, fontscale, fontresolution)
         );
         try {
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
