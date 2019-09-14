@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -155,31 +156,42 @@ public class ConfigureWidget extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ClockWidgetProvider.collectfonts(ConfigureWidget.this);
         // Set the result to CANCELED.  This will cause the widget host to cancel
         // out of the widget placement if they press the back button.
         setResult(RESULT_CANCELED);
         // Set the view layout resource to use.
         setContentView(R.layout.widget_configure);
+        // Find the widget id from the intent.
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            appWidgetID = extras.getInt(
+                    AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        }
+        // If they gave us an intent without the widget id, just bail.
+        // i guess this is a bit late,
+        //TODO: move this crap up
+        if (appWidgetID == AppWidgetManager.INVALID_APPWIDGET_ID) {
+            finish();
+        }
+        ClockWidgetProvider.collectfonts(ConfigureWidget.this);
         findViewById(R.id.save).setOnClickListener(savelistener);
         // Change seekbar colors
-        //SeekBar sb = (SeekBar) findViewById(R.id.seekBar2);
-        //sb.getProgressDrawable().setColorFilter(0xFF00FF00, PorterDuff.Mode.MULTIPLY);
         ((SeekBar) findViewById(R.id.seekbarred)).getThumb().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
         ((SeekBar) findViewById(R.id.seekbarblue)).getThumb().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_IN);
         ((SeekBar) findViewById(R.id.seekbargreen)).getThumb().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
         ((SeekBar) findViewById(R.id.seekbarred)).getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
         ((SeekBar) findViewById(R.id.seekbarblue)).getProgressDrawable().setColorFilter(Color.BLUE, PorterDuff.Mode.MULTIPLY);
         ((SeekBar) findViewById(R.id.seekbargreen)).getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
-        ((SeekBar) findViewById(R.id.seekbarred)).setOnSeekBarChangeListener(colorseekbarlistener);
-        ((SeekBar) findViewById(R.id.seekbargreen)).setOnSeekBarChangeListener(colorseekbarlistener);
-        ((SeekBar) findViewById(R.id.seekbarblue)).setOnSeekBarChangeListener(colorseekbarlistener);
-        ((SeekBar) findViewById(R.id.seekbaralpha)).setOnSeekBarChangeListener(colorseekbarlistener);
         int defaultColor = getResources().getColor(R.color.defaultWidgetColor);
         ((SeekBar) findViewById(R.id.seekbarred)).setProgress(Color.red(defaultColor));
         ((SeekBar) findViewById(R.id.seekbargreen)).setProgress(Color.green(defaultColor));
         ((SeekBar) findViewById(R.id.seekbarblue)).setProgress(Color.blue(defaultColor));
         ((SeekBar) findViewById(R.id.seekbaralpha)).setProgress(Color.alpha(defaultColor));
+        ((SeekBar) findViewById(R.id.seekbarred)).setOnSeekBarChangeListener(colorseekbarlistener);
+        ((SeekBar) findViewById(R.id.seekbargreen)).setOnSeekBarChangeListener(colorseekbarlistener);
+        ((SeekBar) findViewById(R.id.seekbarblue)).setOnSeekBarChangeListener(colorseekbarlistener);
+        ((SeekBar) findViewById(R.id.seekbaralpha)).setOnSeekBarChangeListener(colorseekbarlistener);
         TextWatcher inputwatcher = new TextWatcher() {
             final int[] ids = {
                     R.id.overhanginputtimeminutes,
@@ -272,22 +284,11 @@ public class ConfigureWidget extends Activity {
             }
         });
         updatepreview();
-        // Find the widget id from the intent.
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        if (extras != null) {
-            appWidgetID = extras.getInt(
-                    AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-        }
-        // If they gave us an intent without the widget id, just bail.
-        // i guess this is a bit late,
-        //TODO: move this crap up
-        if (appWidgetID == AppWidgetManager.INVALID_APPWIDGET_ID) {
-            finish();
-        }
     }
     
     private void updatepreview() {
+        //Log.d(TAG, "updatepreview: i have been called");
+        //Log.d(TAG, "updatepreview: trace is " + Arrays.toString(Thread.currentThread().getStackTrace()));
         final Context context = ConfigureWidget.this;
         ImageView imageView = (ImageView) findViewById(R.id.previewclock);
         boolean twelvehour = ((Switch) findViewById(R.id.hourselector)).isChecked();
@@ -358,14 +359,14 @@ public class ConfigureWidget extends Activity {
             font = context.getResources().getString(R.string.defaultfonttext);
         }
         int fontresolution = context.getResources().getInteger(R.integer.widgetfontresolution);
-        imageView.setImageBitmap(
-                WidgetGenerator.generateWidget(
-                        context, Calendar.getInstance().getTimeInMillis(),
-                        secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
-                        twelvehour, withseconds, withdate,
-                        font, color, fontsizedivider, fontresolution
-                )
+        Bitmap bitmap = WidgetGenerator.generateWidget(
+                context, Calendar.getInstance().getTimeInMillis(),
+                secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
+                twelvehour, withseconds, withdate,
+                font, color, fontsizedivider, fontresolution
         );
+        bitmap.prepareToDraw();
+        imageView.setImageBitmap(bitmap);
         
     }
 }
