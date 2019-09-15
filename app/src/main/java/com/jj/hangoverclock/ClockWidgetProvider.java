@@ -158,8 +158,8 @@ public class ClockWidgetProvider extends AppWidgetProvider {
         );
         try {
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Log.e(TAG, "updateAppWidget: error pushing bitmap", e);
         }
     }
 }
