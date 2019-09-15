@@ -254,9 +254,11 @@ public class ConfigureWidget extends Activity {
         //TODO: replace spinner with recyclerview (big project ._.)
         Spinner fontspinner = (Spinner) findViewById(R.id.fontspinner);
         ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
-        for (String font : ClockWidgetProvider.fonts) {
-            RowItem item = new RowItem(font);
-            rowItems.add(item);
+        ArrayList<String> fonts = ClockWidgetProvider.fonts;
+        for (int i = 0; i < fonts.size(); i++) {
+            String font = fonts.get(i);
+            RowItem item = new RowItem(ConfigureWidget.this, font, i);
+            if (item.getVisibility() == View.VISIBLE) rowItems.add(item);
         }
         final SpinnerAdapter spinnerAdapter = new CustomSpinnerAdapter(ConfigureWidget.this, R.layout.listitems_layout, R.id.spinnerview, rowItems);
         fontspinner.setAdapter(spinnerAdapter);
