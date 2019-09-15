@@ -169,8 +169,6 @@ public class ConfigureWidget extends Activity {
                     AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         }
         // If they gave us an intent without the widget id, just bail.
-        // i guess this is a bit late,
-        //TODO: move this crap up
         if (appWidgetID == AppWidgetManager.INVALID_APPWIDGET_ID) {
             finish();
         }
@@ -178,11 +176,11 @@ public class ConfigureWidget extends Activity {
         findViewById(R.id.save).setOnClickListener(savelistener);
         // Change seekbar colors
         ((SeekBar) findViewById(R.id.seekbarred)).getThumb().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
-        ((SeekBar) findViewById(R.id.seekbarblue)).getThumb().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_IN);
         ((SeekBar) findViewById(R.id.seekbargreen)).getThumb().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+        ((SeekBar) findViewById(R.id.seekbarblue)).getThumb().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_IN);
         ((SeekBar) findViewById(R.id.seekbarred)).getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
-        ((SeekBar) findViewById(R.id.seekbarblue)).getProgressDrawable().setColorFilter(Color.BLUE, PorterDuff.Mode.MULTIPLY);
         ((SeekBar) findViewById(R.id.seekbargreen)).getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+        ((SeekBar) findViewById(R.id.seekbarblue)).getProgressDrawable().setColorFilter(Color.BLUE, PorterDuff.Mode.MULTIPLY);
         int defaultColor = getResources().getColor(R.color.defaultWidgetColor);
         ((SeekBar) findViewById(R.id.seekbarred)).setProgress(Color.red(defaultColor));
         ((SeekBar) findViewById(R.id.seekbargreen)).setProgress(Color.green(defaultColor));
@@ -192,6 +190,21 @@ public class ConfigureWidget extends Activity {
         ((SeekBar) findViewById(R.id.seekbargreen)).setOnSeekBarChangeListener(colorseekbarlistener);
         ((SeekBar) findViewById(R.id.seekbarblue)).setOnSeekBarChangeListener(colorseekbarlistener);
         ((SeekBar) findViewById(R.id.seekbaralpha)).setOnSeekBarChangeListener(colorseekbarlistener);
+        View viewred = (View) findViewById(R.id.viewred);
+        View viewgreen = (View) findViewById(R.id.viewgreen);
+        View viewblue = (View) findViewById(R.id.viewblue);
+        View viewalpha = (View) findViewById(R.id.viewalpha);
+        View viewcolor = (View) findViewById(R.id.viewcolor);
+        SeekBar seekbarred = (SeekBar) findViewById(R.id.seekbarred);
+        SeekBar seekbargreen = (SeekBar) findViewById(R.id.seekbargreen);
+        SeekBar seekbarblue = (SeekBar) findViewById(R.id.seekbarblue);
+        SeekBar seekbaralpha = (SeekBar) findViewById(R.id.seekbaralpha);
+        int color = Color.argb(seekbaralpha.getProgress(), seekbarred.getProgress(), seekbargreen.getProgress(), seekbarblue.getProgress());
+        viewred.setBackgroundColor(Color.argb(255, Color.red(color), 0, 0));
+        viewgreen.setBackgroundColor(Color.argb(255, 0, Color.green(color), 0));
+        viewblue.setBackgroundColor(Color.argb(255, 0, 0, Color.blue(color)));
+        viewalpha.setBackgroundColor(Color.argb(255, Color.alpha(color), Color.alpha(color), Color.alpha(color)));
+        viewcolor.setBackgroundColor(color);
         TextWatcher inputwatcher = new TextWatcher() {
             final int[] ids = {
                     R.id.overhanginputtimeminutes,
@@ -238,6 +251,7 @@ public class ConfigureWidget extends Activity {
         ((Switch) findViewById(R.id.dateselector)).setOnCheckedChangeListener(updatepreviewlistener);
         ((Switch) findViewById(R.id.secondsselector)).setOnCheckedChangeListener(updatepreviewlistener);
         ((Switch) findViewById(R.id.autohourselector)).setOnCheckedChangeListener(updatepreviewlistener);
+        //TODO: replace spinner with recyclerview (big project ._.)
         Spinner fontspinner = (Spinner) findViewById(R.id.fontspinner);
         ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
         for (String font : ClockWidgetProvider.fonts) {
