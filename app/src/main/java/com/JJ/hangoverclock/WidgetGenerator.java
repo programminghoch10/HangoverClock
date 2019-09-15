@@ -256,9 +256,7 @@ class WidgetGenerator {
             int pad = (fontsize / 9);
             int textWidth = (int) (paint.measureText(text) + pad * 2);
             int height = (int) (fontsize / 0.7);
-            Bitmap bitmap = Bitmap.createBitmap(textWidth, height, Bitmap.Config.ARGB_8888);
-            currentbytes = bitmap.getByteCount();
-            bitmap.recycle();
+            currentbytes = (textWidth * height * 4);
             //Log.d(TAG, "calculatefontsize: itaration "+count+", fontsize "+fontsize+", size is "+currentbytes+", that is "+((float)currentbytes/maxbytes));
         }
         //Log.d(TAG, "calculatefontsize: using "+currentbytes+" of "+maxbytes);
