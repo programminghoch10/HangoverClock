@@ -5,14 +5,16 @@ Welcome to HangoverClock, the only clock which displays the real time in an unre
 If you just want to see what this widget looks like now, 
 please click [here](https://github.com/programminghoch10/HangoverClock#the-next-generation)
 
+[Download from Play Store](https://play.google.com/store/apps/details?id=com.JJ.hangoverclock)
+
 [Download the newest APK](https://github.com/programminghoch10/HangoverClock/raw/master/app/release/app-release.apk)
 or look at the
 [latest stable releases](https://github.com/programminghoch10/HangoverClock/releases)
 
 For Wear OS Users, please look [here](https://github.com/programminghoch10/HangoverClock/tree/weardev)
 
-![HangoverClock Icon new](icon/clock.png)
-![HangoverClock Icon old](app/src/main/res/drawable-v24/clock.png)
+![HangoverClock Icon new](icon/clockc.png)
+![HangoverClock Icon old](icon/clock.png)
 
 ## What makes HangoverClock special?
 
@@ -49,6 +51,8 @@ Also the text was always the same size, no matter how big the widget was resized
 So my friends inspired me saying the idea is amazing, but the clocks design sucks. So I needed to do something about it.
 
 ## The next generation
+
+![HangoverClock Dynamite Google Play Banner](pictures/playbannercutted.png)
 
 ![HangoverClock Dynamite Picture 1](pictures/dynamite1.jpg)
 ![HangoverClock Dynamite Picture 2](pictures/dynamite2.png)
@@ -115,3 +119,14 @@ I'm always on the quest to make this the best HangoverClock ever.
 
 Thanks to all my friends, who motivated me to do this.
 Also thanks to my laptop, which crashed 2 times with literally nothing saved to disk.
+
+&nbsp;
+
+## Screenshots
+
+![Screenshot 1](pictures/playphone.png)
+![Screenshot 2](pictures/playphoneconfig.png)
+
+![Screenshot 3](pictures/play10inch.png)
+
+![Screenshot 4](pictures/play7inch.png)
