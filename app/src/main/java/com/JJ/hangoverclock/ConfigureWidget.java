@@ -86,6 +86,22 @@ public class ConfigureWidget extends Activity {
 			boolean twelvehours = ((Switch) findViewById(R.id.hourselector)).isChecked();
 			boolean enabledate = ((Switch) findViewById(R.id.dateselector)).isChecked();
 			boolean as = context.getResources().getBoolean(R.bool.alwayssavepreference); //wether preferences should always be saved
+			int[] flushkeys = {
+					R.string.keyenableseconds,
+					R.string.keyfont,
+					R.string.keyfontscale,
+					R.string.keyhouroverhang,
+					R.string.keyminuteoverhang,
+					R.string.keysecondoverhang,
+					R.string.keydayoverhang,
+					R.string.keymonthoverhang,
+					R.string.keycolor,
+					R.string.keytwelvehour,
+					R.string.keyenabledate,
+			};
+			for (int key:flushkeys) {
+				editor.remove(context.getResources().getString(key) + appWidgetID);
+			}
 			if (as | context.getResources().getBoolean(R.bool.defaultenableseconds) != enableseconds)
 				editor.putBoolean(context.getResources().getString(R.string.keyenableseconds) + appWidgetID, enableseconds);
 			if (as | !context.getResources().getString(R.string.defaultfonttext).equals(font))
@@ -254,7 +270,6 @@ public class ConfigureWidget extends Activity {
 		((Switch) findViewById(R.id.dateselector)).setOnCheckedChangeListener(updatepreviewlistener);
 		((Switch) findViewById(R.id.secondsselector)).setOnCheckedChangeListener(updatepreviewlistener);
 		((Switch) findViewById(R.id.autohourselector)).setOnCheckedChangeListener(updatepreviewlistener);
-		//TODO: replace spinner with recyclerview (big project ._.)
 		Spinner fontspinner = findViewById(R.id.fontspinner);
 		ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
 		ArrayList<String> fonts = ClockWidgetProvider.fonts;
