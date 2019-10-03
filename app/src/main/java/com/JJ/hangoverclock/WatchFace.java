@@ -428,17 +428,19 @@ public class WatchFace extends CanvasWatchFaceService {
             
             //canvas.restore();
             String font = "default";
-            font = "magneto";
-            //ClockWidgetProvider.collectfonts(WatchFace.this);
+            //font = "magneto";
+            ClockWidgetProvider.collectfonts(WatchFace.this);
             // not all fonts work, the fonts using xml dont, and i dont know why. maybe its context? or the clock unable to use xml fonts?
-            //font = ClockWidgetProvider.fonts.get((int)(Math.random()*(float)ClockWidgetProvider.fonts.size()));
+            // turns out it was the xml files and because i replaced them all with ttf files it now works
+            font = ClockWidgetProvider.fonts.get((int)(Math.random()*(float)ClockWidgetProvider.fonts.size()));
             //String TAG = "drawBitmap";
             //Log.d(TAG, "drawWatchFace: font is "+font);
+            int fontresolution = WatchFace.this.getResources().getInteger(R.integer.widgetfontresolution);
             Bitmap clockbitmap = WidgetGenerator.generateWidget(WatchFace.this, mCalendar.getTimeInMillis(),
                     0, 60, 1,
-                    0,0,0,
+                    0,0,
                     false, !mAmbient, true,
-                    font, Color.WHITE, 4);
+                    font, Color.WHITE, 4, fontresolution);
             /*canvas.drawBitmap(clockbitmap,
                     canvas.getWidth()/2-clockbitmap.getWidth()/2,
                     canvas.getHeight()/2-clockbitmap.getHeight()/2,
