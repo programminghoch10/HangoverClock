@@ -4,9 +4,9 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.JJ.hangoverclock"
-        minSdkVersion 16
+        minSdkVersion 14
         targetSdkVersion 28
-        versionCode 9
+        versionCode 7
         versionName "dynamitewear"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,5 +33,4 @@ dependencies {
     //implementation enforcedPlatform('androidx.legacy:legacy-support-v13:1.0.0')
     implementation 'com.google.android.support:wearable:2.5.0'
     compileOnly 'com.google.android.wearable:wearable:2.5.0'
-
 }

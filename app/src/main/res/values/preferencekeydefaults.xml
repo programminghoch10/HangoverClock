@@ -6,7 +6,6 @@
     <bool name="defaultautotimeselector">true</bool>
     <integer name="defaultdayoverhang">0</integer>
     <integer name="defaultmonthoverhang">0</integer>
-    <integer name="defaultyearoverhang">0</integer>
     <integer name="defaultsecondoverhang">0</integer>
     <integer name="defaultminuteoverhang">0</integer>
     <integer name="defaulthouroverhang">1</integer>

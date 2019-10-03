@@ -32,18 +32,8 @@
         </activity>
 
         <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-
-        <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
-
-        <receiver android:name=".BootReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
 
         <receiver android:name=".ClockWidgetProvider">
             <intent-filter>
