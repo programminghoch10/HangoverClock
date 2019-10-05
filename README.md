@@ -108,6 +108,7 @@ I'm always on the quest to make this the best HangoverClock ever.
 * The only public method is generateWidget, which returns a Bitmap Image.
 * The fonts get dynamically collected from all available resource files 
     and saved in a static String array within the ClockWidgetProvider class.
+* The resulting bitmap resolution will be calculated to reach the best quality possible on every device.
 * The sharedPreference keys are defined in preferencekeys.xml and their defaults in preferencekeydefaults.xml.
   * sharedPreferences are saved in the format key and directly appended widget ID.
   * If a key is not defined its default value is assumed and only gets saved when not default or when alwayssavepreferences bool is active.

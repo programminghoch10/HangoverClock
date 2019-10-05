@@ -22,11 +22,11 @@ class WidgetGenerator {
                                  int secondoverhang, int minuteoverhang, int houroverhang,
                                  int dayoverhang, int monthoverhang,
                                  boolean twelvehours, boolean withseconds, boolean withdate,
-                                 String font, int color, float fontscale, int fontresolution) {
+                                 String font, int color, float fontscale) {
         if (!withdate) {
             return generateBitmap(context,
                     calculatetime(timestamp, houroverhang, minuteoverhang, secondoverhang, twelvehours, withseconds),
-                    font, color, fontresolution);
+                    font, color);
         } else {
             String[] hangovertext = combinedcalculate(timestamp,
                     monthoverhang, dayoverhang,
@@ -34,32 +34,31 @@ class WidgetGenerator {
                     withseconds, twelvehours);
             return generateBitmap(context,
                     hangovertext[0], hangovertext[1],
-                    font, color, fontscale, fontresolution);
+                    font, color, fontscale);
         }
     }
     
-    private static Bitmap generateBitmap(Context context, String time, String date, String font, int color, float datefontscale, int fontresolution) {
+    private static Bitmap generateBitmap(Context context, String time, String date, String font, int color, float datefontscale) {
         if (date == null) {
-            return generateBitmap(context, time, font, color, fontresolution);
+            return generateBitmap(context, time, font, color);
         } else {
-            return generateBitmap(context, time, font, color, date, font, color, datefontscale, fontresolution);
+            return generateBitmap(context, time, font, color, date, font, color, datefontscale);
         }
     }
     
-    private static Bitmap generateBitmap(Context context, String time, String timefont, int timecolor, int fontresolution) {
-        return generateBitmap(context, false, time, timefont, timecolor, null, null, 0,
-                0, fontresolution);
+    private static Bitmap generateBitmap(Context context, String time, String timefont, int timecolor) {
+        return generateBitmap(context, false, time, timefont, timecolor, null, null, 0, 0);
     }
     
     private static Bitmap generateBitmap(Context context, String time, String timefont, int timecolor,
-                                         String date, String datefont, int datecolor, float datefontscale, int fontresolution) {
-        return generateBitmap(context, true, time, timefont, timecolor, date, datefont, datecolor, datefontscale, fontresolution);
+                                         String date, String datefont, int datecolor, float datefontscale) {
+        return generateBitmap(context, true, time, timefont, timecolor, date, datefont, datecolor, datefontscale);
     }
     
     private static Bitmap generateBitmap(Context context, boolean withdate,
                                          String time, String timefont, int timecolor,
                                          String date, String datefont, int datecolor,
-                                         float fontscale, int fontresolution) {
+                                         float fontscale) {
         //ah shit .settypeface doesnt exist in remoteviews wth do I do now? guess ill be rendering a bitmap
         //solution: https://stackoverflow.com/questions/4318572/how-to-use-a-custom-typeface-in-a-widget
         //but i added the date myself
@@ -220,6 +219,7 @@ class WidgetGenerator {
 
     private static int calculatefontsize(Context context, String text, String font) {
         String TAG = "calculatefontsize";
+        int cap = 5000; //max iterations cap to preventto crash rather then ANR
         Typeface typeface = Typeface.defaultFromStyle(Typeface.NORMAL);
         font = font.replace(" ", "_");
         if (!context.getString(R.string.defaultfonttext).equals(font)) {
@@ -251,16 +251,40 @@ class WidgetGenerator {
         while (currentbytes < maxbytes) {
             fontsize++;
             count++;
-            if ((float)currentbytes/maxbytes<1) fontsize*=(1-(float)currentbytes/maxbytes)/2+1;
-            paint.setTextSize(fontsize);
+            //i wasted so many days just to find out that my first formula works best :(
+            if ((float)currentbytes/maxbytes<1) fontsize*=(1-(float)currentbytes/maxbytes)/2+1; //works in about 18 iterations
+            //if ((float)currentbytes/maxbytes<1) fontsize = fontsize * (int)(0+((1*(Math.exp(-currentbytes+(maxbytes/2)))+maxbytes)/maxbytes)-0); //not working at all, hits the cap
+            //if ((float)currentbytes/maxbytes<1) fontsize = ((Math.log((y-e)/a))/1)-0; //unfinished
+            //if ((float)currentbytes/maxbytes<1) fontsize = (int)(fontsize * (1/((float)currentbytes/maxbytes))); //big overshoot
+            //if ((float)currentbytes/maxbytes<1) fontsize = (int)(fontsize * (5*Math.exp(-9*((float)currentbytes/maxbytes))+1)); //its alright
+			paint.setTextSize(fontsize);
             int pad = (fontsize / 9);
             int textWidth = (int) (paint.measureText(text) + pad * 2);
             int height = (int) (fontsize / 0.7);
             currentbytes = (textWidth * height * 4);
             //Log.d(TAG, "calculatefontsize: itaration "+count+", fontsize "+fontsize+", size is "+currentbytes+", that is "+((float)currentbytes/maxbytes));
+            if (count>cap) break;
         }
-        //Log.d(TAG, "calculatefontsize: using "+currentbytes+" of "+maxbytes);
         fontsize--;
+        paint.setTextSize(fontsize);
+        {
+            int pad = (fontsize / 9);
+            int textWidth = (int) (paint.measureText(text) + pad * 2);
+            int height = (int) (fontsize / 0.7);
+            currentbytes = (textWidth * height * 4);
+        }
+        while (currentbytes > maxbytes) {
+            fontsize--;
+            count++;
+            paint.setTextSize(fontsize);
+            int pad = (fontsize / 9);
+            int textWidth = (int) (paint.measureText(text) + pad * 2);
+            int height = (int) (fontsize / 0.7);
+            currentbytes = (textWidth * height * 4);
+            //Log.d(TAG, "calculatefontsize: subtratcting itaration "+count+", fontsize "+fontsize+", size is "+currentbytes+", that is "+((float)currentbytes/maxbytes));
+            if (count>cap*2) break;
+        }
+        //Log.d(TAG, "calculatefontsize: using "+currentbytes+" of "+maxbytes+", that is "+((float)currentbytes/maxbytes));
         //Log.d(TAG, "calculatefontsize: calculated font size is "+fontsize);
         return fontsize;
     }
