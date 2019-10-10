@@ -333,7 +333,6 @@ public class ConfigureWidget extends Activity {
 		//Log.d(TAG, "updatepreview: trace is " + Arrays.toString(Thread.currentThread().getStackTrace()));
 		final Context context = ConfigureWidget.this;
 		ImageView imageView = findViewById(R.id.previewclock);
-		boolean twelvehour = ((Switch) findViewById(R.id.hourselector)).isChecked();
 		boolean withdate = ((Switch) findViewById(R.id.dateselector)).isChecked();
 		int minuteoverhang;
 		try {
@@ -392,6 +391,7 @@ public class ConfigureWidget extends Activity {
 		} else {
 			findViewById(R.id.hourselector).setEnabled(true);
 		}
+		boolean twelvehour = ((Switch) findViewById(R.id.hourselector)).isChecked();
 		Spinner spinner = findViewById(R.id.fontspinner);
 		String font;
 		try {

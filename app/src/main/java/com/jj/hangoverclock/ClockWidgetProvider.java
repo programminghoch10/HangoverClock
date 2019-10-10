@@ -33,7 +33,6 @@ public class ClockWidgetProvider extends AppWidgetProvider {
 	//TODO add transparent background to widget
 	//TODO add config activity (like on samsung widgets)
 	//TODO add a companion app with timer, alarms and stopwatch
-	//FIXME no auto refresh on systems with default 12h when switching back to default in configurewidget
 	
 	static final String TAG = "ClockWidgetProvider";
 	public static ArrayList<String> fonts = new ArrayList<String>() {{
