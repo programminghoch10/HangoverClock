@@ -9,7 +9,10 @@
     <string name="enabledateswitch">Datum aktivieren</string>
     <string name="inputoverhangday">Tage</string>
     <string name="usesystemtimeformat">Systemzeitformat benutzen</string>
-    <string name="overhangheader">Overhang:</string>
+    <string name="overhangheader">Overhang</string>
     <string name="inputoverhanghours">Stunden</string>
     <string name="inputoverhangmonths">Monate</string>
+    <string name="colorheader">Farben</string>
+    <string name="fontheader">Schriftart</string>
+    <string name="settingsheader">Einstellungen</string>
 </resources>

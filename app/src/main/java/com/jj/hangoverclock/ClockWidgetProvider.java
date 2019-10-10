@@ -22,6 +22,7 @@ import java.util.Calendar;
 
 public class ClockWidgetProvider extends AppWidgetProvider {
 	
+	//TODO: automatischer Farbwechsel
 	static final String TAG = "ClockWidgetProvider";
 	public static ArrayList<String> fonts = new ArrayList<String>() {{
 		add("default");
@@ -146,13 +147,12 @@ public class ClockWidgetProvider extends AppWidgetProvider {
 		String font = sharedPreferences.getString(context.getResources().getString(R.string.keyfont) + appWidgetId, context.getResources().getString(R.string.defaultfonttext));
 		float fontscale = sharedPreferences.getFloat(context.getResources().getString(R.string.keyfontscale) + appWidgetId, context.getResources().getInteger(R.integer.defaultdatefontscale));
 		int color = sharedPreferences.getInt(context.getResources().getString(R.string.keycolor) + appWidgetId, context.getResources().getColor(R.color.defaultWidgetColor));
-		int fontresolution = context.getResources().getInteger(R.integer.widgetfontresolution);
 		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
 		remoteViews.setImageViewBitmap(R.id.clock,
 				WidgetGenerator.generateWidget(
 						context, Calendar.getInstance().getTimeInMillis(),
 						secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
-						twelvehour, enableseconds, enabledate, font, color, fontscale, fontresolution)
+						twelvehour, enableseconds, enabledate, font, color, fontscale)
 		);
 		try {
 			appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
