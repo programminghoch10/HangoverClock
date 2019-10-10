@@ -35,6 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="72dp"
                     android:adjustViewBounds="true"
+                    android:contentDescription="Widget Preview"
                     app:srcCompat="@drawable/clock" />
 
                 <View

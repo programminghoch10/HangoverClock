@@ -242,13 +242,21 @@ public class ConfigureWidget extends Activity {
 			
 			@Override
 			public void afterTextChanged(Editable s) {
+				boolean updatepreview = true;
 				for (int id : ids) {
 					EditText editText = findViewById(id);
 					String input = editText.getText().toString();
 					String regexed = input.replaceAll("[^0-9]", "");
-					if (!input.equals(regexed)) editText.setText(regexed);
+					try {
+						if (Long.parseLong(regexed) > Integer.MAX_VALUE)
+							regexed = String.valueOf(Integer.MAX_VALUE);
+					} catch (NumberFormatException ignored) {}
+					if (!input.equals(regexed)) {
+						editText.setText(regexed);
+						updatepreview = false;
+					}
 				}
-				updatepreview();
+				if (updatepreview) updatepreview();
 			}
 		};
 		((EditText) findViewById(R.id.overhanginputtimeminutes)).addTextChangedListener(inputwatcher);

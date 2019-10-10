@@ -115,14 +115,14 @@ class WidgetGenerator {
         //        boolean if seconds shall be shown
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(timestamp);
-        int h;
+        long h;
         if (twelvehours) {
             h = calendar.get(Calendar.HOUR);
         } else {
             h = calendar.get(Calendar.HOUR_OF_DAY);
         }
-        int m = calendar.get(Calendar.MINUTE);
-        int s = 0;
+        long m = calendar.get(Calendar.MINUTE);
+        long s = 0;
         if (withseconds) s = calendar.get(Calendar.SECOND);
         while (m < minuteoverhang | h < houroverhang | (withseconds & s < secondoverhang)) {
             if (m < minuteoverhang) {
@@ -176,12 +176,12 @@ class WidgetGenerator {
         String[] returnstring = new String[2];
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(timestamp);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int year = calendar.get(Calendar.YEAR);
-        int h = calendar.get(Calendar.HOUR_OF_DAY);
-        int m = calendar.get(Calendar.MINUTE);
-        int s = calendar.get(Calendar.SECOND);
+        long day = calendar.get(Calendar.DAY_OF_MONTH);
+        long month = calendar.get(Calendar.MONTH) + 1;
+        long year = calendar.get(Calendar.YEAR);
+        long h = calendar.get(Calendar.HOUR_OF_DAY);
+        long m = calendar.get(Calendar.MINUTE);
+        long s = calendar.get(Calendar.SECOND);
         while (day <= dayoverhang | month <= monthoverhang | m < minuteoverhang | h < houroverhang | (withseconds & s < secondoverhang)) {
             if (withseconds & s < secondoverhang) {
                 s += 60;
