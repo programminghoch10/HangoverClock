@@ -22,7 +22,19 @@ import java.util.Calendar;
 
 public class ClockWidgetProvider extends AppWidgetProvider {
 	
-	//TODO: automatischer Farbwechsel
+	// Future stuff to enhance the app/widget
+	//TODO automatic (time based) color change
+	//TODO automatic (background based) color change
+	//TODO switch to longs when not using a day to increase the possibilitys
+	//TODO add secondoverhang to widgetconfigure
+	//TODO move calculations to seperate Thread (at least on the configure activity)
+	//TODO add daydream/screensaver
+	//TODO finish wear stuff on branch weardev
+	//TODO add transparent background to widget
+	//TODO add config activity (like on samsung widgets)
+	//TODO add a companion app with timer, alarms and stopwatch
+	//FIXME no auto refresh on systems with default 12h when switching back to default in configurewidget
+	
 	static final String TAG = "ClockWidgetProvider";
 	public static ArrayList<String> fonts = new ArrayList<String>() {{
 		add("default");

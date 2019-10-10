@@ -109,6 +109,34 @@ class WidgetGenerator {
     
     private static String calculatetime(long timestamp, int houroverhang, int minuteoverhang, int secondoverhang, boolean twelvehours, boolean withseconds) {
         //inputs: long timestamp in millis
+        //        int overhang of hours
+        //        int overhang of minutes
+        //        int overhang of seconds
+        //        boolean if clock is using 12 hour format
+        //        boolean if seconds should be shown
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timestamp);
+        int twelvehoursnumber = twelvehours ? 12 : 24;
+        long h = twelvehours ? calendar.get(Calendar.HOUR) : calendar.get(Calendar.HOUR_OF_DAY);
+        long m = calendar.get(Calendar.MINUTE);
+        long s = withseconds ? calendar.get(Calendar.SECOND) : 0;
+        if (withseconds) {
+            if (secondoverhang % 60 >= s) s += 60;
+            s += (secondoverhang / 60) * 60;
+            m -= (s / 60) % 60;
+        }
+        if (minuteoverhang % 60 > m) m += 60;
+        m += (minuteoverhang / 60) * 60;
+        h -= (m / 60) % twelvehoursnumber;
+        if (houroverhang % twelvehoursnumber > h) h += twelvehoursnumber;
+        h += (houroverhang / twelvehoursnumber) * twelvehoursnumber;
+        if (withseconds)
+            return String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m) + ":" + String.format(Locale.GERMANY, "%02d", s);
+        return String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m);
+    }
+    
+    /*private static String calculatetimeold(long timestamp, int houroverhang, int minuteoverhang, int secondoverhang, boolean twelvehours, boolean withseconds) {
+        //inputs: long timestamp in millis
         //        int overhang of minutes(/seconds)
         //        int overhang of hours
         //        boolean if clock is using 12 hour format
@@ -145,9 +173,9 @@ class WidgetGenerator {
         if (withseconds)
             return String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m) + ":" + String.format(Locale.GERMANY, "%02d", s);
         return String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m);
-    }
-    /*
-    private static String calculatedate(long timestamp, int dayoverhang, int monthoverhang) {
+    }*/
+    
+    /*private static String calculatedate(long timestamp, int dayoverhang, int monthoverhang) {
         // i guess this function is redundant now, meh still gonna leave it here, i dont wanna scrap all that effort
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(timestamp);
@@ -167,8 +195,8 @@ class WidgetGenerator {
             }
         }
         return day + "." + month + "." + year;
-    }
-    */
+    }*/
+    
     private static String[] combinedcalculate(long timestamp,
                                               int monthoverhang, int dayoverhang,
                                               int houroverhang, int minuteoverhang, int secondoverhang,
@@ -182,6 +210,7 @@ class WidgetGenerator {
         long h = calendar.get(Calendar.HOUR_OF_DAY);
         long m = calendar.get(Calendar.MINUTE);
         long s = calendar.get(Calendar.SECOND);
+        //FIXME ANR when going up to integer limit
         while (day <= dayoverhang | month <= monthoverhang | m < minuteoverhang | h < houroverhang | (withseconds & s < secondoverhang)) {
             if (withseconds & s < secondoverhang) {
                 s += 60;
