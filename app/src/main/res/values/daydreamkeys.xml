@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="daydreampreferencesfilename" translatable="false">daydream</string>
     <string name="daydreamkeytwelvehour" translatable="false">12h</string>
     <string name="daydreamkeyenableseconds" translatable="false">seconds</string>
     <string name="daydreamkeyenabledate" translatable="false">date</string>

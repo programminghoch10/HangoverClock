@@ -92,7 +92,7 @@ class RowItem {
 	}
 	
 	String getTitleFont(int position) {
-		return ClockWidgetProvider.fonts.get(position).replace(" ", "_");
+		return WidgetProvider.fonts.get(position).replace(" ", "_");
 	}
 	
 	Typeface getTypeface() {

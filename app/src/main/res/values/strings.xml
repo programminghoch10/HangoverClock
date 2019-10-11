@@ -16,4 +16,5 @@
     <string name="colorheader">Colors</string>
     <string name="settingsheader">Settings</string>
     <string name="fontheader">Fonts</string>
+    <string name="savedaydream">Save</string>
 </resources>

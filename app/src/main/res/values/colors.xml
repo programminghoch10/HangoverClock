@@ -6,4 +6,5 @@
 
     <color name="defaultWidgetColor">#FFFFFF</color>
     <color name="daydreamdefaultWidgetColor">#FFFFFF</color>
+    <color name="daydreamconfigurebackground">#000000</color>
 </resources>

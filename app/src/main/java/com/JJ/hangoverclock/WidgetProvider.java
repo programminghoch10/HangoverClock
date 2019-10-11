@@ -20,7 +20,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class ClockWidgetProvider extends AppWidgetProvider {
+public class WidgetProvider extends AppWidgetProvider {
 	
 	// Future stuff to enhance the app/widget
 	//TODO automatic (time based) color change
@@ -34,7 +34,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
 	//TODO add config activity (like on samsung widgets)
 	//TODO add a companion app with timer, alarms and stopwatch
 	
-	static final String TAG = "ClockWidgetProvider";
+	static final String TAG = "WidgetProvider";
 	public static ArrayList<String> fonts = new ArrayList<String>() {{
 		add("default");
 	}};

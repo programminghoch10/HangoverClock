@@ -16,7 +16,6 @@ import java.util.Calendar;
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class DaydreamProvider extends DreamService {
 	
-	private final String sharedPreferencesFileName = "daydream";
 	SharedPreferences sharedPreferences;
 	ValueAnimator valueAnimator;
 	
@@ -28,9 +27,11 @@ public class DaydreamProvider extends DreamService {
 		setInteractive(false);
 		// Hide system UI
 		setFullscreen(true);
+		// Set screen brightness
+		setScreenBright(false);
 		// Set the dream layout
 		setContentView(R.layout.daydream);
-		sharedPreferences = getSharedPreferences(sharedPreferencesFileName, MODE_PRIVATE);
+		sharedPreferences = getSharedPreferences(DaydreamProvider.this.getResources().getString(R.string.daydreampreferencesfilename), MODE_PRIVATE);
 		
 	}
 	
