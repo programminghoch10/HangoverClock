@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- defaults for daydream -->
+    <bool name="daydreamdefaultenableseconds">true</bool>
+    <bool name="daydreamdefaultenabledate">true</bool>
+    <bool name="daydreamdefaultautotimeselector">true</bool>
+    <integer name="daydreamdefaultdayoverhang">0</integer>
+    <integer name="daydreamdefaultmonthoverhang">0</integer>
+    <integer name="daydreamdefaultsecondoverhang">0</integer>
+    <integer name="daydreamdefaultminuteoverhang">0</integer>
+    <integer name="daydreamdefaulthouroverhang">1</integer>
+    <integer name="daydreamdefaultdatefontscale">3</integer> <!-- scale date between 3 (largest) and maxfontscale (smallest) -->
+</resources>
