@@ -28,7 +28,6 @@ public class WidgetProvider extends AppWidgetProvider {
 	//TODO switch to longs when not using a day to increase the possibilitys
 	//TODO add secondoverhang to widgetconfigure
 	//TODO move calculations to seperate Thread (at least on the configure activity)
-	//TODO add daydream/screensaver
 	//TODO finish wear stuff on branch weardev
 	//TODO add transparent background to widget
 	//TODO add config activity (like on samsung widgets)

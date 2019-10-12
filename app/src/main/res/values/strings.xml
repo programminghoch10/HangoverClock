@@ -2,6 +2,7 @@
     <string name="app_name" translatable="false">HangoverClock</string>
     <string name="widget_start_text" translatable="false">hangover</string>
     <string name="savewidget">Create Widget</string>
+    <string name="savedaydream">Save</string>
     <string name="inputoverhangminutes">minutes</string>
     <string name="use12h">Use 12h format</string>
     <string name="defaultfonttext">default</string>
@@ -16,5 +17,4 @@
     <string name="colorheader">Colors</string>
     <string name="settingsheader">Settings</string>
     <string name="fontheader">Fonts</string>
-    <string name="savedaydream">Save</string>
 </resources>
