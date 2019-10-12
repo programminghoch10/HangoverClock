@@ -46,20 +46,18 @@
                 android:resource="@xml/appwidgetproviderinfo" />
         </receiver>
 
+        <!-- wearos and watchface stuff -->
         <service
             android:name=".WatchFace"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_WALLPAPER">
-
-            <!-- companion configuration activity -->
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />
                 <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE" />
             </intent-filter>
-            <!-- wearable configuration activity -->
-            <meta-data
+            <!--<meta-data
                 android:name="com.google.android.wearable.watchface.wearableConfigurationAction"
-                android:value="com.JJ.hangoverclock.WatchFace.watchfaceconfig" />
+                android:value="com.JJ.hangoverclock.WatchFaceConfig.configure" />-->
             <meta-data
                 android:name="android.service.wallpaper"
                 android:resource="@xml/watchface" />
@@ -69,11 +67,15 @@
             <meta-data
                 android:name="com.google.android.wearable.watchface.preview_circular"
                 android:resource="@drawable/clock" />
-
-            <meta-data
-                android:name="com.google.android.wearable.watchface.companionConfigurationAction"
-                android:value="com.JJ.hangoverclock.WatchFace.watchfaceconfig" />
         </service>
+        <activity android:name=".WatchFaceConfig"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.JJ.hangoverclock.WatchFaceConfig.configure" />
+                <category android:name="com.google.android.wearable.watchface.category.WEARABLE_CONFIGURATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

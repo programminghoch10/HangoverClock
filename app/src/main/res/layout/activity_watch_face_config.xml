@@ -9,11 +9,4 @@
     android:background="@android:color/black"
     android:padding="15dp">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="5dp"
-        >
-
-    </FrameLayout>
 </androidx.wear.widget.BoxInsetLayout>
