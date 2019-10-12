@@ -167,6 +167,8 @@ public class DaydreamConfigure extends Activity {
 		// Set the view layout resource to use.
 		setContentView(R.layout.daydream_configure);
 		WidgetProvider.collectfonts(DaydreamConfigure.this);
+		SharedPreferences sharedPreferences = getSharedPreferences(DaydreamConfigure.this.getResources().getString(R.string.daydreampreferencesfilename), MODE_PRIVATE);
+		Context context = DaydreamConfigure.this;
 		// Change seekbar colors
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 			((SeekBar) findViewById(R.id.seekbarred)).getThumb().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
@@ -176,11 +178,11 @@ public class DaydreamConfigure extends Activity {
 		((SeekBar) findViewById(R.id.seekbarred)).getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
 		((SeekBar) findViewById(R.id.seekbargreen)).getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
 		((SeekBar) findViewById(R.id.seekbarblue)).getProgressDrawable().setColorFilter(Color.BLUE, PorterDuff.Mode.MULTIPLY);
-		int defaultColor = getResources().getColor(R.color.daydreamdefaultWidgetColor);
-		((SeekBar) findViewById(R.id.seekbarred)).setProgress(Color.red(defaultColor));
-		((SeekBar) findViewById(R.id.seekbargreen)).setProgress(Color.green(defaultColor));
-		((SeekBar) findViewById(R.id.seekbarblue)).setProgress(Color.blue(defaultColor));
-		((SeekBar) findViewById(R.id.seekbaralpha)).setProgress(Color.alpha(defaultColor));
+		int color = sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeycolor), getResources().getColor(R.color.daydreamdefaultWidgetColor));
+		((SeekBar) findViewById(R.id.seekbarred)).setProgress(Color.red(color));
+		((SeekBar) findViewById(R.id.seekbargreen)).setProgress(Color.green(color));
+		((SeekBar) findViewById(R.id.seekbarblue)).setProgress(Color.blue(color));
+		((SeekBar) findViewById(R.id.seekbaralpha)).setProgress(Color.alpha(color));
 		((SeekBar) findViewById(R.id.seekbarred)).setOnSeekBarChangeListener(colorseekbarlistener);
 		((SeekBar) findViewById(R.id.seekbargreen)).setOnSeekBarChangeListener(colorseekbarlistener);
 		((SeekBar) findViewById(R.id.seekbarblue)).setOnSeekBarChangeListener(colorseekbarlistener);
@@ -190,11 +192,11 @@ public class DaydreamConfigure extends Activity {
 		View viewblue = findViewById(R.id.viewblue);
 		View viewalpha = findViewById(R.id.viewalpha);
 		View viewcolor = findViewById(R.id.viewcolor);
-		SeekBar seekbarred = findViewById(R.id.seekbarred);
-		SeekBar seekbargreen = findViewById(R.id.seekbargreen);
-		SeekBar seekbarblue = findViewById(R.id.seekbarblue);
-		SeekBar seekbaralpha = findViewById(R.id.seekbaralpha);
-		int color = Color.argb(seekbaralpha.getProgress(), seekbarred.getProgress(), seekbargreen.getProgress(), seekbarblue.getProgress());
+		//SeekBar seekbarred = findViewById(R.id.seekbarred);
+		//SeekBar seekbargreen = findViewById(R.id.seekbargreen);
+		//SeekBar seekbarblue = findViewById(R.id.seekbarblue);
+		//SeekBar seekbaralpha = findViewById(R.id.seekbaralpha);
+		//int color = Color.argb(seekbaralpha.getProgress(), seekbarred.getProgress(), seekbargreen.getProgress(), seekbarblue.getProgress());
 		viewred.setBackgroundColor(Color.argb(255, Color.red(color), 0, 0));
 		viewgreen.setBackgroundColor(Color.argb(255, 0, Color.green(color), 0));
 		viewblue.setBackgroundColor(Color.argb(255, 0, 0, Color.blue(color)));
@@ -239,16 +241,29 @@ public class DaydreamConfigure extends Activity {
 		((EditText) findViewById(R.id.overhanginputdatedays)).addTextChangedListener(inputwatcher);
 		((EditText) findViewById(R.id.overhanginputtimehours)).addTextChangedListener(inputwatcher);
 		((EditText) findViewById(R.id.overhanginputdatemonths)).addTextChangedListener(inputwatcher);
+		
+		int test = context.getResources().getInteger(R.integer.daydreamdefaultminuteoverhang);
+		String test2 = context.getResources().getString(R.string.daydreamkeyminuteoverhang);
+		
+		((EditText) findViewById(R.id.overhanginputtimeminutes)).getText().append(String.valueOf(sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeyminuteoverhang), context.getResources().getInteger(R.integer.daydreamdefaultminuteoverhang))));
+		if (Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimeminutes)).getText().toString()) == (context.getResources().getInteger(R.integer.daydreamdefaultminuteoverhang))) ((EditText) findViewById(R.id.overhanginputtimeminutes)).getText().clear();
+		((EditText) findViewById(R.id.overhanginputtimehours)).getText().append(String.valueOf(sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeyhouroverhang), context.getResources().getInteger(R.integer.daydreamdefaulthouroverhang))));
+		if (Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimehours)).getText().toString()) == (context.getResources().getInteger(R.integer.daydreamdefaulthouroverhang))) ((EditText) findViewById(R.id.overhanginputtimehours)).getText().clear();
+		((EditText) findViewById(R.id.overhanginputdatedays)).getText().append(String.valueOf(sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeydayoverhang), context.getResources().getInteger(R.integer.daydreamdefaultdayoverhang))));
+		if (Integer.valueOf(((EditText) findViewById(R.id.overhanginputdatedays)).getText().toString()) == (context.getResources().getInteger(R.integer.daydreamdefaultdayoverhang))) ((EditText) findViewById(R.id.overhanginputdatedays)).getText().clear();
+		((EditText) findViewById(R.id.overhanginputdatemonths)).getText().append(String.valueOf(sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeymonthoverhang), context.getResources().getInteger(R.integer.daydreamdefaultmonthoverhang))));
+		if (Integer.valueOf(((EditText) findViewById(R.id.overhanginputdatemonths)).getText().toString()) == (context.getResources().getInteger(R.integer.daydreamdefaultmonthoverhang))) ((EditText) findViewById(R.id.overhanginputdatemonths)).getText().clear();
+		
 		CompoundButton.OnCheckedChangeListener updatepreviewlistener = new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				updatepreview();
 			}
 		};
-		((Switch) findViewById(R.id.hourselector)).setChecked(!DateFormat.is24HourFormat(DaydreamConfigure.this));
-		((Switch) findViewById(R.id.dateselector)).setChecked(DaydreamConfigure.this.getResources().getBoolean(R.bool.daydreamdefaultenabledate));
-		((Switch) findViewById(R.id.secondsselector)).setChecked(DaydreamConfigure.this.getResources().getBoolean(R.bool.daydreamdefaultenableseconds));
-		((Switch) findViewById(R.id.autohourselector)).setChecked(DaydreamConfigure.this.getResources().getBoolean(R.bool.daydreamdefaultautotimeselector));
+		((Switch) findViewById(R.id.hourselector)).setChecked(sharedPreferences.getBoolean(context.getResources().getString(R.string.daydreamkeytwelvehour), !DateFormat.is24HourFormat(context)));
+		((Switch) findViewById(R.id.dateselector)).setChecked(sharedPreferences.getBoolean(context.getResources().getString(R.string.daydreamkeyenabledate), context.getResources().getBoolean(R.bool.daydreamdefaultenabledate)));
+		((Switch) findViewById(R.id.secondsselector)).setChecked(sharedPreferences.getBoolean(context.getResources().getString(R.string.daydreamkeyenableseconds), context.getResources().getBoolean(R.bool.daydreamdefaultenableseconds)));
+		((Switch) findViewById(R.id.autohourselector)).setChecked(!sharedPreferences.contains(context.getResources().getString(R.string.daydreamkeytwelvehour)) && context.getResources().getBoolean(R.bool.daydreamdefaultautotimeselector));
 		findViewById(R.id.hourselector).setEnabled(!((Switch) findViewById(R.id.autohourselector)).isChecked());
 		((Switch) findViewById(R.id.hourselector)).setOnCheckedChangeListener(updatepreviewlistener);
 		((Switch) findViewById(R.id.dateselector)).setOnCheckedChangeListener(updatepreviewlistener);
@@ -257,10 +272,12 @@ public class DaydreamConfigure extends Activity {
 		Spinner fontspinner = findViewById(R.id.fontspinner);
 		ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
 		ArrayList<String> fonts = WidgetProvider.fonts;
+		int fontselected = 0;
 		for (int i = 0; i < fonts.size(); i++) {
 			String font = fonts.get(i);
-			RowItem item = new RowItem(DaydreamConfigure.this, font, i);
+			RowItem item = new RowItem(context, font, i);
 			if (item.getVisibility() == View.VISIBLE) rowItems.add(item);
+			if (font.equals(sharedPreferences.getString(context.getResources().getString(R.string.daydreamkeyfont), ""))) fontselected = i;
 		}
 		final SpinnerAdapter spinnerAdapter = new CustomSpinnerAdapter(DaydreamConfigure.this, R.layout.listitems_layout, R.id.spinnerview, rowItems);
 		fontspinner.setAdapter(spinnerAdapter);
@@ -274,9 +291,14 @@ public class DaydreamConfigure extends Activity {
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
-		((SeekBar) findViewById(R.id.datefontsizeseekbar)).setMax((DaydreamConfigure.this.getResources().getInteger(R.integer.maxfontscale) - 3) * 100);
+		if (fontselected != 0) fontspinner.setSelection(fontselected);
+		((SeekBar) findViewById(R.id.datefontsizeseekbar)).setMax((context.getResources().getInteger(R.integer.maxfontscale) - 3) * 100);
 		((SeekBar) findViewById(R.id.datefontsizeseekbar)).setProgress(
-				((SeekBar) findViewById(R.id.datefontsizeseekbar)).getMax() - (DaydreamConfigure.this.getResources().getInteger(R.integer.daydreamdefaultdatefontscale)-3) * 100
+				((SeekBar) findViewById(R.id.datefontsizeseekbar)).getMax() -
+				(context.getResources().getInteger(R.integer.maxfontscale) * 100 -
+				(int)(sharedPreferences.getFloat(context.getResources().getString(R.string.daydreamkeyfontscale),
+						((SeekBar) findViewById(R.id.datefontsizeseekbar)).getMax()*2 - context.getResources().getInteger(R.integer.daydreamdefaultdatefontscale) - 3
+				) * 100))
 		);
 		((SeekBar) findViewById(R.id.datefontsizeseekbar)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override

@@ -44,6 +44,7 @@ public class DaydreamProvider extends DreamService {
 		valueAnimator.setIntValues(1, 2);
 		duration = sharedPreferences.getBoolean(DaydreamProvider.this.getResources().getString(R.string.daydreamkeyenableseconds), DaydreamProvider.this.getResources().getBoolean(R.bool.daydreamdefaultenableseconds)) ? 1000 : 60000;
 		//valueAnimator.setDuration(duration);
+		lastupdate = -duration;
 		valueAnimator.addUpdateListener(updatelistener);
 		valueAnimator.start();
 	}
@@ -61,7 +62,7 @@ public class DaydreamProvider extends DreamService {
 		valueAnimator = null;
 	}
 	
-	private long lastupdate = 0;
+	private long lastupdate;
 	private int duration;
 	
 	ValueAnimator.AnimatorUpdateListener updatelistener = new ValueAnimator.AnimatorUpdateListener() {
