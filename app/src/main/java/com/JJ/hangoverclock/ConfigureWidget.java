@@ -1,5 +1,6 @@
 package com.JJ.hangoverclock;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -10,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
@@ -40,8 +40,11 @@ public class ConfigureWidget extends Activity {
 			SeekBar seekbarblue = findViewById(R.id.seekbarblue);
 			SeekBar seekbaralpha = findViewById(R.id.seekbaralpha);
 			int color = Color.argb(seekbaralpha.getProgress(), seekbarred.getProgress(), seekbargreen.getProgress(), seekbarblue.getProgress());
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			SharedPreferences.Editor editor = sharedPreferences.edit();
+			@SuppressLint("CommitPrefEdits")
+			SharedPreferences.Editor[] editors = {
+					getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), MODE_PRIVATE).edit(),
+					getSharedPreferences(context.getResources().getString(R.string.lastwidgetpreferencesfilename), MODE_PRIVATE).edit(),
+			};
 			int minuteoverhang;
 			try {
 				minuteoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimeminutes)).getText().toString());
@@ -86,45 +89,47 @@ public class ConfigureWidget extends Activity {
 			boolean twelvehours = ((Switch) findViewById(R.id.hourselector)).isChecked();
 			boolean enabledate = ((Switch) findViewById(R.id.dateselector)).isChecked();
 			boolean as = context.getResources().getBoolean(R.bool.alwayssavepreference); //wether preferences should always be saved
-			int[] flushkeys = {
-					R.string.keyenableseconds,
-					R.string.keyfont,
-					R.string.keyfontscale,
-					R.string.keyhouroverhang,
-					R.string.keyminuteoverhang,
-					R.string.keysecondoverhang,
-					R.string.keydayoverhang,
-					R.string.keymonthoverhang,
-					R.string.keycolor,
-					R.string.keytwelvehour,
-					R.string.keyenabledate,
-			};
-			for (int key:flushkeys) {
-				editor.remove(context.getResources().getString(key) + appWidgetID);
+			for (SharedPreferences.Editor editor:editors) {
+				int[] flushkeys = {
+						R.string.keyenableseconds,
+						R.string.keyfont,
+						R.string.keyfontscale,
+						R.string.keyhouroverhang,
+						R.string.keyminuteoverhang,
+						R.string.keysecondoverhang,
+						R.string.keydayoverhang,
+						R.string.keymonthoverhang,
+						R.string.keycolor,
+						R.string.keytwelvehour,
+						R.string.keyenabledate,
+				};
+				for (int key : flushkeys) {
+					editor.remove(context.getResources().getString(key) + appWidgetID);
+				}
+				if (as | context.getResources().getBoolean(R.bool.defaultenableseconds) != enableseconds)
+					editor.putBoolean(context.getResources().getString(R.string.keyenableseconds) + appWidgetID, enableseconds);
+				if (as | !context.getResources().getString(R.string.defaultfonttext).equals(font))
+					editor.putString(context.getResources().getString(R.string.keyfont) + appWidgetID, font);
+				if (as | (context.getResources().getInteger(R.integer.defaultdatefontscale) != fontscale & enabledate))
+					editor.putFloat(context.getResources().getString(R.string.keyfontscale) + appWidgetID, fontscale);
+				if (as | context.getResources().getInteger(R.integer.defaulthouroverhang) != houroverhang)
+					editor.putInt(context.getResources().getString(R.string.keyhouroverhang) + appWidgetID, houroverhang);
+				if (as | context.getResources().getInteger(R.integer.defaultminuteoverhang) != minuteoverhang)
+					editor.putInt(context.getResources().getString(R.string.keyminuteoverhang) + appWidgetID, minuteoverhang);
+				if (as | context.getResources().getInteger(R.integer.defaultsecondoverhang) != secondoverhang)
+					editor.putInt(context.getResources().getString(R.string.keysecondoverhang) + appWidgetID, secondoverhang);
+				if (as | context.getResources().getInteger(R.integer.defaultdayoverhang) != dayoverhang)
+					editor.putInt(context.getResources().getString(R.string.keydayoverhang) + appWidgetID, dayoverhang);
+				if (as | context.getResources().getInteger(R.integer.defaultmonthoverhang) != monthoverhang)
+					editor.putInt(context.getResources().getString(R.string.keymonthoverhang) + appWidgetID, monthoverhang);
+				if (as | context.getResources().getColor(R.color.defaultWidgetColor) != color)
+					editor.putInt(context.getResources().getString(R.string.keycolor) + appWidgetID, color);
+				if (!autotwelvehours)
+					editor.putBoolean(context.getResources().getString(R.string.keytwelvehour) + appWidgetID, twelvehours);
+				if (as | context.getResources().getBoolean(R.bool.defaultenabledate) != enabledate)
+					editor.putBoolean(context.getResources().getString(R.string.keyenabledate) + appWidgetID, enabledate);
+				editor.apply();
 			}
-			if (as | context.getResources().getBoolean(R.bool.defaultenableseconds) != enableseconds)
-				editor.putBoolean(context.getResources().getString(R.string.keyenableseconds) + appWidgetID, enableseconds);
-			if (as | !context.getResources().getString(R.string.defaultfonttext).equals(font))
-				editor.putString(context.getResources().getString(R.string.keyfont) + appWidgetID, font);
-			if (as | (context.getResources().getInteger(R.integer.defaultdatefontscale) != fontscale & enabledate))
-				editor.putFloat(context.getResources().getString(R.string.keyfontscale) + appWidgetID, fontscale);
-			if (as | context.getResources().getInteger(R.integer.defaulthouroverhang) != houroverhang)
-				editor.putInt(context.getResources().getString(R.string.keyhouroverhang) + appWidgetID, houroverhang);
-			if (as | context.getResources().getInteger(R.integer.defaultminuteoverhang) != minuteoverhang)
-				editor.putInt(context.getResources().getString(R.string.keyminuteoverhang) + appWidgetID, minuteoverhang);
-			if (as | context.getResources().getInteger(R.integer.defaultsecondoverhang) != secondoverhang)
-				editor.putInt(context.getResources().getString(R.string.keysecondoverhang) + appWidgetID, secondoverhang);
-			if (as | context.getResources().getInteger(R.integer.defaultdayoverhang) != dayoverhang)
-				editor.putInt(context.getResources().getString(R.string.keydayoverhang) + appWidgetID, dayoverhang);
-			if (as | context.getResources().getInteger(R.integer.defaultmonthoverhang) != monthoverhang)
-				editor.putInt(context.getResources().getString(R.string.keymonthoverhang) + appWidgetID, monthoverhang);
-			if (as | context.getResources().getColor(R.color.defaultWidgetColor) != color)
-				editor.putInt(context.getResources().getString(R.string.keycolor) + appWidgetID, color);
-			if (!autotwelvehours)
-				editor.putBoolean(context.getResources().getString(R.string.keytwelvehour) + appWidgetID, twelvehours);
-			if (as | context.getResources().getBoolean(R.bool.defaultenabledate) != enabledate)
-				editor.putBoolean(context.getResources().getString(R.string.keyenabledate) + appWidgetID, enabledate);
-			editor.apply();
 			// Push widget update to surface with newly set prefix
 			AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 			ClockWidgetProvider clockWidgetProvider = new ClockWidgetProvider();
@@ -189,7 +194,7 @@ public class ConfigureWidget extends Activity {
 		if (appWidgetID == AppWidgetManager.INVALID_APPWIDGET_ID) {
 			finish();
 		}
-		ClockWidgetProvider.collectfonts(ConfigureWidget.this);
+		FontsProvider.collectfonts(ConfigureWidget.this);
 		findViewById(R.id.save).setOnClickListener(savelistener);
 		// Change seekbar colors
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -280,7 +285,7 @@ public class ConfigureWidget extends Activity {
 		((Switch) findViewById(R.id.autohourselector)).setOnCheckedChangeListener(updatepreviewlistener);
 		Spinner fontspinner = findViewById(R.id.fontspinner);
 		ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
-		ArrayList<String> fonts = ClockWidgetProvider.fonts;
+		ArrayList<String> fonts = FontsProvider.getFonts();
 		for (int i = 0; i < fonts.size(); i++) {
 			String font = fonts.get(i);
 			RowItem item = new RowItem(ConfigureWidget.this, font, i);

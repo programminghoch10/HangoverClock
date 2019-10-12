@@ -9,7 +9,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -29,47 +28,14 @@ public class ClockWidgetProvider extends AppWidgetProvider {
 	//TODO add secondoverhang to widgetconfigure
 	//TODO move calculations to seperate Thread (at least on the configure activity)
 	//TODO add daydream/screensaver
-	//TODO finish wear stuff on branch weardev
+	//TODO get wearos watchface to work on branch weardev
 	//TODO add transparent background to widget
 	//TODO add config activity (like on samsung widgets)
 	//TODO add a companion app with timer, alarms and stopwatch
 	
 	static final String TAG = "ClockWidgetProvider";
-	public static ArrayList<String> fonts = new ArrayList<String>() {{
-		add("default");
-	}};
 	
 	private static String CLOCK_WIDGET_UPDATE = "com.JJ.hangoverclock.widgetupdate";
-	
-	public static void collectfonts(Context context) {
-		Field[] fontfields = R.font.class.getFields();
-		fonts.set(0, context.getString(R.string.defaultfonttext));
-		for (int i = 1; i < fontfields.length + 1; i++) {
-			Field fontfield = fontfields[i - 1];
-			String fontname;
-			try {
-				fontname = fontfield.getName().replace("_", " ");
-			} catch (Exception e) {
-				fontname = null;
-			}
-			//Log.d(TAG, "collectfonts: fontname " + i + " is \"" + fontname + "\"");
-			if (fontname != null) {
-				boolean indexexists;
-				try {
-					//noinspection ResultOfMethodCallIgnored
-					fonts.get(i);
-					indexexists = true;
-				} catch (IndexOutOfBoundsException indexerr) {
-					indexexists = false;
-				}
-				if (!indexexists) {
-					fonts.add(i, fontname);
-				} else {
-					fonts.set(i, fontname);
-				}
-			}
-		}
-	}
 	
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		for (int appWidgetId : appWidgetIds) {
@@ -83,7 +49,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences sharedPreferences = context.getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), Context.MODE_PRIVATE);
 		if (CLOCK_WIDGET_UPDATE.equals(intent.getAction())) {
 			ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
 			AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
@@ -116,7 +82,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
 		super.onDisabled(context);
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		alarmManager.cancel(createClockTickIntent(context));
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences sharedPreferences = context.getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		editor.clear();
 		editor.commit(); //commit is intentional, i want to wait until cleanup is done
@@ -128,14 +94,14 @@ public class ClockWidgetProvider extends AppWidgetProvider {
 		super.onEnabled(context);
 		Log.i(TAG, "Hello World!");
 		setAlarmManager(context);
-		collectfonts(context);
+		FontsProvider.collectfonts(context);
 	}
 	
 	private void setAlarmManager(Context context) {
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
-		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+		if (context.getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), Context.MODE_PRIVATE).getBoolean(
 				context.getResources().getString(R.string.keyincreaserefreshrate),
 				context.getResources().getBoolean(R.bool.defaultincreaserefreshrate))) {
 			calendar.add(Calendar.SECOND, 1);
@@ -146,7 +112,7 @@ public class ClockWidgetProvider extends AppWidgetProvider {
 	}
 	
 	public void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences sharedPreferences = context.getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), Context.MODE_PRIVATE);
 		int houroverhang = sharedPreferences.getInt(context.getResources().getString(R.string.keyhouroverhang) + appWidgetId, context.getResources().getInteger(R.integer.defaulthouroverhang));
 		int minuteoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.keyminuteoverhang) + appWidgetId, context.getResources().getInteger(R.integer.defaultminuteoverhang));
 		int secondoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.keysecondoverhang) + appWidgetId, context.getResources().getInteger(R.integer.defaultsecondoverhang));
