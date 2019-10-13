@@ -19,7 +19,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class ClockWidgetProvider extends AppWidgetProvider {
+public class WidgetProvider extends AppWidgetProvider {
 	
 	// Future stuff to enhance the app/widget
 	//TODO automatic (time based) color change
@@ -27,13 +27,12 @@ public class ClockWidgetProvider extends AppWidgetProvider {
 	//TODO switch to longs when not using a day to increase the possibilitys
 	//TODO add secondoverhang to widgetconfigure
 	//TODO move calculations to seperate Thread (at least on the configure activity)
-	//TODO add daydream/screensaver
-	//TODO get wearos watchface to work on branch weardev
+	//TODO finish wearos watchface and config on branch weardev
 	//TODO add transparent background to widget
 	//TODO add config activity (like on samsung widgets)
 	//TODO add a companion app with timer, alarms and stopwatch
 	
-	static final String TAG = "ClockWidgetProvider";
+	static final String TAG = "WidgetProvider";
 	
 	private static String CLOCK_WIDGET_UPDATE = "com.JJ.hangoverclock.widgetupdate";
 	

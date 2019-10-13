@@ -12,12 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ConfigureWidget">
+        <!-- widget stuff -->
+        <activity android:name=".WidgetConfigure">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-        <receiver android:name=".ClockWidgetProvider">
+        <receiver android:name=".WidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.JJ.hangoverclock.widgetupdate" />
@@ -26,6 +27,23 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/appwidgetproviderinfo" />
         </receiver>
+        <!-- daydream stuff -->
+        <activity android:name=".DaydreamConfigure" />
+        <service
+            android:name=".DaydreamProvider"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:icon="@drawable/clockc"
+            android:permission="android.permission.BIND_DREAM_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.dreams.DreamService" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.dream"
+                android:resource="@xml/dreaminfo" />
+        </service>
+
     </application>
 
 </manifest>

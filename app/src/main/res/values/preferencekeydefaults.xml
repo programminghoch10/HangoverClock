@@ -9,5 +9,6 @@
     <integer name="defaultsecondoverhang">0</integer>
     <integer name="defaultminuteoverhang">0</integer>
     <integer name="defaulthouroverhang">1</integer>
+    <integer name="defaultdatefontscale">5</integer> <!-- scale date between 3 (largest) and maxfontscale (smallest) -->
     <bool name="defaultincreaserefreshrate">false</bool>
 </resources>

@@ -6,6 +6,6 @@
     android:updatePeriodMillis="1800000"
     android:previewImage="@mipmap/clock"
     android:initialLayout="@layout/widget"
-    android:configure="com.JJ.hangoverclock.ConfigureWidget"
+    android:configure="com.JJ.hangoverclock.WidgetConfigure"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen" />

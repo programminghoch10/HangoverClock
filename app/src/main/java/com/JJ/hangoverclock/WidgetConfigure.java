@@ -28,13 +28,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class ConfigureWidget extends Activity {
+public class WidgetConfigure extends Activity {
 	
-	String TAG = "ConfigureWidget";
+	String TAG = "WidgetConfigure";
 	int appWidgetID = AppWidgetManager.INVALID_APPWIDGET_ID;
 	View.OnClickListener savelistener = new View.OnClickListener() {
 		public void onClick(View v) {
-			final Context context = ConfigureWidget.this;
+			final Context context = WidgetConfigure.this;
 			SeekBar seekbarred = findViewById(R.id.seekbarred);
 			SeekBar seekbargreen = findViewById(R.id.seekbargreen);
 			SeekBar seekbarblue = findViewById(R.id.seekbarblue);
@@ -132,8 +132,8 @@ public class ConfigureWidget extends Activity {
 			}
 			// Push widget update to surface with newly set prefix
 			AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-			ClockWidgetProvider clockWidgetProvider = new ClockWidgetProvider();
-			clockWidgetProvider.updateAppWidget(context, appWidgetManager, appWidgetID);
+			WidgetProvider widgetProvider = new WidgetProvider();
+			widgetProvider.updateAppWidget(context, appWidgetManager, appWidgetID);
 			// Make sure we pass back the original appWidgetId
 			Intent resultValue = new Intent();
 			resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetID);
@@ -171,7 +171,7 @@ public class ConfigureWidget extends Activity {
 		}
 	};
 	
-	public ConfigureWidget() {
+	public WidgetConfigure() {
 		super();
 	}
 	
@@ -194,7 +194,7 @@ public class ConfigureWidget extends Activity {
 		if (appWidgetID == AppWidgetManager.INVALID_APPWIDGET_ID) {
 			finish();
 		}
-		FontsProvider.collectfonts(ConfigureWidget.this);
+		FontsProvider.collectfonts(WidgetConfigure.this);
 		findViewById(R.id.save).setOnClickListener(savelistener);
 		// Change seekbar colors
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -274,10 +274,10 @@ public class ConfigureWidget extends Activity {
 				updatepreview();
 			}
 		};
-		((Switch) findViewById(R.id.hourselector)).setChecked(!DateFormat.is24HourFormat(ConfigureWidget.this));
-		((Switch) findViewById(R.id.dateselector)).setChecked(ConfigureWidget.this.getResources().getBoolean(R.bool.defaultenabledate));
-		((Switch) findViewById(R.id.secondsselector)).setChecked(ConfigureWidget.this.getResources().getBoolean(R.bool.defaultenableseconds));
-		((Switch) findViewById(R.id.autohourselector)).setChecked(ConfigureWidget.this.getResources().getBoolean(R.bool.defaultautotimeselector));
+		((Switch) findViewById(R.id.hourselector)).setChecked(!DateFormat.is24HourFormat(WidgetConfigure.this));
+		((Switch) findViewById(R.id.dateselector)).setChecked(WidgetConfigure.this.getResources().getBoolean(R.bool.defaultenabledate));
+		((Switch) findViewById(R.id.secondsselector)).setChecked(WidgetConfigure.this.getResources().getBoolean(R.bool.defaultenableseconds));
+		((Switch) findViewById(R.id.autohourselector)).setChecked(WidgetConfigure.this.getResources().getBoolean(R.bool.defaultautotimeselector));
 		findViewById(R.id.hourselector).setEnabled(!((Switch) findViewById(R.id.autohourselector)).isChecked());
 		((Switch) findViewById(R.id.hourselector)).setOnCheckedChangeListener(updatepreviewlistener);
 		((Switch) findViewById(R.id.dateselector)).setOnCheckedChangeListener(updatepreviewlistener);
@@ -288,10 +288,10 @@ public class ConfigureWidget extends Activity {
 		ArrayList<String> fonts = FontsProvider.getFonts();
 		for (int i = 0; i < fonts.size(); i++) {
 			String font = fonts.get(i);
-			RowItem item = new RowItem(ConfigureWidget.this, font, i);
+			RowItem item = new RowItem(WidgetConfigure.this, font, i);
 			if (item.getVisibility() == View.VISIBLE) rowItems.add(item);
 		}
-		final SpinnerAdapter spinnerAdapter = new CustomSpinnerAdapter(ConfigureWidget.this, R.layout.listitems_layout, R.id.spinnerview, rowItems);
+		final SpinnerAdapter spinnerAdapter = new CustomSpinnerAdapter(WidgetConfigure.this, R.layout.listitems_layout, R.id.spinnerview, rowItems);
 		fontspinner.setAdapter(spinnerAdapter);
 		fontspinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
 			@Override
@@ -303,10 +303,9 @@ public class ConfigureWidget extends Activity {
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
-		((SeekBar) findViewById(R.id.datefontsizeseekbar)).setMax((ConfigureWidget.this.getResources().getInteger(R.integer.maxfontscale) - 3) * 100);
+		((SeekBar) findViewById(R.id.datefontsizeseekbar)).setMax((WidgetConfigure.this.getResources().getInteger(R.integer.maxfontscale) - 3) * 100);
 		((SeekBar) findViewById(R.id.datefontsizeseekbar)).setProgress(
-				ConfigureWidget.this.getResources().getInteger(R.integer.defaultdatefontscale) * 100
-						- ((SeekBar) findViewById(R.id.datefontsizeseekbar)).getMax()
+				((SeekBar) findViewById(R.id.datefontsizeseekbar)).getMax() - (WidgetConfigure.this.getResources().getInteger(R.integer.defaultdatefontscale)-3) * 100
 		);
 		((SeekBar) findViewById(R.id.datefontsizeseekbar)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
@@ -336,7 +335,7 @@ public class ConfigureWidget extends Activity {
 	private void updatepreview() {
 		//Log.d(TAG, "updatepreview: i have been called");
 		//Log.d(TAG, "updatepreview: trace is " + Arrays.toString(Thread.currentThread().getStackTrace()));
-		final Context context = ConfigureWidget.this;
+		final Context context = WidgetConfigure.this;
 		ImageView imageView = findViewById(R.id.previewclock);
 		boolean withdate = ((Switch) findViewById(R.id.dateselector)).isChecked();
 		int minuteoverhang;
@@ -392,7 +391,7 @@ public class ConfigureWidget extends Activity {
 		}
 		if (((Switch) findViewById(R.id.autohourselector)).isChecked()) {
 			findViewById(R.id.hourselector).setEnabled(false);
-			((Switch) findViewById(R.id.hourselector)).setChecked(!DateFormat.is24HourFormat(ConfigureWidget.this));
+			((Switch) findViewById(R.id.hourselector)).setChecked(!DateFormat.is24HourFormat(WidgetConfigure.this));
 		} else {
 			findViewById(R.id.hourselector).setEnabled(true);
 		}
