@@ -16,7 +16,7 @@ import androidx.core.content.res.ResourcesCompat;
 import java.util.Calendar;
 import java.util.Locale;
 
-class WidgetGenerator {
+class ClockGenerator {
     
     static Bitmap generateWidget(Context context, long timestamp,
                                  int secondoverhang, int minuteoverhang, int houroverhang,

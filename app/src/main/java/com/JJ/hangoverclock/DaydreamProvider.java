@@ -37,7 +37,7 @@ public class DaydreamProvider extends DreamService {
 			float fontscale = sharedPreferences.getFloat(context.getResources().getString(R.string.daydreamkeyfontscale), context.getResources().getInteger(R.integer.daydreamdefaultdatefontscale));
 			int color = sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeycolor), context.getResources().getColor(R.color.daydreamdefaultWidgetColor));
 			((ImageView) findViewById(R.id.daydreamimageview)).setImageBitmap(
-					WidgetGenerator.generateWidget(
+					ClockGenerator.generateWidget(
 							DaydreamProvider.this, Calendar.getInstance().getTimeInMillis(),
 							secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
 							twelvehour, enableseconds, enabledate, font, color, fontscale

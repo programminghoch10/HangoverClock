@@ -15,8 +15,6 @@ import android.widget.RemoteViews;
 
 import androidx.core.app.AlarmManagerCompat;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class WidgetProvider extends AppWidgetProvider {
@@ -125,7 +123,7 @@ public class WidgetProvider extends AppWidgetProvider {
 		int color = sharedPreferences.getInt(context.getResources().getString(R.string.keycolor) + appWidgetId, context.getResources().getColor(R.color.defaultWidgetColor));
 		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
 		remoteViews.setImageViewBitmap(R.id.clock,
-				WidgetGenerator.generateWidget(
+				ClockGenerator.generateWidget(
 						context, Calendar.getInstance().getTimeInMillis(),
 						secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
 						twelvehour, enableseconds, enabledate, font, color, fontscale)

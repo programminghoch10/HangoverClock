@@ -13,7 +13,6 @@ import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -161,7 +160,7 @@ public class DaydreamConfigure extends Activity {
 		super.onCreate(savedInstanceState);
 		// Set the view layout resource to use.
 		setContentView(R.layout.daydream_configure);
-		WidgetProvider.collectfonts(DaydreamConfigure.this);
+		FontsProvider.collectfonts(DaydreamConfigure.this);
 		SharedPreferences sharedPreferences = getSharedPreferences(DaydreamConfigure.this.getResources().getString(R.string.daydreampreferencesfilename), MODE_PRIVATE);
 		Context context = DaydreamConfigure.this;
 		// Change seekbar colors
@@ -271,7 +270,7 @@ public class DaydreamConfigure extends Activity {
 		((Switch) findViewById(R.id.autohourselector)).setOnCheckedChangeListener(updatepreviewlistener);
 		Spinner fontspinner = findViewById(R.id.fontspinner);
 		ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
-		ArrayList<String> fonts = WidgetProvider.fonts;
+		ArrayList<String> fonts = FontsProvider.getFonts();
 		int fontselected = 0;
 		for (int i = 0; i < fonts.size(); i++) {
 			String font = fonts.get(i);
@@ -406,7 +405,7 @@ public class DaydreamConfigure extends Activity {
 			//Expected if called to early
 			font = context.getResources().getString(R.string.defaultfonttext);
 		}
-		Bitmap bitmap = WidgetGenerator.generateWidget(
+		Bitmap bitmap = ClockGenerator.generateWidget(
 				context, Calendar.getInstance().getTimeInMillis(),
 				secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
 				twelvehour, withseconds, withdate,

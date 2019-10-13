@@ -404,7 +404,7 @@ public class WidgetConfigure extends Activity {
 			//Expected if called to early
 			font = context.getResources().getString(R.string.defaultfonttext);
 		}
-		Bitmap bitmap = WidgetGenerator.generateWidget(
+		Bitmap bitmap = ClockGenerator.generateWidget(
 				context, Calendar.getInstance().getTimeInMillis(),
 				secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
 				twelvehour, withseconds, withdate,
