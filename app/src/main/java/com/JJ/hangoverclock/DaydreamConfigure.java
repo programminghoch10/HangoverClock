@@ -75,30 +75,30 @@ public class DaydreamConfigure extends Activity {
 			minuteoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimeminutes)).getText().toString());
 		} catch (NumberFormatException numerr) {
 			//Expected error if no value was choosen, just set to default value
-			minuteoverhang = getResources().getInteger(R.integer.defaultminuteoverhang);
+			minuteoverhang = getResources().getInteger(R.integer.daydreamdefaultminuteoverhang);
 		}
 		int houroverhang;
 		try {
 			houroverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimehours)).getText().toString());
 		} catch (NumberFormatException numerr) {
 			//Expected error if no value was choosen, just set to default value
-			houroverhang = context.getResources().getInteger(R.integer.defaulthouroverhang);
+			houroverhang = context.getResources().getInteger(R.integer.daydreamdefaulthouroverhang);
 		}
-		int secondoverhang = context.getResources().getInteger(R.integer.defaultsecondoverhang);
-		secondoverhang = minuteoverhang;
+		int secondoverhang = context.getResources().getInteger(R.integer.daydreamdefaultsecondoverhang);
+		secondoverhang = 0;
 		int dayoverhang;
 		try {
 			dayoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputdatedays)).getText().toString());
 		} catch (NumberFormatException numerr) {
 			//Expected error if no value was choosen, just set to default value
-			dayoverhang = getResources().getInteger(R.integer.defaultdayoverhang);
+			dayoverhang = getResources().getInteger(R.integer.daydreamdefaultdayoverhang);
 		}
 		int monthoverhang;
 		try {
 			monthoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputdatemonths)).getText().toString());
 		} catch (NumberFormatException numerr) {
 			//Expected error if no value was choosen, just set to default value
-			monthoverhang = context.getResources().getInteger(R.integer.defaultmonthoverhang);
+			monthoverhang = context.getResources().getInteger(R.integer.daydreamdefaultmonthoverhang);
 		}
 		String font;
 		try {
@@ -115,17 +115,17 @@ public class DaydreamConfigure extends Activity {
 		boolean enabledate = ((Switch) findViewById(R.id.dateselector)).isChecked();
 		boolean as = context.getResources().getBoolean(R.bool.alwayssavepreference); //wether preferences should always be saved
 		int[] flushkeys = {
-				R.string.keyenableseconds,
-				R.string.keyfont,
-				R.string.keyfontscale,
-				R.string.keyhouroverhang,
-				R.string.keyminuteoverhang,
-				R.string.keysecondoverhang,
-				R.string.keydayoverhang,
-				R.string.keymonthoverhang,
-				R.string.keycolor,
-				R.string.keytwelvehour,
-				R.string.keyenabledate,
+				R.string.daydreamkeyenableseconds,
+				R.string.daydreamkeyfont,
+				R.string.daydreamkeyfontscale,
+				R.string.daydreamkeyhouroverhang,
+				R.string.daydreamkeyminuteoverhang,
+				R.string.daydreamkeysecondoverhang,
+				R.string.daydreamkeydayoverhang,
+				R.string.daydreamkeymonthoverhang,
+				R.string.daydreamkeycolor,
+				R.string.daydreamkeytwelvehour,
+				R.string.daydreamkeyenabledate,
 		};
 		for (int key : flushkeys) {
 			editor.remove(context.getResources().getString(key));
@@ -146,7 +146,7 @@ public class DaydreamConfigure extends Activity {
 			editor.putInt(context.getResources().getString(R.string.daydreamkeydayoverhang), dayoverhang);
 		if (as | context.getResources().getInteger(R.integer.daydreamdefaultmonthoverhang) != monthoverhang)
 			editor.putInt(context.getResources().getString(R.string.daydreamkeymonthoverhang), monthoverhang);
-		if (as | context.getResources().getColor(R.color.daydreamdefaultWidgetColor) != color)
+		if (as | context.getResources().getColor(R.color.daydreamdefaultclockcolor) != color)
 			editor.putInt(context.getResources().getString(R.string.daydreamkeycolor), color);
 		if (!autotwelvehours)
 			editor.putBoolean(context.getResources().getString(R.string.daydreamkeytwelvehour), twelvehours);
@@ -172,7 +172,7 @@ public class DaydreamConfigure extends Activity {
 		((SeekBar) findViewById(R.id.seekbarred)).getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
 		((SeekBar) findViewById(R.id.seekbargreen)).getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
 		((SeekBar) findViewById(R.id.seekbarblue)).getProgressDrawable().setColorFilter(Color.BLUE, PorterDuff.Mode.MULTIPLY);
-		int color = sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeycolor), getResources().getColor(R.color.daydreamdefaultWidgetColor));
+		int color = sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeycolor), getResources().getColor(R.color.daydreamdefaultclockcolor));
 		((SeekBar) findViewById(R.id.seekbarred)).setProgress(Color.red(color));
 		((SeekBar) findViewById(R.id.seekbargreen)).setProgress(Color.green(color));
 		((SeekBar) findViewById(R.id.seekbarblue)).setProgress(Color.blue(color));
@@ -353,8 +353,8 @@ public class DaydreamConfigure extends Activity {
 			//Expected error if no value was choosen, just set to default value
 			houroverhang = context.getResources().getInteger(R.integer.daydreamdefaulthouroverhang);
 		}
-		int secondoverhang = context.getResources().getInteger(R.integer.defaultsecondoverhang);
-		secondoverhang = minuteoverhang;
+		int secondoverhang = context.getResources().getInteger(R.integer.daydreamdefaultsecondoverhang);
+		secondoverhang = 0;
 		int dayoverhang;
 		try {
 			dayoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputdatedays)).getText().toString());

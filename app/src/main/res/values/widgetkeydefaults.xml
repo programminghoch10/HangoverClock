@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- defaults for widgets -->
+    <bool name="widgetdefaultenableseconds">false</bool>
+    <bool name="widgetdefaultenabledate">false</bool>
+    <bool name="widgetdefaultautotimeselector">true</bool>
+    <integer name="widgetdefaultdayoverhang">0</integer>
+    <integer name="widgetdefaultmonthoverhang">0</integer>
+    <integer name="widgetdefaultsecondoverhang">0</integer>
+    <integer name="widgetdefaultminuteoverhang">0</integer>
+    <integer name="widgetdefaulthouroverhang">1</integer>
+    <integer name="widgetdefaultdatefontscale">5</integer> <!-- scale date between 3 (largest) and maxfontscale (smallest) -->
+    <bool name="widgetdefaultincreaserefreshrate">false</bool>
+</resources>

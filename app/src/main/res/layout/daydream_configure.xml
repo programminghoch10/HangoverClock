@@ -257,7 +257,7 @@
                         android:id="@+id/autohourselector"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="@bool/defaultautotimeselector"
+                        android:checked="@bool/daydreamdefaultautotimeselector"
                         android:switchPadding="10dp"
                         android:text="@string/usesystemtimeformat" />
 
@@ -298,7 +298,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:max="@integer/maxfontscale"
-                        android:progress="@integer/defaultdatefontscale" />
+                        android:progress="@integer/daydreamdefaultdatefontscale" />
                 </LinearLayout>
 
                 <View
