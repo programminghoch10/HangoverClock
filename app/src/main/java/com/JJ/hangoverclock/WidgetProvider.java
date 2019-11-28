@@ -19,18 +19,6 @@ import java.util.Calendar;
 
 public class WidgetProvider extends AppWidgetProvider {
 	
-	// Future stuff to enhance the app/widget
-	//TODO automatic (time based) color change
-	//TODO automatic (background based) color change
-	//TODO automatic random overhang
-	//TODO switch to longs when not using a day to increase the possibilitys
-	//TODO add secondoverhang to configure, currently set to 0
-	//TODO move calculations to seperate Thread (at least on the configure activity)
-	//TODO finish wearos watchface and config on branch weardev
-	//TODO add transparent background to widget
-	//TODO add config activity (like on samsung widgets)
-	//TODO add a companion app with timer, alarms and stopwatch
-	
 	static final String TAG = "WidgetProvider";
 	
 	private static String CLOCK_WIDGET_UPDATE = "com.JJ.hangoverclock.widgetupdate";
