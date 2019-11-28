@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.service.dreams.DreamService;
 import android.text.format.DateFormat;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
@@ -50,17 +51,15 @@ public class DaydreamProvider extends DreamService {
 	@Override
 	public void onAttachedToWindow() {
 		super.onAttachedToWindow();
-		
-		// Exit dream upon user touch
-		setInteractive(false);
-		// Hide system UI
-		setFullscreen(true);
-		// Set screen brightness
-		setScreenBright(false);
-		// Set the dream layout
-		setContentView(R.layout.daydream);
+		setInteractive(false);	// Exit dream upon user touch
+		//setFullscreen(true);	// Hide status bar
+		int flags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) flags |= View.SYSTEM_UI_FLAG_IMMERSIVE;
+		getWindow().getDecorView().setSystemUiVisibility(flags | getWindow().getDecorView().getSystemUiVisibility()); //hides nav bar
+		//TODO: prevent status bar to go to light mode
+		setScreenBright(false);	// wether to set screen brightness to 100%
+		setContentView(R.layout.daydream);	// Set the dream layout
 		sharedPreferences = getSharedPreferences(DaydreamProvider.this.getResources().getString(R.string.daydreampreferencesfilename), MODE_PRIVATE);
-		
 	}
 	
 	@Override
