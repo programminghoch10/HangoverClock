@@ -11,7 +11,7 @@ class FontsProvider {
 	}};
 	
 	static ArrayList<String> getFonts() {
-		return fonts;
+		return new ArrayList<>(fonts);
 	}
 	
 	static void collectfonts(Context context) {
