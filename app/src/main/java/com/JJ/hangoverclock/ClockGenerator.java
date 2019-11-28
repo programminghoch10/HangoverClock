@@ -108,12 +108,13 @@ class ClockGenerator {
 	}
 	
 	private static String calculatetime(long timestamp, int houroverhang, int minuteoverhang, int secondoverhang, boolean twelvehours, boolean withseconds) {
-		//inputs: long timestamp in millis
-		//        int overhang of hours
-		//        int overhang of minutes
-		//        int overhang of seconds
-		//        boolean if clock is using 12 hour format
-		//        boolean if seconds should be shown
+		/*inputs: long timestamp in millis
+		 *        int overhang of hours
+		 *        int overhang of minutes
+		 *        int overhang of seconds
+		 *        boolean wether clock is using 12 hour format
+		 *        boolean wether seconds should be shown
+		 */
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(timestamp);
 		int twelvehoursnumber = twelvehours ? 12 : 24;
@@ -134,73 +135,20 @@ class ClockGenerator {
 			return String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m) + ":" + String.format(Locale.GERMANY, "%02d", s);
 		return String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m);
 	}
-    
-    /*private static String calculatetimeold(long timestamp, int houroverhang, int minuteoverhang, int secondoverhang, boolean twelvehours, boolean withseconds) {
-        //inputs: long timestamp in millis
-        //        int overhang of minutes(/seconds)
-        //        int overhang of hours
-        //        boolean if clock is using 12 hour format
-        //        boolean if seconds shall be shown
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(timestamp);
-        long h;
-        if (twelvehours) {
-            h = calendar.get(Calendar.HOUR);
-        } else {
-            h = calendar.get(Calendar.HOUR_OF_DAY);
-        }
-        long m = calendar.get(Calendar.MINUTE);
-        long s = 0;
-        if (withseconds) s = calendar.get(Calendar.SECOND);
-        while (m < minuteoverhang | h < houroverhang | (withseconds & s < secondoverhang)) {
-            if (m < minuteoverhang) {
-                m += 60;
-                h--;
-            }
-            if (h < houroverhang) {
-                h += 24;
-                if (twelvehours) h -= 12;
-            }
-            if (withseconds & s < secondoverhang) {
-                s += 60;
-                m--;
-            }
-        }
-        if (h < houroverhang) {
-            h += 24;
-            if (twelvehours) h -= 12;
-        }
-        if (withseconds)
-            return String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m) + ":" + String.format(Locale.GERMANY, "%02d", s);
-        return String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m);
-    }*/
-    
-    /*private static String calculatedate(long timestamp, int dayoverhang, int monthoverhang) {
-        // i guess this function is redundant now, meh still gonna leave it here, i dont wanna scrap all that effort
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(timestamp);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int year = calendar.get(Calendar.YEAR);
-        while (day <= dayoverhang | month <= monthoverhang) {
-            if (day <= dayoverhang) {
-                calendar.add(Calendar.MONTH, -1);
-                day += calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-                month -= 1;
-            }
-            if (month <= monthoverhang + 1) {
-                month += calendar.getMaximum(Calendar.MONTH) + 1;
-                year -= 1;
-                calendar.add(Calendar.YEAR, -1);
-            }
-        }
-        return day + "." + month + "." + year;
-    }*/
-	
+ 
 	private static String[] combinedcalculate(long timestamp,
 											  int monthoverhang, int dayoverhang,
 											  int houroverhang, int minuteoverhang, int secondoverhang,
 											  boolean withseconds, boolean twelvehours) {
+		/*inputs: long timestamp in millis
+		 *        int overhang of months
+		 *        int overhanf of days
+		 *        int overhang of hours
+		 *        int overhang of minutes
+		 *        int overhang of seconds
+		 *        boolean wether seconds should be showns
+		 *        boolean wether clock is using 12 hour format
+		 */
 		String[] returnstring = new String[2];
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(timestamp);
@@ -210,7 +158,7 @@ class ClockGenerator {
 		long h = calendar.get(Calendar.HOUR_OF_DAY);
 		long m = calendar.get(Calendar.MINUTE);
 		long s = calendar.get(Calendar.SECOND);
-		//FIXME ANR when going up to integer limit
+		//FIXME: ANR when going up to integer limit, don't know if it even is fixable, would need to overhaul entire calcutlation
 		while (day <= dayoverhang | month <= monthoverhang | m < minuteoverhang | h < houroverhang | (withseconds & s < secondoverhang)) {
 			if (withseconds & s < secondoverhang) {
 				s += 60;
@@ -232,7 +180,7 @@ class ClockGenerator {
 				day += calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 				month -= 1;
 			}
-			if (month <= monthoverhang + 1) {
+			if (month <= monthoverhang) {
 				month += calendar.getMaximum(Calendar.MONTH) + 1;
 				year -= 1;
 				calendar.add(Calendar.YEAR, -1);
@@ -247,16 +195,19 @@ class ClockGenerator {
 	}
 	
 	private static int calculatefontsize(Context context, String text, String font) {
-		String TAG = "calculatefontsize";
+		/*calculates the maximum possible textsize which fits into a widget
+		 * inputs: context
+		 *         String input text, which should fit into widget
+		 *         String font name used for the text
+		 */
+		//String TAG = "calculatefontsize";
 		int cap = 5000; //max iterations cap to preventto crash rather then ANR
 		Typeface typeface = Typeface.defaultFromStyle(Typeface.NORMAL);
 		font = font.replace(" ", "_");
 		if (!context.getString(R.string.defaultfonttext).equals(font)) {
 			try {
 				typeface = ResourcesCompat.getFont(context, context.getResources().getIdentifier(font, "font", context.getPackageName()));
-			} catch (Resources.NotFoundException notfounderr) {
-				//expected if no font was specified
-			}
+			} catch (Resources.NotFoundException ignored) {}	//expected if no font was specified
 		}
 		Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		Point size = new Point();
@@ -281,11 +232,7 @@ class ClockGenerator {
 			fontsize++;
 			count++;
 			//i wasted so many days just to find out that my first formula works best :(
-			if ((float)currentbytes/maxbytes<1) fontsize*=(1-(float)currentbytes/maxbytes)/2+1; //works in about 18 iterations
-			//if ((float)currentbytes/maxbytes<1) fontsize = fontsize * (int)(0+((1*(Math.exp(-currentbytes+(maxbytes/2)))+maxbytes)/maxbytes)-0); //not working at all, hits the cap
-			//if ((float)currentbytes/maxbytes<1) fontsize = ((Math.log((y-e)/a))/1)-0; //unfinished
-			//if ((float)currentbytes/maxbytes<1) fontsize = (int)(fontsize * (1/((float)currentbytes/maxbytes))); //big overshoot
-			//if ((float)currentbytes/maxbytes<1) fontsize = (int)(fontsize * (5*Math.exp(-9*((float)currentbytes/maxbytes))+1)); //its alright
+			if ((float)currentbytes/maxbytes<1) fontsize*=(1-(float)currentbytes/maxbytes)/2+1;
 			paint.setTextSize(fontsize);
 			int pad = (fontsize / 9);
 			int textWidth = (int) (paint.measureText(text) + pad * 2);
