@@ -84,8 +84,13 @@ public class DaydreamConfigure extends Activity {
 			//Expected error if no value was choosen, just set to default value
 			houroverhang = context.getResources().getInteger(R.integer.daydreamdefaulthouroverhang);
 		}
-		int secondoverhang = context.getResources().getInteger(R.integer.daydreamdefaultsecondoverhang);
-		secondoverhang = 0;
+		int secondoverhang;
+		try {
+			secondoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimeseconds)).getText().toString());
+		} catch (NumberFormatException numerr) {
+			//Expected error if no value was choosen, just set to default value
+			secondoverhang = getResources().getInteger(R.integer.daydreamdefaultsecondoverhang);
+		}
 		int dayoverhang;
 		try {
 			dayoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputdatedays)).getText().toString());
@@ -237,9 +242,6 @@ public class DaydreamConfigure extends Activity {
 		((EditText) findViewById(R.id.overhanginputtimehours)).addTextChangedListener(inputwatcher);
 		((EditText) findViewById(R.id.overhanginputdatemonths)).addTextChangedListener(inputwatcher);
 		
-		int test = context.getResources().getInteger(R.integer.daydreamdefaultminuteoverhang);
-		String test2 = context.getResources().getString(R.string.daydreamkeyminuteoverhang);
-		
 		((EditText) findViewById(R.id.overhanginputtimeminutes)).getText().append(String.valueOf(sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeyminuteoverhang), context.getResources().getInteger(R.integer.daydreamdefaultminuteoverhang))));
 		if (Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimeminutes)).getText().toString()) == (context.getResources().getInteger(R.integer.daydreamdefaultminuteoverhang)))
 			((EditText) findViewById(R.id.overhanginputtimeminutes)).getText().clear();
@@ -265,19 +267,43 @@ public class DaydreamConfigure extends Activity {
 		((Switch) findViewById(R.id.autohourselector)).setChecked(!sharedPreferences.contains(context.getResources().getString(R.string.daydreamkeytwelvehour)) && context.getResources().getBoolean(R.bool.daydreamdefaultautotimeselector));
 		findViewById(R.id.hourselector).setEnabled(!((Switch) findViewById(R.id.autohourselector)).isChecked());
 		((Switch) findViewById(R.id.hourselector)).setOnCheckedChangeListener(updatepreviewlistener);
-		((Switch) findViewById(R.id.dateselector)).setOnCheckedChangeListener(updatepreviewlistener);
+		((Switch) findViewById(R.id.dateselector)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				EditText[] editTexts = {
+						findViewById(R.id.overhanginputtimeminutes),
+						findViewById(R.id.overhanginputtimehours),
+				};
+				if (isChecked) {
+					for (EditText editText : editTexts) {
+						try {
+							if (Integer.valueOf((editText.getText().toString())) >= (2 ^ 16))
+								editText.setText("");
+						} catch (NumberFormatException ignored) {}
+					}
+				}
+				updatepreview();
+			}
+		});
 		((Switch) findViewById(R.id.secondsselector)).setOnCheckedChangeListener(updatepreviewlistener);
 		((Switch) findViewById(R.id.autohourselector)).setOnCheckedChangeListener(updatepreviewlistener);
+		findViewById(R.id.previewclock).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				updatepreview();
+			}
+		});
 		Spinner fontspinner = findViewById(R.id.fontspinner);
 		ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
 		ArrayList<String> fonts = FontsProvider.getFonts();
 		int fontselected = 0;
+		String savedfont = sharedPreferences.getString(context.getResources().getString(R.string.daydreamkeyfont), "");
+		savedfont = savedfont != null ? savedfont.replace("_", " ") : null;
 		for (int i = 0; i < fonts.size(); i++) {
 			String font = fonts.get(i);
 			RowItem item = new RowItem(context, font, i);
 			if (item.getVisibility() == View.VISIBLE) rowItems.add(item);
-			if (font.equals(sharedPreferences.getString(context.getResources().getString(R.string.daydreamkeyfont), "")))
-				fontselected = i;
+			if (font.equals(savedfont)) fontselected = i;
 		}
 		final SpinnerAdapter spinnerAdapter = new CustomSpinnerAdapter(DaydreamConfigure.this, R.layout.listitems_layout, R.id.spinnerview, rowItems);
 		fontspinner.setAdapter(spinnerAdapter);
@@ -353,8 +379,13 @@ public class DaydreamConfigure extends Activity {
 			//Expected error if no value was choosen, just set to default value
 			houroverhang = context.getResources().getInteger(R.integer.daydreamdefaulthouroverhang);
 		}
-		int secondoverhang = context.getResources().getInteger(R.integer.daydreamdefaultsecondoverhang);
-		secondoverhang = 0;
+		int secondoverhang;
+		try {
+			secondoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimeseconds)).getText().toString());
+		} catch (NumberFormatException numerr) {
+			//Expected error if no value was choosen, just set to default value
+			secondoverhang = getResources().getInteger(R.integer.daydreamdefaultsecondoverhang);
+		}
 		int dayoverhang;
 		try {
 			dayoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputdatedays)).getText().toString());
@@ -378,18 +409,22 @@ public class DaydreamConfigure extends Activity {
 		SeekBar fontsizedividerseekbar = findViewById(R.id.datefontsizeseekbar);
 		float fontsizedivider = context.getResources().getInteger(R.integer.maxfontscale) - (float) fontsizedividerseekbar.getProgress() / 100;
 		if (((Switch) findViewById(R.id.dateselector)).isChecked()) {
-			findViewById(R.id.overhanginputdate).setVisibility(View.VISIBLE);
+			findViewById(R.id.overhanginputdatedays).setVisibility(View.VISIBLE);
+			findViewById(R.id.overhanginputdatemonths).setVisibility(View.VISIBLE);
 			fontsizedividerseekbar.setVisibility(View.VISIBLE);
 		} else {
-			findViewById(R.id.overhanginputdate).setVisibility(View.GONE);
+			findViewById(R.id.overhanginputdatedays).setVisibility(View.GONE);
+			findViewById(R.id.overhanginputdatemonths).setVisibility(View.GONE);
 			fontsizedividerseekbar.setVisibility(View.GONE);
 		}
-		/*if (((Switch) findViewById(R.id.secondsselector)).isChecked()) {
-			findViewById(R.id.secondsinfo).setVisibility(View.VISIBLE);
-			((TextView) findViewById(R.id.secondsinfo)).setWidth(findViewById(R.id.secondsselector).getWidth());
+		if (((Switch) findViewById(R.id.secondsselector)).isChecked()) {
+			//findViewById(R.id.secondsinfo).setVisibility(View.VISIBLE);
+			//((TextView) findViewById(R.id.secondsinfo)).setWidth(findViewById(R.id.secondsselector).getWidth());
+			findViewById(R.id.overhanginputtimeseconds).setVisibility(View.VISIBLE);
 		} else {
-			findViewById(R.id.secondsinfo).setVisibility(View.GONE);
-		}*/
+			//findViewById(R.id.secondsinfo).setVisibility(View.GONE);
+			findViewById(R.id.overhanginputtimeseconds).setVisibility(View.GONE);
+		}
 		if (((Switch) findViewById(R.id.autohourselector)).isChecked()) {
 			findViewById(R.id.hourselector).setEnabled(false);
 			((Switch) findViewById(R.id.hourselector)).setChecked(!DateFormat.is24HourFormat(DaydreamConfigure.this));

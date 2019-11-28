@@ -17,4 +17,6 @@
     <string name="colorheader">Colors</string>
     <string name="settingsheader">Settings</string>
     <string name="fontheader">Fonts</string>
+    <string name="accessibilityClockPreviewString">Widget Preview</string>
+    <string name="inputoverhangseconds">seconds</string>
 </resources>

@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -40,7 +41,7 @@ public class WidgetConfigure extends Activity {
 			SeekBar seekbarblue = findViewById(R.id.seekbarblue);
 			SeekBar seekbaralpha = findViewById(R.id.seekbaralpha);
 			int color = Color.argb(seekbaralpha.getProgress(), seekbarred.getProgress(), seekbargreen.getProgress(), seekbarblue.getProgress());
-			@SuppressLint("CommitPrefEdits")
+			@SuppressLint("CommitPrefEdits") //apply later in foreach loop
 			SharedPreferences.Editor[] editors = {
 					getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), MODE_PRIVATE).edit(),
 					getSharedPreferences(context.getResources().getString(R.string.lastwidgetpreferencesfilename), MODE_PRIVATE).edit(),
@@ -50,7 +51,7 @@ public class WidgetConfigure extends Activity {
 				minuteoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimeminutes)).getText().toString());
 			} catch (NumberFormatException numerr) {
 				//Expected error if no value was choosen, just set to default value
-				minuteoverhang = getResources().getInteger(R.integer.widgetdefaultminuteoverhang);
+				minuteoverhang = context.getResources().getInteger(R.integer.widgetdefaultminuteoverhang);
 			}
 			int houroverhang;
 			try {
@@ -59,14 +60,19 @@ public class WidgetConfigure extends Activity {
 				//Expected error if no value was choosen, just set to default value
 				houroverhang = context.getResources().getInteger(R.integer.widgetdefaulthouroverhang);
 			}
-			int secondoverhang = context.getResources().getInteger(R.integer.widgetdefaultsecondoverhang);
-			secondoverhang = 0;
+			int secondoverhang;
+			try {
+				secondoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimeseconds)).getText().toString());
+			} catch (NumberFormatException numerr) {
+				//Expected error if no value was choosen, just set to default value
+				secondoverhang = context.getResources().getInteger(R.integer.widgetdefaultsecondoverhang);
+			}
 			int dayoverhang;
 			try {
 				dayoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputdatedays)).getText().toString());
 			} catch (NumberFormatException numerr) {
 				//Expected error if no value was choosen, just set to default value
-				dayoverhang = getResources().getInteger(R.integer.widgetdefaultdayoverhang);
+				dayoverhang = context.getResources().getInteger(R.integer.widgetdefaultdayoverhang);
 			}
 			int monthoverhang;
 			try {
@@ -297,19 +303,43 @@ public class WidgetConfigure extends Activity {
 		((Switch) findViewById(R.id.autohourselector)).setChecked(!sharedPreferences.contains(context.getResources().getString(R.string.widgetkeytwelvehour)) && context.getResources().getBoolean(R.bool.widgetdefaultautotimeselector));
 		findViewById(R.id.hourselector).setEnabled(!((Switch) findViewById(R.id.autohourselector)).isChecked());
 		((Switch) findViewById(R.id.hourselector)).setOnCheckedChangeListener(updatepreviewlistener);
-		((Switch) findViewById(R.id.dateselector)).setOnCheckedChangeListener(updatepreviewlistener);
 		((Switch) findViewById(R.id.secondsselector)).setOnCheckedChangeListener(updatepreviewlistener);
 		((Switch) findViewById(R.id.autohourselector)).setOnCheckedChangeListener(updatepreviewlistener);
+		findViewById(R.id.previewclock).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				updatepreview();
+			}
+		});
+		((Switch) findViewById(R.id.dateselector)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				EditText[] editTexts = {
+						findViewById(R.id.overhanginputtimeminutes),
+						findViewById(R.id.overhanginputtimehours),
+				};
+				if (isChecked) {
+					for (EditText editText : editTexts) {
+						try {
+							if (Integer.valueOf((editText.getText().toString())) >= (2 ^ 16))
+								editText.setText("");
+						} catch (NumberFormatException ignored) {}
+					}
+				}
+				updatepreview();
+			}
+		});
 		Spinner fontspinner = findViewById(R.id.fontspinner);
 		ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
 		ArrayList<String> fonts = FontsProvider.getFonts();
 		int fontselected = 0;
+		String savedfont = sharedPreferences.getString(context.getResources().getString(R.string.daydreamkeyfont), "");
+		savedfont = savedfont != null ? savedfont.replace("_", " ") : null;
 		for (int i = 0; i < fonts.size(); i++) {
 			String font = fonts.get(i);
 			RowItem item = new RowItem(context, font, i);
 			if (item.getVisibility() == View.VISIBLE) rowItems.add(item);
-			if (font.equals(sharedPreferences.getString(context.getResources().getString(R.string.widgetkeyfont), "")))
-				fontselected = i;
+			if (font.equals(savedfont)) fontselected = i;
 		}
 		final SpinnerAdapter spinnerAdapter = new CustomSpinnerAdapter(WidgetConfigure.this, R.layout.listitems_layout, R.id.spinnerview, rowItems);
 		fontspinner.setAdapter(spinnerAdapter);
@@ -370,7 +400,7 @@ public class WidgetConfigure extends Activity {
 			minuteoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimeminutes)).getText().toString());
 		} catch (NumberFormatException numerr) {
 			//Expected error if no value was choosen, just set to default value
-			minuteoverhang = getResources().getInteger(R.integer.widgetdefaultminuteoverhang);
+			minuteoverhang = context.getResources().getInteger(R.integer.widgetdefaultminuteoverhang);
 		}
 		int houroverhang;
 		try {
@@ -379,14 +409,19 @@ public class WidgetConfigure extends Activity {
 			//Expected error if no value was choosen, just set to default value
 			houroverhang = context.getResources().getInteger(R.integer.widgetdefaulthouroverhang);
 		}
-		int secondoverhang = context.getResources().getInteger(R.integer.widgetdefaultsecondoverhang);
-		secondoverhang = 0;
+		int secondoverhang;
+		try {
+			secondoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimeseconds)).getText().toString());
+		} catch (NumberFormatException numerr) {
+			//Expected error if no value was choosen, just set to default value
+			secondoverhang = context.getResources().getInteger(R.integer.widgetdefaultsecondoverhang);
+		}
 		int dayoverhang;
 		try {
 			dayoverhang = Integer.valueOf(((EditText) findViewById(R.id.overhanginputdatedays)).getText().toString());
 		} catch (NumberFormatException numerr) {
 			//Expected error if no value was choosen, just set to default value
-			dayoverhang = getResources().getInteger(R.integer.widgetdefaultdayoverhang);
+			dayoverhang = context.getResources().getInteger(R.integer.widgetdefaultdayoverhang);
 		}
 		int monthoverhang;
 		try {
@@ -404,17 +439,21 @@ public class WidgetConfigure extends Activity {
 		SeekBar fontsizedividerseekbar = findViewById(R.id.datefontsizeseekbar);
 		float fontsizedivider = context.getResources().getInteger(R.integer.maxfontscale) - (float) fontsizedividerseekbar.getProgress() / 100;
 		if (((Switch) findViewById(R.id.dateselector)).isChecked()) {
-			findViewById(R.id.overhanginputdate).setVisibility(View.VISIBLE);
+			findViewById(R.id.overhanginputdatedays).setVisibility(View.VISIBLE);
+			findViewById(R.id.overhanginputdatemonths).setVisibility(View.VISIBLE);
 			fontsizedividerseekbar.setVisibility(View.VISIBLE);
 		} else {
-			findViewById(R.id.overhanginputdate).setVisibility(View.GONE);
+			findViewById(R.id.overhanginputdatedays).setVisibility(View.GONE);
+			findViewById(R.id.overhanginputdatemonths).setVisibility(View.GONE);
 			fontsizedividerseekbar.setVisibility(View.GONE);
 		}
 		if (((Switch) findViewById(R.id.secondsselector)).isChecked()) {
 			findViewById(R.id.secondsinfo).setVisibility(View.VISIBLE);
+			findViewById(R.id.overhanginputtimeseconds).setVisibility(View.VISIBLE);
 			((TextView) findViewById(R.id.secondsinfo)).setWidth(findViewById(R.id.secondsselector).getWidth());
 		} else {
 			findViewById(R.id.secondsinfo).setVisibility(View.GONE);
+			findViewById(R.id.overhanginputtimeseconds).setVisibility(View.GONE);
 		}
 		if (((Switch) findViewById(R.id.autohourselector)).isChecked()) {
 			findViewById(R.id.hourselector).setEnabled(false);

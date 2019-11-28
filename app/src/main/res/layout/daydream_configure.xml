@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="72dp"
                     android:adjustViewBounds="true"
-                    android:contentDescription="Widget Preview"
+                    android:contentDescription="@string/accessibilityClockPreviewString"
                     app:srcCompat="@drawable/clock" />
 
                 <View
@@ -57,60 +57,59 @@
                     android:gravity="center_horizontal"
                     android:text="@string/overhangheader" />
 
-                <TableLayout
+                <LinearLayout
                     android:id="@+id/overhanginputlayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <TableRow
-                        android:id="@+id/overhanginputtime"
+                    <EditText
+                        android:id="@+id/overhanginputdatemonths"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:ems="10"
+                        android:hint="@string/inputoverhangmonths"
+                        android:inputType="numberSigned|numberDecimal" />
 
-                        <EditText
-                            android:id="@+id/overhanginputtimeminutes"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:hint="@string/inputoverhangminutes"
-                            android:inputType="numberSigned|numberDecimal" />
-
-                        <EditText
-                            android:id="@+id/overhanginputtimehours"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1.5"
-                            android:ems="10"
-                            android:hint="@string/inputoverhanghours"
-                            android:inputType="numberSigned|numberDecimal" />
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/overhanginputdate"
+                    <EditText
+                        android:id="@+id/overhanginputdatedays"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="@string/inputoverhangday"
+                        android:inputType="numberSigned|numberDecimal" />
 
-                        <EditText
-                            android:id="@+id/overhanginputdatedays"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:hint="@string/inputoverhangday"
-                            android:inputType="numberSigned|numberDecimal" />
+                    <EditText
+                        android:id="@+id/overhanginputtimehours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:ems="10"
+                        android:hint="@string/inputoverhanghours"
+                        android:inputType="numberSigned|numberDecimal" />
 
-                        <EditText
-                            android:id="@+id/overhanginputdatemonths"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1.5"
-                            android:ems="10"
-                            android:hint="@string/inputoverhangmonths"
-                            android:inputType="numberSigned|numberDecimal" />
-                    </TableRow>
+                    <EditText
+                        android:id="@+id/overhanginputtimeminutes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="@string/inputoverhangminutes"
+                        android:inputType="numberSigned|numberDecimal" />
 
-                </TableLayout>
+                    <EditText
+                        android:id="@+id/overhanginputtimeseconds"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:ems="10"
+                        android:hint="@string/inputoverhangseconds"
+                        android:inputType="numberSigned|numberDecimal"
+                        tools:visibility="gone" />
+
+                </LinearLayout>
 
                 <View
                     android:id="@+id/divider"
@@ -321,6 +320,12 @@
                     android:dropDownWidth="wrap_content"
                     android:spinnerMode="dialog"
                     android:visibility="visible" />
+
+                <View
+                    android:id="@+id/divider7"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="?android:attr/listDivider" />
 
                 <Button
                     android:id="@+id/save"
