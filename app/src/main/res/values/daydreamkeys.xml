@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="daydreamkeytwelvehour" translatable="false">12h</string>
+    <string name="daydreamkeyenableseconds" translatable="false">seconds</string>
+    <string name="daydreamkeyenabledate" translatable="false">date</string>
+    <string name="daydreamkeyfont" translatable="false">font</string>
+    <string name="daydreamkeyfontscale" translatable="false">fontscale</string>
+    <string name="daydreamkeycolor" translatable="false">color</string>
+    <string name="daydreamkeydayoverhang" translatable="false">dayoverhang</string>
+    <string name="daydreamkeymonthoverhang" translatable="false">monthoverhang</string>
+    <string name="daydreamkeysecondoverhang" translatable="false">secondoverhang</string>
+    <string name="daydreamkeyminuteoverhang" translatable="false">minuteoverhang</string>
+    <string name="daydreamkeyhouroverhang" translatable="false">houroverhang</string>
+</resources>

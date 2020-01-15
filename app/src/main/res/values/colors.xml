@@ -4,5 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="defaultWidgetColor">#FFFFFF</color>
+    <color name="widgetdefaultclockcolor">#FFFFFF</color>
+    <color name="daydreamdefaultclockcolor">#FFFFFF</color>
+    <color name="daydreamconfigurebackground">#000000</color>
 </resources>

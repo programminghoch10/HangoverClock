@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widgetkeytwelvehour" translatable="false">12h</string>
+    <string name="widgetkeyenableseconds" translatable="false">seconds</string>
+    <string name="widgetkeyenabledate" translatable="false">date</string>
+    <string name="widgetkeyfont" translatable="false">font</string>
+    <string name="widgetkeyfontscale" translatable="false">fontscale</string>
+    <string name="widgetkeycolor" translatable="false">color</string>
+    <string name="widgetkeydayoverhang" translatable="false">dayoverhang</string>
+    <string name="widgetkeymonthoverhang" translatable="false">monthoverhang</string>
+    <string name="widgetkeysecondoverhang" translatable="false">secondoverhang</string>
+    <string name="widgetkeyminuteoverhang" translatable="false">minuteoverhang</string>
+    <string name="widgetkeyhouroverhang" translatable="false">houroverhang</string>
+    <string name="widgetkeyincreaserefreshrate" translatable="false">increaserefreshrate</string>
+</resources>

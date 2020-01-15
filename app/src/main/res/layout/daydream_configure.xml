@@ -3,11 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/daydreamconfigurebackground">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -101,7 +107,7 @@
                         android:ems="10"
                         android:hint="@string/inputoverhangseconds"
                         android:inputType="numberSigned|numberDecimal"
-                        android:visibility="gone" />
+                        tools:visibility="gone" />
 
                 </LinearLayout>
 
@@ -250,7 +256,7 @@
                         android:id="@+id/autohourselector"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:checked="@bool/widgetdefaultautotimeselector"
+                        android:checked="@bool/daydreamdefaultautotimeselector"
                         android:switchPadding="10dp"
                         android:text="@string/usesystemtimeformat" />
 
@@ -291,7 +297,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:max="@integer/maxfontscale"
-                        android:progress="@integer/widgetdefaultdatefontscale" />
+                        android:progress="@integer/daydreamdefaultdatefontscale" />
                 </LinearLayout>
 
                 <View
@@ -316,7 +322,7 @@
                     android:visibility="visible" />
 
                 <View
-                    android:id="@+id/divider6"
+                    android:id="@+id/divider7"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="?android:attr/listDivider" />
@@ -325,7 +331,7 @@
                     android:id="@+id/save"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/savewidget" />
+                    android:text="@string/savedaydream" />
 
             </LinearLayout>
 
