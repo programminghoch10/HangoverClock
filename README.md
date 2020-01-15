@@ -125,9 +125,9 @@ Also thanks to my laptop, which crashed 2 times with literally nothing saved to 
 
 ## Screenshots
 
-![Screenshot 1](pictures/playphone.png)
-![Screenshot 2](pictures/playphoneconfig.png)
+![Screenshot 1 - Phone](pictures/dynamiteplayphone.png)
+![Screenshot 2 - Phone Config Activity](pictures/dynamiteplayphoneconfig.png)
 
-![Screenshot 3](pictures/play10inch.png)
+![Screenshot 3 - 10 inch tablet](pictures/dynamiteplay10inch.png)
 
-![Screenshot 4](pictures/play7inch.png)
+![Screenshot 4 - 7 inch tablet](pictures/dynamiteplay7inch.png)
