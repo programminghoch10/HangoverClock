@@ -16,3 +16,4 @@
 * add config activity (like on samsung widgets) if possible
 * add a companion app with timer, alarms, stopwatch and conversion
 * make date alignable to left, middle and right
+* include funny month names like Jänner
