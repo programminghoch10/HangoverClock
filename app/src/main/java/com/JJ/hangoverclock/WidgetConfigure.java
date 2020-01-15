@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -327,7 +328,7 @@ public class WidgetConfigure extends Activity {
 				if (isChecked) {
 					for (EditText editText : editTexts) {
 						try {
-							if (Integer.valueOf((editText.getText().toString())) >= (2 ^ 16))
+							if (Integer.valueOf((editText.getText().toString())) >= Math.pow(2, 16))
 								editText.setText("");
 						} catch (NumberFormatException ignored) {}
 					}

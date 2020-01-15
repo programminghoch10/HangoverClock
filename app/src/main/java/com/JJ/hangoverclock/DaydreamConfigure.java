@@ -282,7 +282,7 @@ public class DaydreamConfigure extends Activity {
 				if (isChecked) {
 					for (EditText editText : editTexts) {
 						try {
-							if (Integer.valueOf((editText.getText().toString())) >= (2 ^ 16))
+							if (Integer.valueOf((editText.getText().toString())) >= Math.pow(2, 16))
 								editText.setText("");
 						} catch (NumberFormatException ignored) {}
 					}
