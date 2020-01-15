@@ -205,6 +205,7 @@ public class DaydreamConfigure extends Activity {
 			final int[] ids = {
 					R.id.overhanginputtimeminutes,
 					R.id.overhanginputtimehours,
+					R.id.overhanginputtimeseconds,
 					R.id.overhanginputdatedays,
 					R.id.overhanginputdatemonths,
 			};
@@ -238,16 +239,19 @@ public class DaydreamConfigure extends Activity {
 			}
 		};
 		((EditText) findViewById(R.id.overhanginputtimeminutes)).addTextChangedListener(inputwatcher);
+		((EditText) findViewById(R.id.overhanginputtimeseconds)).addTextChangedListener(inputwatcher);
 		((EditText) findViewById(R.id.overhanginputdatedays)).addTextChangedListener(inputwatcher);
 		((EditText) findViewById(R.id.overhanginputtimehours)).addTextChangedListener(inputwatcher);
 		((EditText) findViewById(R.id.overhanginputdatemonths)).addTextChangedListener(inputwatcher);
-		
 		((EditText) findViewById(R.id.overhanginputtimeminutes)).getText().append(String.valueOf(sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeyminuteoverhang), context.getResources().getInteger(R.integer.daydreamdefaultminuteoverhang))));
 		if (Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimeminutes)).getText().toString()) == (context.getResources().getInteger(R.integer.daydreamdefaultminuteoverhang)))
 			((EditText) findViewById(R.id.overhanginputtimeminutes)).getText().clear();
 		((EditText) findViewById(R.id.overhanginputtimehours)).getText().append(String.valueOf(sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeyhouroverhang), context.getResources().getInteger(R.integer.daydreamdefaulthouroverhang))));
 		if (Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimehours)).getText().toString()) == (context.getResources().getInteger(R.integer.daydreamdefaulthouroverhang)))
 			((EditText) findViewById(R.id.overhanginputtimehours)).getText().clear();
+		((EditText) findViewById(R.id.overhanginputtimeseconds)).getText().append(String.valueOf(sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeysecondoverhang), context.getResources().getInteger(R.integer.daydreamdefaultsecondoverhang))));
+		if (Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimeseconds)).getText().toString()) == (context.getResources().getInteger(R.integer.daydreamdefaultsecondoverhang)))
+			((EditText) findViewById(R.id.overhanginputtimeseconds)).getText().clear();
 		((EditText) findViewById(R.id.overhanginputdatedays)).getText().append(String.valueOf(sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeydayoverhang), context.getResources().getInteger(R.integer.daydreamdefaultdayoverhang))));
 		if (Integer.valueOf(((EditText) findViewById(R.id.overhanginputdatedays)).getText().toString()) == (context.getResources().getInteger(R.integer.daydreamdefaultdayoverhang)))
 			((EditText) findViewById(R.id.overhanginputdatedays)).getText().clear();
@@ -273,6 +277,7 @@ public class DaydreamConfigure extends Activity {
 				EditText[] editTexts = {
 						findViewById(R.id.overhanginputtimeminutes),
 						findViewById(R.id.overhanginputtimehours),
+						findViewById(R.id.overhanginputtimeseconds),
 				};
 				if (isChecked) {
 					for (EditText editText : editTexts) {

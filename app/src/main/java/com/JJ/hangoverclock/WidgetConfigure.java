@@ -242,6 +242,7 @@ public class WidgetConfigure extends Activity {
 			final int[] ids = {
 					R.id.overhanginputtimeminutes,
 					R.id.overhanginputtimehours,
+					R.id.overhanginputtimeseconds,
 					R.id.overhanginputdatedays,
 					R.id.overhanginputdatemonths,
 			};
@@ -275,6 +276,7 @@ public class WidgetConfigure extends Activity {
 			}
 		};
 		((EditText) findViewById(R.id.overhanginputtimeminutes)).addTextChangedListener(inputwatcher);
+		((EditText) findViewById(R.id.overhanginputtimeseconds)).addTextChangedListener(inputwatcher);
 		((EditText) findViewById(R.id.overhanginputdatedays)).addTextChangedListener(inputwatcher);
 		((EditText) findViewById(R.id.overhanginputtimehours)).addTextChangedListener(inputwatcher);
 		((EditText) findViewById(R.id.overhanginputdatemonths)).addTextChangedListener(inputwatcher);
@@ -284,6 +286,9 @@ public class WidgetConfigure extends Activity {
 		((EditText) findViewById(R.id.overhanginputtimehours)).getText().append(String.valueOf(sharedPreferences.getInt(context.getResources().getString(R.string.widgetkeyhouroverhang), context.getResources().getInteger(R.integer.widgetdefaulthouroverhang))));
 		if (Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimehours)).getText().toString()) == (context.getResources().getInteger(R.integer.widgetdefaulthouroverhang)))
 			((EditText) findViewById(R.id.overhanginputtimehours)).getText().clear();
+		((EditText) findViewById(R.id.overhanginputtimeseconds)).getText().append(String.valueOf(sharedPreferences.getInt(context.getResources().getString(R.string.widgetkeysecondoverhang), context.getResources().getInteger(R.integer.widgetdefaultsecondoverhang))));
+		if (Integer.valueOf(((EditText) findViewById(R.id.overhanginputtimeseconds)).getText().toString()) == (context.getResources().getInteger(R.integer.widgetdefaultsecondoverhang)))
+			((EditText) findViewById(R.id.overhanginputtimeseconds)).getText().clear();
 		((EditText) findViewById(R.id.overhanginputdatedays)).getText().append(String.valueOf(sharedPreferences.getInt(context.getResources().getString(R.string.widgetkeydayoverhang), context.getResources().getInteger(R.integer.widgetdefaultdayoverhang))));
 		if (Integer.valueOf(((EditText) findViewById(R.id.overhanginputdatedays)).getText().toString()) == (context.getResources().getInteger(R.integer.widgetdefaultdayoverhang)))
 			((EditText) findViewById(R.id.overhanginputdatedays)).getText().clear();
@@ -317,6 +322,7 @@ public class WidgetConfigure extends Activity {
 				EditText[] editTexts = {
 						findViewById(R.id.overhanginputtimeminutes),
 						findViewById(R.id.overhanginputtimehours),
+						findViewById(R.id.overhanginputtimeseconds),
 				};
 				if (isChecked) {
 					for (EditText editText : editTexts) {
