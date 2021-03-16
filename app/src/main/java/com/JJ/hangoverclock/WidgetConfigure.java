@@ -2,6 +2,7 @@ package com.JJ.hangoverclock;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -147,6 +148,12 @@ public class WidgetConfigure extends Activity {
 			Intent resultValue = new Intent();
 			resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetID);
 			setResult(RESULT_OK, resultValue);
+			//send update to all widgets
+			try {
+				WidgetProvider.createClockTickIntent(context).send();
+			} catch (PendingIntent.CanceledException ignored) {
+			}
+			Log.d(TAG, "onClick: wrote widget settings and sent update call");
 			finish();
 		}
 	};

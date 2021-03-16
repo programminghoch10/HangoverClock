@@ -14,14 +14,20 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import androidx.core.app.AlarmManagerCompat;
+import androidx.work.Data;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public class WidgetProvider extends AppWidgetProvider {
 	
 	static final String TAG = "WidgetProvider";
 	
-	private static String CLOCK_WIDGET_UPDATE = "com.JJ.hangoverclock.widgetupdate";
+	static final String CLOCK_WIDGET_UPDATE_INTENT_TAG = "com.JJ.hangoverclock.widgetupdate";
+	static final String CLOCK_WIDGET_UPDATE_UNIQUE_WORK_TAG = "widgetUpdate";
 	
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		for (int appWidgetId : appWidgetIds) {
@@ -29,14 +35,15 @@ public class WidgetProvider extends AppWidgetProvider {
 			appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
 			updateAppWidget(context, appWidgetManager, appWidgetId);
 		}
-		setAlarmManager(context);
+		schedule(context);
 	}
 	
+	@SuppressLint("ApplySharedPref")
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
 		SharedPreferences sharedPreferences = context.getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), Context.MODE_PRIVATE);
-		if (CLOCK_WIDGET_UPDATE.equals(intent.getAction())) {
+		if (CLOCK_WIDGET_UPDATE_INTENT_TAG.equals(intent.getAction())) {
 			ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
 			AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 			int[] ids = appWidgetManager.getAppWidgetIds(thisAppWidget);
@@ -47,18 +54,24 @@ public class WidgetProvider extends AppWidgetProvider {
 					increaserefreshrate = true;
 				updateAppWidget(context, appWidgetManager, appWidgetID);
 			}
-			SharedPreferences.Editor editor = sharedPreferences.edit();
-			if (context.getResources().getBoolean(R.bool.alwayssavepreference)
-					| increaserefreshrate != context.getResources().getBoolean(R.bool.widgetdefaultincreaserefreshrate))
+			boolean refreshrateChanged = increaserefreshrate != getIncreaseRefreshRate(context);
+			if (context.getResources().getBoolean(R.bool.alwayssavepreference) || refreshrateChanged) {
+				SharedPreferences.Editor editor = sharedPreferences.edit();
 				editor.putBoolean(context.getResources().getString(R.string.widgetkeyincreaserefreshrate), increaserefreshrate);
-			editor.apply();
-			setAlarmManager(context);
+				if (refreshrateChanged) {
+					editor.commit(); //commit intentional, schedule depends on saved values
+					schedule(context);
+				} else {
+					editor.apply(); //we dont need to reschedule, so saving may be asyncronous
+				}
+			}
 		}
+		setAlarmManager(context, getIncreaseRefreshRate(context) ? 1 : 60);
 	}
 	
-	private PendingIntent createClockTickIntent(Context context) {
-		Intent intent = new Intent(context, getClass());
-		intent.setAction(CLOCK_WIDGET_UPDATE);
+	static PendingIntent createClockTickIntent(Context context) {
+		Intent intent = new Intent(context, WidgetProvider.class);
+		intent.setAction(CLOCK_WIDGET_UPDATE_INTENT_TAG);
 		return PendingIntent.getBroadcast(context, 23, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 	}
 	
@@ -66,12 +79,11 @@ public class WidgetProvider extends AppWidgetProvider {
 	@Override
 	public void onDisabled(Context context) {
 		super.onDisabled(context);
-		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		alarmManager.cancel(createClockTickIntent(context));
+		cancelschedule(context);
 		SharedPreferences sharedPreferences = context.getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		editor.clear();
-		editor.commit(); //commit is intentional, i want to wait until cleanup is done
+		editor.commit(); //commit is intentional, cleanup should be done when method exits
 		Log.i(TAG, "Final cleanup done, Goodbye!");
 	}
 	
@@ -79,22 +91,56 @@ public class WidgetProvider extends AppWidgetProvider {
 	public void onEnabled(Context context) {
 		super.onEnabled(context);
 		Log.i(TAG, "Hello World!");
-		setAlarmManager(context);
+		schedule(context);
 		FontsProvider.collectfonts(context);
 	}
 	
-	private void setAlarmManager(Context context) {
-		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(System.currentTimeMillis());
-		if (context.getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), Context.MODE_PRIVATE).getBoolean(
-				context.getResources().getString(R.string.widgetkeyincreaserefreshrate),
-				context.getResources().getBoolean(R.bool.widgetdefaultincreaserefreshrate))) {
-			calendar.add(Calendar.SECOND, 1);
+	private void schedule(Context context) {
+		int seconds;
+		if (getIncreaseRefreshRate(context)) {
+			seconds = 1;
 		} else {
-			calendar.add(Calendar.SECOND, (60 - calendar.get(Calendar.SECOND)));
+			seconds = 60;
 		}
+		int offset = (60 - Calendar.getInstance().get(Calendar.SECOND));
+		Log.d(TAG, "schedule: scheduling " + seconds + "s with " + offset + "s initial delay");
+		setWorkManager(context, seconds, offset);
+		setAlarmManager(context, offset);
+	}
+	
+	private boolean getIncreaseRefreshRate(Context context) {
+		return context.getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), Context.MODE_PRIVATE).getBoolean(
+				context.getResources().getString(R.string.widgetkeyincreaserefreshrate),
+				context.getResources().getBoolean(R.bool.widgetdefaultincreaserefreshrate));
+	}
+	
+	private void cancelschedule(Context context) {
+		WorkManager.getInstance(context).cancelUniqueWork(CLOCK_WIDGET_UPDATE_UNIQUE_WORK_TAG);
+		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+		alarmManager.cancel(createClockTickIntent(context));
+		Log.d(TAG, "cancelschedule: cancelled clock update handlers");
+	}
+	
+	private void setAlarmManager(Context context, int seconds) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.SECOND, seconds);
+		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		AlarmManagerCompat.setExact(alarmManager, AlarmManager.RTC, calendar.getTimeInMillis(), createClockTickIntent(context));
+	}
+	
+	private void setWorkManager(Context context, int seconds, int initialSecondsOffset) {
+		WorkManager workManager = WorkManager.getInstance(context);
+		PeriodicWorkRequest request = new PeriodicWorkRequest.Builder(WidgetWorker.class, 15, TimeUnit.MINUTES)
+				.setInitialDelay(Math.min(initialSecondsOffset, seconds), TimeUnit.SECONDS)
+				.setInputData(
+						new Data.Builder()
+								.putInt(WidgetWorker.DATA_KEY_SECONDS, seconds)
+								.putBoolean(WidgetWorker.DATA_KEY_SCHEDULE, true)
+								.build()
+				)
+				.build();
+		workManager.enqueueUniquePeriodicWork(CLOCK_WIDGET_UPDATE_UNIQUE_WORK_TAG, ExistingPeriodicWorkPolicy.REPLACE, request);
+		Log.d(TAG, "setWorkManager: enqueued periodic scheduling work");
 	}
 	
 	public void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
