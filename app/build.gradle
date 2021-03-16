@@ -6,7 +6,7 @@ android {
         applicationId "com.JJ.hangoverclock"
         minSdkVersion 14
         targetSdkVersion 30
-        versionCode 10
+        versionCode 11
         versionName "serenity"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
