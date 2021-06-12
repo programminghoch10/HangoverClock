@@ -19,4 +19,9 @@
     <string name="fontheader">Fonts</string>
     <string name="accessibilityClockPreviewString">Widget Preview</string>
     <string name="inputoverhangseconds">seconds</string>
+
+    <string name="xposed_description" translatable="false">HangoverClock Xposed Module</string>
+    <string-array name="scope">
+        <item>com.android.systemui</item>
+    </string-array>
 </resources>
