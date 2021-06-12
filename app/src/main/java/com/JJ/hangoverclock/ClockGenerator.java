@@ -16,9 +16,9 @@ import androidx.core.content.res.ResourcesCompat;
 import java.util.Calendar;
 import java.util.Locale;
 
-class ClockGenerator {
+public class ClockGenerator {
 	
-	static Bitmap generateWidget(Context context, long timestamp,
+	public static Bitmap generateWidget(Context context, long timestamp,
 								 int secondoverhang, int minuteoverhang, int houroverhang,
 								 int dayoverhang, int monthoverhang,
 								 boolean twelvehours, boolean withseconds, boolean withdate,
@@ -107,7 +107,7 @@ class ClockGenerator {
 		return bitmap;
 	}
 	
-	private static String calculatetime(long timestamp, int houroverhang, int minuteoverhang, int secondoverhang, boolean twelvehours, boolean withseconds) {
+	public static String calculatetime(long timestamp, int houroverhang, int minuteoverhang, int secondoverhang, boolean twelvehours, boolean withseconds) {
 		/*inputs: long timestamp in millis
 		 *        int overhang of hours
 		 *        int overhang of minutes
