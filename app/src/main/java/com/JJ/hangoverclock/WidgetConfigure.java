@@ -1,35 +1,13 @@
 package com.JJ.hangoverclock;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.media.Image;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.Switch;
-import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Map;
 
 public class WidgetConfigure extends Activity {
@@ -72,20 +50,20 @@ public class WidgetConfigure extends Activity {
 				
 				//copy preferences into widget specific sharedPreferences
 				SharedPreferences.Editor editor = getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), MODE_PRIVATE).edit();
-				Map<String,?> entries = sharedPreferences.getAll();
+				Map<String, ?> entries = sharedPreferences.getAll();
 				for (String key : Configure.keys) {
 					if (!entries.containsKey(key)) continue;
 					String newKey = key + appWidgetID;
 					Object obj = entries.get(key);
-					if(obj instanceof Boolean)
+					if (obj instanceof Boolean)
 						editor.putBoolean(newKey, (Boolean) obj);
-					else if(obj instanceof Float)
+					else if (obj instanceof Float)
 						editor.putFloat(newKey, (Float) obj);
-					else if(obj instanceof Integer)
+					else if (obj instanceof Integer)
 						editor.putInt(newKey, (Integer) obj);
-					else if(obj instanceof Long)
+					else if (obj instanceof Long)
 						editor.putLong(newKey, (Long) obj);
-					else if(obj instanceof String)
+					else if (obj instanceof String)
 						editor.putString(newKey, (String) obj);
 				}
 				editor.apply();
