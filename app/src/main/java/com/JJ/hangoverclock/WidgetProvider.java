@@ -42,7 +42,7 @@ public class WidgetProvider extends AppWidgetProvider {
 			int[] ids = appWidgetManager.getAppWidgetIds(thisAppWidget);
 			boolean increaserefreshrate = false;
 			for (int appWidgetID : ids) {
-				if (sharedPreferences.getBoolean(context.getResources().getString(R.string.widgetkeyenableseconds) + appWidgetID,
+				if (sharedPreferences.getBoolean("enableseconds" + appWidgetID,
 						context.getResources().getBoolean(R.bool.widgetdefaultenableseconds)))
 					increaserefreshrate = true;
 				updateAppWidget(context, appWidgetManager, appWidgetID);
@@ -50,7 +50,7 @@ public class WidgetProvider extends AppWidgetProvider {
 			SharedPreferences.Editor editor = sharedPreferences.edit();
 			if (context.getResources().getBoolean(R.bool.alwayssavepreference)
 					| increaserefreshrate != context.getResources().getBoolean(R.bool.widgetdefaultincreaserefreshrate))
-				editor.putBoolean(context.getResources().getString(R.string.widgetkeyincreaserefreshrate), increaserefreshrate);
+				editor.putBoolean("increaserefreshrate", increaserefreshrate);
 			editor.apply();
 			setAlarmManager(context);
 		}
@@ -88,7 +88,7 @@ public class WidgetProvider extends AppWidgetProvider {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
 		if (context.getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), Context.MODE_PRIVATE).getBoolean(
-				context.getResources().getString(R.string.widgetkeyincreaserefreshrate),
+				"increaserefreshrate",
 				context.getResources().getBoolean(R.bool.widgetdefaultincreaserefreshrate))) {
 			calendar.add(Calendar.SECOND, 1);
 		} else {
@@ -99,17 +99,17 @@ public class WidgetProvider extends AppWidgetProvider {
 	
 	public void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
 		SharedPreferences sharedPreferences = context.getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), Context.MODE_PRIVATE);
-		int houroverhang = sharedPreferences.getInt(context.getResources().getString(R.string.widgetkeyhouroverhang) + appWidgetId, context.getResources().getInteger(R.integer.widgetdefaulthouroverhang));
-		int minuteoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.widgetkeyminuteoverhang) + appWidgetId, context.getResources().getInteger(R.integer.widgetdefaultminuteoverhang));
-		int secondoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.widgetkeysecondoverhang) + appWidgetId, context.getResources().getInteger(R.integer.widgetdefaultsecondoverhang));
-		int dayoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.widgetkeydayoverhang) + appWidgetId, context.getResources().getInteger(R.integer.widgetdefaultdayoverhang));
-		int monthoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.widgetkeymonthoverhang) + appWidgetId, context.getResources().getInteger(R.integer.widgetdefaultmonthoverhang));
-		boolean twelvehour = sharedPreferences.getBoolean(context.getResources().getString(R.string.widgetkeytwelvehour) + appWidgetId, !DateFormat.is24HourFormat(context));
-		boolean enableseconds = sharedPreferences.getBoolean(context.getResources().getString(R.string.widgetkeyenableseconds) + appWidgetId, context.getResources().getBoolean(R.bool.widgetdefaultenableseconds));
-		boolean enabledate = sharedPreferences.getBoolean(context.getResources().getString(R.string.widgetkeyenabledate) + appWidgetId, context.getResources().getBoolean(R.bool.widgetdefaultenabledate));
-		String font = sharedPreferences.getString(context.getResources().getString(R.string.widgetkeyfont) + appWidgetId, context.getResources().getString(R.string.defaultfonttext));
-		float fontscale = sharedPreferences.getFloat(context.getResources().getString(R.string.widgetkeyfontscale) + appWidgetId, context.getResources().getInteger(R.integer.widgetdefaultdatefontscale));
-		int color = sharedPreferences.getInt(context.getResources().getString(R.string.widgetkeycolor) + appWidgetId, context.getResources().getColor(R.color.widgetdefaultclockcolor));
+		int houroverhang = sharedPreferences.getInt("houroverhang" + appWidgetId, context.getResources().getInteger(R.integer.widgetdefaulthouroverhang));
+		int minuteoverhang = sharedPreferences.getInt("minuteoverhang" + appWidgetId, context.getResources().getInteger(R.integer.widgetdefaultminuteoverhang));
+		int secondoverhang = sharedPreferences.getInt("secondoverhang" + appWidgetId, context.getResources().getInteger(R.integer.widgetdefaultsecondoverhang));
+		int dayoverhang = sharedPreferences.getInt("dayoverhang" + appWidgetId, context.getResources().getInteger(R.integer.widgetdefaultdayoverhang));
+		int monthoverhang = sharedPreferences.getInt("monthoverhang" + appWidgetId, context.getResources().getInteger(R.integer.widgetdefaultmonthoverhang));
+		boolean twelvehour = sharedPreferences.getBoolean("twelvehours" + appWidgetId, !DateFormat.is24HourFormat(context));
+		boolean enableseconds = sharedPreferences.getBoolean("enableseconds" + appWidgetId, context.getResources().getBoolean(R.bool.widgetdefaultenableseconds));
+		boolean enabledate = sharedPreferences.getBoolean("enabledate" + appWidgetId, context.getResources().getBoolean(R.bool.widgetdefaultenabledate));
+		String font = sharedPreferences.getString("font" + appWidgetId, context.getResources().getString(R.string.defaultfonttext));
+		float fontscale = sharedPreferences.getFloat("fontscale" + appWidgetId, context.getResources().getInteger(R.integer.widgetdefaultfontscale));
+		int color = sharedPreferences.getInt("color" + appWidgetId, context.getResources().getColor(R.color.widgetdefaultclockcolor));
 		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
 		remoteViews.setImageViewBitmap(R.id.clock,
 				ClockGenerator.generateWidget(

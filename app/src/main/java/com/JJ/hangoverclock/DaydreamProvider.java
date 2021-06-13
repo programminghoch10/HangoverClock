@@ -26,17 +26,17 @@ public class DaydreamProvider extends DreamService {
 			Context context = DaydreamProvider.this;
 			if (animation.getCurrentPlayTime() < lastupdate + duration) return;
 			lastupdate = animation.getCurrentPlayTime();
-			int houroverhang = sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeyhouroverhang), context.getResources().getInteger(R.integer.daydreamdefaulthouroverhang));
-			int minuteoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeyminuteoverhang), context.getResources().getInteger(R.integer.daydreamdefaultminuteoverhang));
-			int secondoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeysecondoverhang), context.getResources().getInteger(R.integer.daydreamdefaultsecondoverhang));
-			int dayoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeydayoverhang), context.getResources().getInteger(R.integer.daydreamdefaultdayoverhang));
-			int monthoverhang = sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeymonthoverhang), context.getResources().getInteger(R.integer.daydreamdefaultmonthoverhang));
-			boolean twelvehour = sharedPreferences.getBoolean(context.getResources().getString(R.string.daydreamkeytwelvehour), !DateFormat.is24HourFormat(context));
-			boolean enableseconds = sharedPreferences.getBoolean(context.getResources().getString(R.string.daydreamkeyenableseconds), context.getResources().getBoolean(R.bool.daydreamdefaultenableseconds));
-			boolean enabledate = sharedPreferences.getBoolean(context.getResources().getString(R.string.daydreamkeyenabledate), context.getResources().getBoolean(R.bool.daydreamdefaultenabledate));
-			String font = sharedPreferences.getString(context.getResources().getString(R.string.daydreamkeyfont), context.getResources().getString(R.string.defaultfonttext));
-			float fontscale = sharedPreferences.getFloat(context.getResources().getString(R.string.daydreamkeyfontscale), context.getResources().getInteger(R.integer.daydreamdefaultdatefontscale));
-			int color = sharedPreferences.getInt(context.getResources().getString(R.string.daydreamkeycolor), context.getResources().getColor(R.color.daydreamdefaultclockcolor));
+			int houroverhang = sharedPreferences.getInt("houroverhang", context.getResources().getInteger(R.integer.daydreamdefaulthouroverhang));
+			int minuteoverhang = sharedPreferences.getInt("minuteoverhang", context.getResources().getInteger(R.integer.daydreamdefaultminuteoverhang));
+			int secondoverhang = sharedPreferences.getInt("secondoverhang", context.getResources().getInteger(R.integer.daydreamdefaultsecondoverhang));
+			int dayoverhang = sharedPreferences.getInt("dayoverhang", context.getResources().getInteger(R.integer.daydreamdefaultdayoverhang));
+			int monthoverhang = sharedPreferences.getInt("monthoverhang", context.getResources().getInteger(R.integer.daydreamdefaultmonthoverhang));
+			boolean twelvehour = sharedPreferences.getBoolean("twelvehours", !DateFormat.is24HourFormat(context));
+			boolean enableseconds = sharedPreferences.getBoolean("enableseconds", context.getResources().getBoolean(R.bool.daydreamdefaultenableseconds));
+			boolean enabledate = sharedPreferences.getBoolean("enabledate", context.getResources().getBoolean(R.bool.daydreamdefaultenabledate));
+			String font = sharedPreferences.getString("font", context.getResources().getString(R.string.defaultfonttext));
+			float fontscale = sharedPreferences.getFloat("fontscale", context.getResources().getInteger(R.integer.daydreamdefaultfontscale));
+			int color = sharedPreferences.getInt("color", context.getResources().getColor(R.color.daydreamdefaultclockcolor));
 			((ImageView) findViewById(R.id.daydreamimageview)).setImageBitmap(
 					ClockGenerator.generateWidget(
 							DaydreamProvider.this, Calendar.getInstance().getTimeInMillis(),
@@ -69,7 +69,7 @@ public class DaydreamProvider extends DreamService {
 		valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
 		valueAnimator.setRepeatMode(ValueAnimator.RESTART);
 		valueAnimator.setIntValues(1, 2);
-		duration = sharedPreferences.getBoolean(DaydreamProvider.this.getResources().getString(R.string.daydreamkeyenableseconds), DaydreamProvider.this.getResources().getBoolean(R.bool.daydreamdefaultenableseconds)) ? 1000 : 60000;
+		duration = sharedPreferences.getBoolean("enableseconds", DaydreamProvider.this.getResources().getBoolean(R.bool.daydreamdefaultenableseconds)) ? 1000 : 60000;
 		//valueAnimator.setDuration(duration);
 		lastupdate = -duration;
 		valueAnimator.addUpdateListener(updatelistener);

@@ -20,10 +20,10 @@ public class CustomSpinnerAdapter extends ArrayAdapter<RowItem> {
 	private String TAG = "CustomSpinnerAdapter";
 	private LayoutInflater flater;
 	
-	CustomSpinnerAdapter(Activity context, int resouceId, int textviewId, List<RowItem> list) {
+	CustomSpinnerAdapter(Activity activity, int resouceId, int textviewId, List<RowItem> list) {
 		
-		super(context, resouceId, textviewId, list);
-		flater = context.getLayoutInflater();
+		super(activity, resouceId, textviewId, list);
+		flater = activity.getLayoutInflater();
 	}
 	
 	@Override
