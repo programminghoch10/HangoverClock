@@ -19,5 +19,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Settings Activity" />
+
+        <Button
+            android:id="@+id/restartsystemui"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Restart SystemUI" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
