@@ -43,6 +43,13 @@
                 android:name="android.service.dream"
                 android:resource="@xml/dreaminfo" />
         </service>
+        <!-- Settings stuff -->
+        <activity android:name=".SettingsActivity" android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <!-- xposed stuff -->
         <meta-data
             android:name="xposedmodule"
