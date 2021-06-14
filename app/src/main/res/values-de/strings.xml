@@ -15,7 +15,7 @@
     <string name="colorheader">Farben</string>
     <string name="fontheader">Schriftart</string>
     <string name="settingsheader">Einstellungen</string>
-    <string name="savedaydream">Fertig</string>
+    <string name="savebutton">Fertig</string>
     <string name="accessibilityClockPreviewString">Widget Vorschau</string>
     <string name="inputoverhangseconds">Sekunden</string>
 </resources>

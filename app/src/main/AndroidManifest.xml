@@ -32,8 +32,8 @@
         <service
             android:name=".DaydreamProvider"
             android:exported="true"
-            android:label="@string/app_name"
             android:icon="@drawable/clockc"
+            android:label="@string/app_name"
             android:permission="android.permission.BIND_DREAM_SERVICE">
             <intent-filter>
                 <action android:name="android.service.dreams.DreamService" />
@@ -44,25 +44,34 @@
                 android:resource="@xml/dreaminfo" />
         </service>
         <!-- Settings stuff -->
-        <activity android:name=".SettingsActivity" android:label="@string/app_name">
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <!-- preferences provider for systemui -->
+        <provider
+            android:name=".PreferencesProvider"
+            android:authorities="com.JJ.hangoverclock.PreferencesProvider"
+            android:exported="true" />
+        <!-- xposed configure stuff -->
+        <activity android:name=".StatusbarConfigure" />
         <!-- xposed stuff -->
         <meta-data
             android:name="xposedmodule"
-            android:value="true"/>
+            android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="@string/xposed_description"/>
+            android:value="@string/xposed_description" />
         <meta-data
             android:name="xposedminversion"
-            android:value="53"/>
+            android:value="53" />
         <meta-data
             android:name="xposedscope"
-            android:resource="@array/scope"/>
+            android:resource="@array/scope" />
 
 
     </application>

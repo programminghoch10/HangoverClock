@@ -3,6 +3,7 @@ package com.JJ.hangoverclock;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +22,8 @@ import java.io.IOException;
 public class SettingsActivity extends Activity {
 	private static final String TAG = SettingsActivity.class.getName();
 	
-	SharedPreferences sharedPreferences;
+	SharedPreferences sharedPreferencesStatusbar;
+	SharedPreferences sharedPreferencesLockscreen;
 	
 	Switch statusbarclockenabled;
 	RadioButton statusbarclocktextbased;
@@ -31,15 +33,15 @@ public class SettingsActivity extends Activity {
 	RadioButton lockscreenclocktextbased;
 	RadioButton lockscreenclockimagebased;
 	RadioGroup lockscreenclocktype;
-	CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			radioButtonChanged();
-		}
-	};
 	RadioGroup.OnCheckedChangeListener onCheckedChangeListener1 = new RadioGroup.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
+			radioButtonChanged();
+		}
+	};
+	CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 			radioButtonChanged();
 		}
 	};
@@ -60,7 +62,8 @@ public class SettingsActivity extends Activity {
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.settings);
-		sharedPreferences = getSharedPreferences(getString(R.string.systempreferencesfilename), MODE_PRIVATE);
+		sharedPreferencesStatusbar = getSharedPreferences(getString(R.string.statusbarpreferencesfilename), MODE_PRIVATE);
+		sharedPreferencesLockscreen = getSharedPreferences(getString(R.string.lockscreenpreferencesfilename), MODE_PRIVATE);
 		findViewById(R.id.restartsystemui).setOnClickListener(v -> {
 			Log.i(TAG, "onClick: Trying to restart SystemUI");
 			try {
@@ -74,6 +77,14 @@ public class SettingsActivity extends Activity {
 		if (actionBar != null) {
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
+		
+		findViewById(R.id.statusbarclockconfigure).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(SettingsActivity.this, StatusbarConfigure.class);
+				startActivity(intent);
+			}
+		});
 		
 		statusbarclockenabled = findViewById(R.id.statusbarclockenabled);
 		statusbarclocktextbased = findViewById(R.id.statusbarclocktextbased);
@@ -103,26 +114,28 @@ public class SettingsActivity extends Activity {
 	
 	@SuppressLint("ApplySharedPref")
 	private void saveconfig() {
-		SharedPreferences.Editor editor = sharedPreferences.edit();
-		editor.putBoolean("statusbarenabled", statusbarclockenabled.isChecked());
+		SharedPreferences.Editor editorStatusbar = sharedPreferencesStatusbar.edit();
+		SharedPreferences.Editor editorLockscreen = sharedPreferencesLockscreen.edit();
+		editorStatusbar.putBoolean("enabled", statusbarclockenabled.isChecked());
 		if (statusbarclockenabled.isChecked())
-			editor.putBoolean("statusbarimagebased", statusbarclockimagebased.isChecked());
-		editor.putBoolean("lockscreenenabled", lockscreenclockenabled.isChecked());
+			editorStatusbar.putBoolean("imagebased", statusbarclockimagebased.isChecked());
+		editorLockscreen.putBoolean("enabled", lockscreenclockenabled.isChecked());
 		if (lockscreenclockenabled.isChecked())
-			editor.putBoolean("lockscreenimagebased", lockscreenclockimagebased.isChecked());
-		//editor.apply();
-		editor.commit(); //we need commit as we are reading from it directly afterwards
+			editorLockscreen.putBoolean("imagebased", lockscreenclockimagebased.isChecked());
+		// we need commit as we are reading from it directly afterwards
+		editorStatusbar.commit();
+		editorLockscreen.commit();
 	}
 	
 	private void loadConfig() {
 		removeListeners();
-		statusbarclockenabled.setChecked(sharedPreferences.getBoolean("statusbarenabled", false));
-		boolean statusbarclockimagebasedbool = sharedPreferences.getBoolean("statusbarimagebased", false);
+		statusbarclockenabled.setChecked(sharedPreferencesStatusbar.getBoolean("enabled", false));
+		boolean statusbarclockimagebasedbool = sharedPreferencesStatusbar.getBoolean("imagebased", false);
 		statusbarclockimagebased.setChecked(statusbarclockimagebasedbool);
 		statusbarclocktextbased.setChecked(!statusbarclockimagebasedbool);
 		findViewById(R.id.statusbarclocktype).setVisibility(statusbarclockenabled.isChecked() ? View.VISIBLE : View.GONE);
-		lockscreenclockenabled.setChecked(sharedPreferences.getBoolean("lockscreenenabled", false));
-		boolean lockscreenclockimagebasedbool = sharedPreferences.getBoolean("lockscreenimagebased", false);
+		lockscreenclockenabled.setChecked(sharedPreferencesLockscreen.getBoolean("enabled", false));
+		boolean lockscreenclockimagebasedbool = sharedPreferencesLockscreen.getBoolean("imagebased", false);
 		lockscreenclockimagebased.setChecked(lockscreenclockimagebasedbool);
 		lockscreenclocktextbased.setChecked(!lockscreenclockimagebasedbool);
 		findViewById(R.id.lockscreenclocktype).setVisibility(lockscreenclockenabled.isChecked() ? View.VISIBLE : View.GONE);

@@ -3,5 +3,6 @@
     <string name="lastwidgetpreferencesfilename" translatable="false">lastwidget</string>
     <string name="widgetpreferencesfilename" translatable="false">widgetconfig</string>
     <string name="daydreampreferencesfilename" translatable="false">daydream</string>
-    <string name="systempreferencesfilename" translatable="false">system</string>
+    <string name="statusbarpreferencesfilename" translatable="false">statusbar</string>
+    <string name="lockscreenpreferencesfilename" translatable="false">lockscreen</string>
 </resources>
