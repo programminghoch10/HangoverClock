@@ -17,6 +17,9 @@ import com.JJ.hangoverclock.ClockGenerator;
 import com.JJ.hangoverclock.R;
 import com.crossbowffs.remotepreferences.RemotePreferences;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -25,6 +28,19 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 public class StatusbarClockHook {
 	
 	private static Result result;
+	
+	private static final ExecutorService executorService = Executors.newFixedThreadPool(1, r -> {
+		Thread thread = new Thread(r);
+		thread.setPriority(Thread.MAX_PRIORITY);
+		return thread;
+	});
+	
+	private static final Runnable updateRunnable = new Runnable() {
+		@Override
+		public void run() {
+			result = calculateClock();
+		}
+	};
 	
 	@RequiresApi(api = Build.VERSION_CODES.Q)
 	protected static void hook(XC_LoadPackage.LoadPackageParam lpparam) {
@@ -48,13 +64,8 @@ public class StatusbarClockHook {
 					}
 				}
 				
-				new Thread() {
-					@Override
-					public void run() {
-						super.run();
-						result = calculateClock();
-					}
-				}.start();
+				executorService.execute(updateRunnable);
+				//new Thread(runnable).start();
 				
 				return null;
 			}
