@@ -6,11 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
-public class StatusbarConfigure extends Activity {
+public class LockscreenConfigure extends Activity {
 	
 	String TAG = this.getClass().getName();
 	
-	public StatusbarConfigure() {
+	public LockscreenConfigure() {
 		super();
 	}
 	
@@ -18,10 +18,10 @@ public class StatusbarConfigure extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Set the view layout resource to use.
-		setContentView(R.layout.statusbar_configure);
-		Context context = StatusbarConfigure.this;
-		SharedPreferences sharedPreferences = getSharedPreferences(context.getResources().getString(R.string.statusbarpreferencesfilename), MODE_PRIVATE);
-		Configure configure = new Configure(context, this, "statusbar");
+		setContentView(R.layout.lockscreen_configure);
+		Context context = LockscreenConfigure.this;
+		SharedPreferences sharedPreferences = getSharedPreferences(context.getResources().getString(R.string.lockscreenpreferencesfilename), MODE_PRIVATE);
+		Configure configure = new Configure(context, this, "lockscreen");
 		configure.onCreate(sharedPreferences);
 		
 		findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {

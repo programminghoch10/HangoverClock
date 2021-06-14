@@ -85,6 +85,13 @@ public class SettingsActivity extends Activity {
 				startActivity(intent);
 			}
 		});
+		findViewById(R.id.lockscreenclockconfigure).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(SettingsActivity.this, LockscreenConfigure.class);
+				startActivity(intent);
+			}
+		});
 		
 		statusbarclockenabled = findViewById(R.id.statusbarclockenabled);
 		statusbarclocktextbased = findViewById(R.id.statusbarclocktextbased);

@@ -59,6 +59,7 @@
             android:exported="true" />
         <!-- xposed configure stuff -->
         <activity android:name=".StatusbarConfigure" />
+        <activity android:name=".LockscreenConfigure" />
         <!-- xposed stuff -->
         <meta-data
             android:name="xposedmodule"

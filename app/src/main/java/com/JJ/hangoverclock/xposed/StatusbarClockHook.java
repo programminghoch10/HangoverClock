@@ -28,9 +28,7 @@ public class StatusbarClockHook {
 			@Override
 			protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
 				Context context = AndroidAppHelper.currentApplication().createPackageContext("com.JJ.hangoverclock", Context.CONTEXT_IGNORE_SECURITY);
-				//SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.statusbarpreferencesfilename), Context.MODE_MULTI_PROCESS);
-				//XSharedPreferences sharedPreferences = new XSharedPreferences("com.JJ.hangoverclock", context.getString(R.string.statusbarpreferencesfilename));
-				//Log.d("hangoverclock", "replaceHookedMethod: preferences path = "+sharedPreferences.getFile().getAbsolutePath());
+				if (context == null) return null;
 				SharedPreferences sharedPreferences = new RemotePreferences(context, "com.JJ.hangoverclock.PreferencesProvider", "statusbar");
 				if (!sharedPreferences.getBoolean("enabled", false)) return null;
 				int houroverhang = sharedPreferences.getInt("houroverhang", context.getResources().getInteger(R.integer.daydreamdefaulthouroverhang));
@@ -45,11 +43,10 @@ public class StatusbarClockHook {
 				float fontscale = sharedPreferences.getFloat("fontscale", context.getResources().getInteger(R.integer.daydreamdefaultfontscale));
 				int color = sharedPreferences.getInt("color", context.getResources().getColor(R.color.daydreamdefaultclockcolor));
 				TextView textView = (TextView) param.thisObject;
+				long timestamp = System.currentTimeMillis();
 				try {
 					if (!sharedPreferences.getBoolean("imagebased", false))
 						throw new Exception();
-					if (context == null) throw new NullPointerException();
-					long timestamp = System.currentTimeMillis();
 					Bitmap bitmap = ClockGenerator.generateWidget(context, timestamp,
 							secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
 							twelvehour, enableseconds, enabledate, font, color, fontscale);
@@ -62,8 +59,6 @@ public class StatusbarClockHook {
 				} catch (Exception ignored) {
 					//well we're modding the system afterall
 					// anything could happen, so just fallback to text based clock
-					//XposedBridge.log("Something went wrong creating the bitmap.");
-					long timestamp = System.currentTimeMillis();
 					String text = ClockGenerator.calculatetime(timestamp, houroverhang, minuteoverhang, secondoverhang, twelvehour, enableseconds);
 					textView.setTextColor(color);
 					textView.setText(text);

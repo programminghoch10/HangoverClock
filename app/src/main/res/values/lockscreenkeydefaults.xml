@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- defaults for lockscreen -->
+    <bool name="lockscreendefaultenableseconds">true</bool>
+    <bool name="lockscreendefaultenabledate">true</bool>
+    <bool name="lockscreendefaultautotimeselector">true</bool>
+    <integer name="lockscreendefaultdayoverhang">0</integer>
+    <integer name="lockscreendefaultmonthoverhang">0</integer>
+    <integer name="lockscreendefaultsecondoverhang">0</integer>
+    <integer name="lockscreendefaultminuteoverhang">0</integer>
+    <integer name="lockscreendefaulthouroverhang">1</integer>
+    <integer name="lockscreendefaultcolor">0xFFFFFFFF</integer>
+    <integer name="lockscreendefaultfontscale">4</integer> <!-- scale date between 3 (largest) and maxfontscale (smallest) -->
+</resources>
