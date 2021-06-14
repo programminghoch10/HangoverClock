@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- defaults for lockscreen -->
-    <bool name="lockscreendefaultenableseconds">true</bool>
-    <bool name="lockscreendefaultenabledate">true</bool>
+    <bool name="lockscreendefaultenableseconds">false</bool>
+    <bool name="lockscreendefaultenabledate">false</bool>
     <bool name="lockscreendefaultautotimeselector">true</bool>
     <integer name="lockscreendefaultdayoverhang">0</integer>
     <integer name="lockscreendefaultmonthoverhang">0</integer>

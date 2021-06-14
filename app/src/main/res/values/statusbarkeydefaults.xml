@@ -2,7 +2,7 @@
 <resources>
     <!-- defaults for statusbar -->
     <bool name="statusbardefaultenableseconds">true</bool>
-    <bool name="statusbardefaultenabledate">true</bool>
+    <bool name="statusbardefaultenabledate">false</bool>
     <bool name="statusbardefaultautotimeselector">true</bool>
     <integer name="statusbardefaultdayoverhang">0</integer>
     <integer name="statusbardefaultmonthoverhang">0</integer>
