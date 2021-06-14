@@ -27,14 +27,12 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 public class StatusbarClockHook {
 	
-	private static Result result;
-	
 	private static final ExecutorService executorService = Executors.newFixedThreadPool(1, r -> {
 		Thread thread = new Thread(r);
 		thread.setPriority(Thread.MAX_PRIORITY);
 		return thread;
 	});
-	
+	private static Result result;
 	private static final Runnable updateRunnable = new Runnable() {
 		@Override
 		public void run() {
@@ -94,6 +92,7 @@ public class StatusbarClockHook {
 		String font = sharedPreferences.getString("font", context.getResources().getString(R.string.defaultfonttext));
 		float fontscale = sharedPreferences.getFloat("fontscale", context.getResources().getInteger(R.integer.daydreamdefaultfontscale));
 		int color = sharedPreferences.getInt("color", context.getResources().getColor(R.color.daydreamdefaultclockcolor));
+		float density = sharedPreferences.getFloat("density", 1);
 		long timestamp = System.currentTimeMillis() + 1000;
 		boolean imagebased = sharedPreferences.getBoolean("imagebased", false);
 		Result result = new Result();
@@ -104,8 +103,12 @@ public class StatusbarClockHook {
 			Bitmap bitmap = ClockGenerator.generateWidget(context, timestamp,
 					secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
 					twelvehour, enableseconds, enabledate, font, color, fontscale);
-			BitmapDrawable drawable = new BitmapDrawable(bitmap);
-			drawable.setTargetDensity(20);
+			BitmapDrawable drawable = new BitmapDrawable(context.getResources(), bitmap);
+			/*Log.i("hangoverclock", "calculateClock: "
+					+ " densitydpi=" + context.getResources().getDisplayMetrics().densityDpi
+					+ " calculateddensity=" + context.getResources().getDisplayMetrics().densityDpi * 0.04 * density);*/
+			//drawable.setTargetDensity((int) (context.getResources().getDisplayMetrics().scaledDensity * 10));
+			drawable.setTargetDensity((int) (context.getResources().getDisplayMetrics().densityDpi * 0.04 * density));
 			result.drawable = drawable;
 		}
 		return result;

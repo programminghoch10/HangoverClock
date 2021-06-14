@@ -23,7 +23,9 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Settings Activity" />
+                android:gravity="center"
+                android:text="HangoverClock Settings"
+                android:textSize="34sp" />
 
             <View
                 android:id="@+id/divider5"
@@ -66,6 +68,7 @@
                     android:id="@+id/textView4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="Statusbar Clock" />
 
                 <Switch
@@ -91,6 +94,20 @@
                         android:layout_height="wrap_content"
                         android:text="Image Based" />
 
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Size" />
+
+                    <SeekBar
+                        android:id="@+id/statusbarclockdensity"
+                        style="@style/Widget.AppCompat.SeekBar.Discrete"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:max="1000"
+                        android:progress="500" />
+
                     <Button
                         android:id="@+id/statusbarclockconfigure"
                         android:layout_width="match_parent"
@@ -115,6 +132,7 @@
                     android:id="@+id/textView5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="Lockscreen Clock" />
 
                 <Switch

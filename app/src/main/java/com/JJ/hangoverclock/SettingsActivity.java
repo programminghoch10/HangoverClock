@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.Switch;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,7 @@ public class SettingsActivity extends Activity {
 	RadioButton statusbarclocktextbased;
 	RadioButton statusbarclockimagebased;
 	RadioGroup statusbarclocktype;
+	SeekBar statusbarclockdensity;
 	Switch lockscreenclockenabled;
 	RadioButton lockscreenclocktextbased;
 	RadioButton lockscreenclockimagebased;
@@ -36,17 +38,17 @@ public class SettingsActivity extends Activity {
 	RadioGroup.OnCheckedChangeListener onCheckedChangeListener1 = new RadioGroup.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
-			radioButtonChanged();
+			configChanged();
 		}
 	};
 	CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			radioButtonChanged();
+			configChanged();
 		}
 	};
 	
-	private void radioButtonChanged() {
+	private void configChanged() {
 		saveconfig();
 		loadConfig();
 	}
@@ -97,6 +99,7 @@ public class SettingsActivity extends Activity {
 		statusbarclocktextbased = findViewById(R.id.statusbarclocktextbased);
 		statusbarclockimagebased = findViewById(R.id.statusbarclockimagebased);
 		statusbarclocktype = findViewById(R.id.statusbarclocktype);
+		statusbarclockdensity = findViewById(R.id.statusbarclockdensity);
 		lockscreenclockenabled = findViewById(R.id.lockscreenclockenabled);
 		lockscreenclocktextbased = findViewById(R.id.lockscreenclocktextbased);
 		lockscreenclockimagebased = findViewById(R.id.lockscreenclockimagebased);
@@ -108,6 +111,20 @@ public class SettingsActivity extends Activity {
 	private void addListeners() {
 		statusbarclockenabled.setOnCheckedChangeListener(onCheckedChangeListener);
 		statusbarclocktype.setOnCheckedChangeListener(onCheckedChangeListener1);
+		statusbarclockdensity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				configChanged();
+			}
+			
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
+			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+			}
+		});
 		lockscreenclockenabled.setOnCheckedChangeListener(onCheckedChangeListener);
 		lockscreenclocktype.setOnCheckedChangeListener(onCheckedChangeListener1);
 	}
@@ -115,6 +132,7 @@ public class SettingsActivity extends Activity {
 	private void removeListeners() {
 		statusbarclockenabled.setOnCheckedChangeListener(null);
 		statusbarclocktype.setOnCheckedChangeListener(null);
+		statusbarclockdensity.setOnSeekBarChangeListener(null);
 		lockscreenclockenabled.setOnCheckedChangeListener(null);
 		lockscreenclocktype.setOnCheckedChangeListener(null);
 	}
@@ -126,6 +144,9 @@ public class SettingsActivity extends Activity {
 		editorStatusbar.putBoolean("enabled", statusbarclockenabled.isChecked());
 		if (statusbarclockenabled.isChecked())
 			editorStatusbar.putBoolean("imagebased", statusbarclockimagebased.isChecked());
+		float statusbarclockdensityfloat = (float) statusbarclockdensity.getProgress() / statusbarclockdensity.getMax() + 0.5f;
+		editorStatusbar.putFloat("density", statusbarclockdensityfloat);
+		Log.d(TAG, "saveconfig: density=" + statusbarclockdensityfloat);
 		editorLockscreen.putBoolean("enabled", lockscreenclockenabled.isChecked());
 		if (lockscreenclockenabled.isChecked())
 			editorLockscreen.putBoolean("imagebased", lockscreenclockimagebased.isChecked());
@@ -140,6 +161,8 @@ public class SettingsActivity extends Activity {
 		boolean statusbarclockimagebasedbool = sharedPreferencesStatusbar.getBoolean("imagebased", false);
 		statusbarclockimagebased.setChecked(statusbarclockimagebasedbool);
 		statusbarclocktextbased.setChecked(!statusbarclockimagebasedbool);
+		statusbarclockdensity.setVisibility(statusbarclockimagebased.isChecked() ? View.VISIBLE : View.GONE);
+		statusbarclockdensity.setProgress((int) ((sharedPreferencesStatusbar.getFloat("density", 1) - 0.5f) * statusbarclockdensity.getMax()));
 		findViewById(R.id.statusbarclocktype).setVisibility(statusbarclockenabled.isChecked() ? View.VISIBLE : View.GONE);
 		lockscreenclockenabled.setChecked(sharedPreferencesLockscreen.getBoolean("enabled", false));
 		boolean lockscreenclockimagebasedbool = sharedPreferencesLockscreen.getBoolean("imagebased", false);
