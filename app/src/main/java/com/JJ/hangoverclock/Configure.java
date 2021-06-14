@@ -38,6 +38,7 @@ public class Configure {
 			"houroverhang",
 	};
 	private static final String TAG = Configure.class.getName();
+	private SharedPreferences instantApply = null;
 	final String scope;
 	final Context context;
 	final Activity activity;
@@ -70,6 +71,10 @@ public class Configure {
 		public void onStopTrackingTouch(SeekBar seekBar) {
 		}
 	};
+	
+	public void setInstantApply(SharedPreferences sharedPreferences) {
+		instantApply = sharedPreferences;
+	}
 	
 	Configure(Context context, Activity activity, String scope) {
 		this.context = context;
@@ -353,6 +358,7 @@ public class Configure {
 		);
 		bitmap.prepareToDraw();
 		imageView.setImageBitmap(bitmap);
+		if (instantApply != null) savesettings(instantApply);
 	}
 	
 	public void savesettings(SharedPreferences sharedPreferences) {

@@ -23,6 +23,7 @@ public class StatusbarConfigure extends Activity {
 		SharedPreferences sharedPreferences = getSharedPreferences(context.getResources().getString(R.string.statusbarpreferencesfilename), MODE_PRIVATE);
 		Configure configure = new Configure(context, this, "statusbar");
 		configure.onCreate(sharedPreferences);
+		configure.setInstantApply(sharedPreferences);
 		
 		findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
 			@Override
