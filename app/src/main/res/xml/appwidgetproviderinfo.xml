@@ -4,7 +4,7 @@
     android:minWidth="160dp"
     android:minHeight="40dp"
     android:updatePeriodMillis="1800000"
-    android:previewImage="@mipmap/clock"
+    android:previewImage="@drawable/clockc"
     android:initialLayout="@layout/widget"
     android:configure="com.JJ.hangoverclock.WidgetConfigure"
     android:resizeMode="horizontal|vertical"

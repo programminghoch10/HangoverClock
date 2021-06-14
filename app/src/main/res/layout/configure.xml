@@ -11,8 +11,7 @@
         android:layout_height="72dp"
         android:adjustViewBounds="true"
         android:background="#808080"
-        android:contentDescription="@string/accessibilityClockPreviewString"
-        app:srcCompat="@drawable/clock" />
+        android:contentDescription="@string/accessibilityClockPreviewString" />
 
     <View
         android:id="@+id/divider23"
