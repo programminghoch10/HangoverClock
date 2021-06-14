@@ -14,7 +14,11 @@ public class PackageHook implements IXposedHookLoadPackage {
 	@Override
 	public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
 		if (!lpparam.packageName.equals("com.android.systemui")) return;
-		XposedBridge.log("Hangoverclock: Hooking SystemUI Clock");
+		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q) {
+			XposedBridge.log("HangoverClock: Android Version is smaller than required!");
+			return;
+		}
+		XposedBridge.log("HangoverClock: Hooking SystemUI Clock");
 		StatusbarClockHook.hook(lpparam);
 		LockscreenClockHook.hook(lpparam);
 	}
