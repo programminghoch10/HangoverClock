@@ -35,8 +35,9 @@
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/clockc"
-                tools:visibility="gone" />
+                android:adjustViewBounds="true"
+                android:maxHeight="200dp"
+                android:src="@drawable/clockc" />
 
             <View
                 android:id="@+id/divider"
