@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:adjustViewBounds="true"
+        android:background="#808080"
         android:contentDescription="@string/accessibilityClockPreviewString"
         app:srcCompat="@drawable/clock" />
 
@@ -32,51 +33,75 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/overhanginputdatemonths"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/inputoverhangmonths"
-            android:inputType="numberSigned|numberDecimal" />
+            android:hint="@string/inputoverhangmonths">
 
-        <EditText
-            android:id="@+id/overhanginputdatedays"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/inputoverhangday"
-            android:inputType="numberSigned|numberDecimal" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/overhanginputdatemonths"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="numberSigned|numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/overhanginputtimehours"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/inputoverhanghours"
-            android:inputType="numberSigned|numberDecimal" />
+            android:hint="@string/inputoverhangday">
 
-        <EditText
-            android:id="@+id/overhanginputtimeminutes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/inputoverhangminutes"
-            android:inputType="numberSigned|numberDecimal" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/overhanginputdatedays"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="numberSigned|numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/overhanginputtimeseconds"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/inputoverhangseconds"
-            android:inputType="numberSigned|numberDecimal"
-            android:visibility="gone" />
+            android:hint="@string/inputoverhanghours">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/overhanginputtimehours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="numberSigned|numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/inputoverhangminutes">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/overhanginputtimeminutes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="numberSigned|numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/inputoverhangseconds">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/overhanginputtimeseconds"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="numberSigned|numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 

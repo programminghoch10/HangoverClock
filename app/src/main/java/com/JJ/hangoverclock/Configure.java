@@ -38,10 +38,10 @@ public class Configure {
 			"houroverhang",
 	};
 	private static final String TAG = Configure.class.getName();
-	private SharedPreferences instantApply = null;
 	final String scope;
 	final Context context;
 	final Activity activity;
+	private SharedPreferences instantApply = null;
 	SeekBar.OnSeekBarChangeListener colorseekbarlistener = new SeekBar.OnSeekBarChangeListener() {
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -72,14 +72,14 @@ public class Configure {
 		}
 	};
 	
-	public void setInstantApply(SharedPreferences sharedPreferences) {
-		instantApply = sharedPreferences;
-	}
-	
 	Configure(Context context, Activity activity, String scope) {
 		this.context = context;
 		this.activity = activity;
 		this.scope = scope;
+	}
+	
+	public void setInstantApply(SharedPreferences sharedPreferences) {
+		instantApply = sharedPreferences;
 	}
 	
 	public void onCreate(SharedPreferences sharedPreferences) {
@@ -316,24 +316,30 @@ public class Configure {
 		SeekBar seekbarblue = activity.findViewById(R.id.seekbarblue);
 		SeekBar seekbaralpha = activity.findViewById(R.id.seekbaralpha);
 		int color = Color.argb(seekbaralpha.getProgress(), seekbarred.getProgress(), seekbargreen.getProgress(), seekbarblue.getProgress());
+		//int backgroundColor = Color.rgb((int)(seekbarred.getProgress() * 0.3), (int)(seekbargreen.getProgress()*0.6f), (int)(seekbarblue.getProgress() * 0.1f));
+		int backgroundColor = 0xFF303030;
+		if (seekbarred.getProgress() * 0.3 + seekbargreen.getProgress() * 0.6f + seekbarblue.getProgress() * 0.1f < 186) {
+			backgroundColor = 0xFF808080;
+		}
+		activity.findViewById(R.id.previewclock).setBackgroundColor(backgroundColor);
 		SeekBar fontsizedividerseekbar = activity.findViewById(R.id.datefontsizeseekbar);
 		float fontsizedivider = context.getResources().getInteger(R.integer.maxfontscale) - (float) fontsizedividerseekbar.getProgress() / 100;
 		if (((Switch) activity.findViewById(R.id.dateselector)).isChecked()) {
-			activity.findViewById(R.id.overhanginputdatedays).setVisibility(View.VISIBLE);
-			activity.findViewById(R.id.overhanginputdatemonths).setVisibility(View.VISIBLE);
+			((View) activity.findViewById(R.id.overhanginputdatedays).getParent()).setVisibility(View.VISIBLE);
+			((View) activity.findViewById(R.id.overhanginputdatemonths).getParent()).setVisibility(View.VISIBLE);
 			fontsizedividerseekbar.setVisibility(View.VISIBLE);
 		} else {
-			activity.findViewById(R.id.overhanginputdatedays).setVisibility(View.GONE);
-			activity.findViewById(R.id.overhanginputdatemonths).setVisibility(View.GONE);
+			((View) activity.findViewById(R.id.overhanginputdatedays).getParent()).setVisibility(View.GONE);
+			((View) activity.findViewById(R.id.overhanginputdatemonths).getParent()).setVisibility(View.GONE);
 			fontsizedividerseekbar.setVisibility(View.GONE);
 		}
 		if (((Switch) activity.findViewById(R.id.secondsselector)).isChecked()) {
 			//findViewById(R.id.secondsinfo).setVisibility(View.VISIBLE);
 			//((TextView) activity.findViewById(R.id.secondsinfo)).setWidth(findViewById(R.id.secondsselector).getWidth());
-			activity.findViewById(R.id.overhanginputtimeseconds).setVisibility(View.VISIBLE);
+			((View) activity.findViewById(R.id.overhanginputtimeseconds).getParent()).setVisibility(View.VISIBLE);
 		} else {
 			//findViewById(R.id.secondsinfo).setVisibility(View.GONE);
-			activity.findViewById(R.id.overhanginputtimeseconds).setVisibility(View.GONE);
+			((View) activity.findViewById(R.id.overhanginputtimeseconds).getParent()).setVisibility(View.GONE);
 		}
 		if (((Switch) activity.findViewById(R.id.autohourselector)).isChecked()) {
 			activity.findViewById(R.id.hourselector).setEnabled(false);
