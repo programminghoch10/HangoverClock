@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -35,18 +36,20 @@ public class SettingsActivity extends Activity {
 	RadioButton lockscreenclocktextbased;
 	RadioButton lockscreenclockimagebased;
 	RadioGroup lockscreenclocktype;
-	RadioGroup.OnCheckedChangeListener onCheckedChangeListener1 = new RadioGroup.OnCheckedChangeListener() {
-		@Override
-		public void onCheckedChanged(RadioGroup group, int checkedId) {
-			configChanged();
-		}
-	};
 	CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 			configChanged();
 		}
 	};
+	RadioGroup.OnCheckedChangeListener onCheckedChangeListener1 = new RadioGroup.OnCheckedChangeListener() {
+		@Override
+		public void onCheckedChanged(RadioGroup group, int checkedId) {
+			configChanged();
+		}
+	};
+	LinearLayout xposednotinstalled;
+	LinearLayout xposedinstalled;
 	
 	private void configChanged() {
 		saveconfig();
@@ -104,6 +107,12 @@ public class SettingsActivity extends Activity {
 		lockscreenclocktextbased = findViewById(R.id.lockscreenclocktextbased);
 		lockscreenclockimagebased = findViewById(R.id.lockscreenclockimagebased);
 		lockscreenclocktype = findViewById(R.id.lockscreenclocktype);
+		xposedinstalled = findViewById(R.id.xposedinstalled);
+		xposednotinstalled = findViewById(R.id.xposednotinstalled);
+		
+		boolean xposedactive = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q;
+		xposedinstalled.setVisibility(xposedactive ? View.VISIBLE : View.GONE);
+		xposednotinstalled.setVisibility(xposedactive ? View.GONE : View.VISIBLE);
 		
 		loadConfig();
 	}

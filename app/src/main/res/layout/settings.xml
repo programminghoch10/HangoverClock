@@ -47,123 +47,146 @@
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider" />
 
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="This is only usable when XPosed module is activated" />
-
-            <View
-                android:id="@+id/divider2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
-
             <LinearLayout
+                android:id="@+id/xposednotinstalled"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Statusbar Clock" />
-
-                <Switch
-                    android:id="@+id/statusbarclockenabled"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Enabled" />
-
-                <RadioGroup
-                    android:id="@+id/statusbarclocktype"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <RadioButton
-                        android:id="@+id/statusbarclocktextbased"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Text Based" />
-
-                    <RadioButton
-                        android:id="@+id/statusbarclockimagebased"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Image Based" />
-
-                    <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Size" />
-
-                    <SeekBar
-                        android:id="@+id/statusbarclockdensity"
-                        style="@style/Widget.AppCompat.SeekBar.Discrete"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:max="1000"
-                        android:progress="500" />
-
-                    <Button
-                        android:id="@+id/statusbarclockconfigure"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Configure Statusbar Clock" />
-                </RadioGroup>
-
+                    android:text="You need Android 10 or higher and XPosed for changing statusbar and lockscreen clocks." />
             </LinearLayout>
 
-            <View
-                android:id="@+id/divider3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
-
             <LinearLayout
+                android:id="@+id/xposedinstalled"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <View
+                    android:id="@+id/divider3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/textView6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Lockscreen Clock" />
+                    android:text="This is only usable when XPosed module is activated" />
 
-                <Switch
-                    android:id="@+id/lockscreenclockenabled"
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Enabled" />
+                    android:orientation="vertical">
 
-                <RadioGroup
-                    android:id="@+id/lockscreenclocktype"
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Statusbar Clock" />
+
+                    <Switch
+                        android:id="@+id/statusbarclockenabled"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Enabled" />
+
+                    <RadioGroup
+                        android:id="@+id/statusbarclocktype"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <RadioButton
+                            android:id="@+id/statusbarclocktextbased"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Text Based" />
+
+                        <RadioButton
+                            android:id="@+id/statusbarclockimagebased"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Image Based" />
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Size" />
+
+                        <SeekBar
+                            android:id="@+id/statusbarclockdensity"
+                            style="@style/Widget.AppCompat.SeekBar.Discrete"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:max="1000"
+                            android:progress="500" />
+
+                        <Button
+                            android:id="@+id/statusbarclockconfigure"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Configure Statusbar Clock" />
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <RadioButton
-                        android:id="@+id/lockscreenclocktextbased"
+                    <TextView
+                        android:id="@+id/textView5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Text Based" />
+                        android:gravity="center"
+                        android:text="Lockscreen Clock" />
 
-                    <RadioButton
-                        android:id="@+id/lockscreenclockimagebased"
+                    <Switch
+                        android:id="@+id/lockscreenclockenabled"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Image Based" />
+                        android:text="Enabled" />
 
-                    <Button
-                        android:id="@+id/lockscreenclockconfigure"
+                    <RadioGroup
+                        android:id="@+id/lockscreenclocktype"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Configure Lockscreen Clock" />
-                </RadioGroup>
+                        android:layout_height="match_parent">
+
+                        <RadioButton
+                            android:id="@+id/lockscreenclocktextbased"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Text Based" />
+
+                        <RadioButton
+                            android:id="@+id/lockscreenclockimagebased"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Image Based" />
+
+                        <Button
+                            android:id="@+id/lockscreenclockconfigure"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Configure Lockscreen Clock" />
+                    </RadioGroup>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -184,6 +207,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Restart SystemUI" />
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
