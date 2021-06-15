@@ -93,7 +93,7 @@ public class Configure {
 		((SeekBar) activity.findViewById(R.id.seekbarred)).getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
 		((SeekBar) activity.findViewById(R.id.seekbargreen)).getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
 		((SeekBar) activity.findViewById(R.id.seekbarblue)).getProgressDrawable().setColorFilter(Color.BLUE, PorterDuff.Mode.MULTIPLY);
-		int color = sharedPreferences.getInt("color", context.getResources().getInteger(getDefaultValueIdentifier("color", "integer")));
+		int color = sharedPreferences.getInt("color", context.getResources().getInteger(getDefaultValueIdentifier("color", "color")));
 		((SeekBar) activity.findViewById(R.id.seekbarred)).setProgress(Color.red(color));
 		((SeekBar) activity.findViewById(R.id.seekbargreen)).setProgress(Color.green(color));
 		((SeekBar) activity.findViewById(R.id.seekbarblue)).setProgress(Color.blue(color));
@@ -438,7 +438,7 @@ public class Configure {
 			editor.putInt("dayoverhang", dayoverhang);
 		if (as | context.getResources().getInteger(getDefaultValueIdentifier("monthoverhang", "integer")) != monthoverhang)
 			editor.putInt("monthoverhang", monthoverhang);
-		if (as | context.getResources().getColor(getDefaultValueIdentifier("color", "integer")) != color)
+		if (as | context.getResources().getColor(getDefaultValueIdentifier("color", "color")) != color)
 			editor.putInt("color", color);
 		if (!autotwelvehours)
 			editor.putBoolean("twelvehours", twelvehours);
