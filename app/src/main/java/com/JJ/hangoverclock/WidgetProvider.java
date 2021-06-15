@@ -109,7 +109,7 @@ public class WidgetProvider extends AppWidgetProvider {
 		boolean enabledate = sharedPreferences.getBoolean("enabledate" + appWidgetId, context.getResources().getBoolean(R.bool.widgetdefaultenabledate));
 		String font = sharedPreferences.getString("font" + appWidgetId, context.getResources().getString(R.string.defaultfonttext));
 		float fontscale = sharedPreferences.getFloat("fontscale" + appWidgetId, context.getResources().getInteger(R.integer.widgetdefaultfontscale));
-		int color = sharedPreferences.getInt("color" + appWidgetId, context.getResources().getColor(R.color.widgetdefaultclockcolor));
+		int color = sharedPreferences.getInt("color" + appWidgetId, context.getResources().getColor(R.color.widgetdefaultcolor));
 		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
 		remoteViews.setImageViewBitmap(R.id.clock,
 				ClockGenerator.generateWidget(

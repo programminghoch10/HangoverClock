@@ -9,6 +9,6 @@
     <integer name="daydreamdefaultsecondoverhang">0</integer>
     <integer name="daydreamdefaultminuteoverhang">0</integer>
     <integer name="daydreamdefaulthouroverhang">1</integer>
-    <integer name="daydreamdefaultcolor">0xFFFFFFFF</integer>
+    <color name="daydreamdefaultcolor">#FFFFFFFF</color>
     <integer name="daydreamdefaultfontscale">4</integer> <!-- scale date between 3 (largest) and maxfontscale (smallest) -->
 </resources>

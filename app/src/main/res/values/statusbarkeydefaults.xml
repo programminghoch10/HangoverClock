@@ -9,6 +9,6 @@
     <integer name="statusbardefaultsecondoverhang">0</integer>
     <integer name="statusbardefaultminuteoverhang">0</integer>
     <integer name="statusbardefaulthouroverhang">1</integer>
-    <integer name="statusbardefaultcolor">0xFFFFFFFF</integer>
+    <color name="statusbardefaultcolor">#FFFFFFFF</color>
     <integer name="statusbardefaultfontscale">4</integer> <!-- scale date between 3 (largest) and maxfontscale (smallest) -->
 </resources>

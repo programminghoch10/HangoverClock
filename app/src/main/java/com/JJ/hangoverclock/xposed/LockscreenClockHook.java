@@ -36,19 +36,18 @@ public class LockscreenClockHook {
 				Context context = AndroidAppHelper.currentApplication().createPackageContext("com.JJ.hangoverclock", Context.CONTEXT_IGNORE_SECURITY);
 				if (context == null) return null;
 				SharedPreferences sharedPreferences = new RemotePreferences(context, "com.JJ.hangoverclock.PreferencesProvider", "lockscreen");
-				if (!sharedPreferences.getBoolean("enabled", false)) return null;
-				int houroverhang = sharedPreferences.getInt("houroverhang", context.getResources().getInteger(R.integer.daydreamdefaulthouroverhang));
-				int minuteoverhang = sharedPreferences.getInt("minuteoverhang", context.getResources().getInteger(R.integer.daydreamdefaultminuteoverhang));
-				int secondoverhang = sharedPreferences.getInt("secondoverhang", context.getResources().getInteger(R.integer.daydreamdefaultsecondoverhang));
-				int dayoverhang = sharedPreferences.getInt("dayoverhang", context.getResources().getInteger(R.integer.daydreamdefaultdayoverhang));
-				int monthoverhang = sharedPreferences.getInt("monthoverhang", context.getResources().getInteger(R.integer.daydreamdefaultmonthoverhang));
+				if (!sharedPreferences.getBoolean("enabled", false)) return;
+				int houroverhang = sharedPreferences.getInt("houroverhang", context.getResources().getInteger(R.integer.lockscreendefaulthouroverhang));
+				int minuteoverhang = sharedPreferences.getInt("minuteoverhang", context.getResources().getInteger(R.integer.lockscreendefaultminuteoverhang));
+				int secondoverhang = sharedPreferences.getInt("secondoverhang", context.getResources().getInteger(R.integer.lockscreendefaultsecondoverhang));
+				int dayoverhang = sharedPreferences.getInt("dayoverhang", context.getResources().getInteger(R.integer.lockscreendefaultdayoverhang));
+				int monthoverhang = sharedPreferences.getInt("monthoverhang", context.getResources().getInteger(R.integer.lockscreendefaultmonthoverhang));
 				boolean twelvehour = sharedPreferences.getBoolean("twelvehours", !DateFormat.is24HourFormat(context));
-				boolean enableseconds = sharedPreferences.getBoolean("enableseconds", context.getResources().getBoolean(R.bool.daydreamdefaultenableseconds));
-				boolean enabledate = sharedPreferences.getBoolean("enabledate", context.getResources().getBoolean(R.bool.daydreamdefaultenabledate));
+				boolean enableseconds = sharedPreferences.getBoolean("enableseconds", context.getResources().getBoolean(R.bool.lockscreendefaultenableseconds));
+				boolean enabledate = sharedPreferences.getBoolean("enabledate", context.getResources().getBoolean(R.bool.lockscreendefaultenabledate));
 				String font = sharedPreferences.getString("font", context.getResources().getString(R.string.defaultfonttext));
-				float fontscale = sharedPreferences.getFloat("fontscale", context.getResources().getInteger(R.integer.daydreamdefaultfontscale));
-				int color = sharedPreferences.getInt("color", context.getResources().getColor(R.color.daydreamdefaultclockcolor));
-				TextClock textClock = (TextClock) param.thisObject;
+				float fontscale = sharedPreferences.getFloat("fontscale", context.getResources().getInteger(R.integer.lockscreendefaultfontscale));
+				int color = sharedPreferences.getInt("color", context.getResources().getColor(R.color.lockscreendefaultcolor));
 				long timestamp = System.currentTimeMillis();
 				
 				

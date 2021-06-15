@@ -9,6 +9,6 @@
     <integer name="lockscreendefaultsecondoverhang">0</integer>
     <integer name="lockscreendefaultminuteoverhang">0</integer>
     <integer name="lockscreendefaulthouroverhang">1</integer>
-    <integer name="lockscreendefaultcolor">0xFFFFFFFF</integer>
+    <color name="lockscreendefaultcolor">#FFFFFFFF</color>
     <integer name="lockscreendefaultfontscale">4</integer> <!-- scale date between 3 (largest) and maxfontscale (smallest) -->
 </resources>
