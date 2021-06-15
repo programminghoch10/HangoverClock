@@ -20,7 +20,7 @@ import com.crossbowffs.remotepreferences.RemotePreferences;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -32,20 +32,23 @@ public class StatusbarClockHook {
 		thread.setPriority(Thread.MAX_PRIORITY);
 		return thread;
 	});
-	private static Result result;
+	private static volatile Result result;
 	private static final Runnable updateRunnable = new Runnable() {
 		@Override
 		public void run() {
 			result = calculateClock();
 		}
 	};
+	private static volatile boolean enabled = false;
 	
 	@RequiresApi(api = Build.VERSION_CODES.Q)
 	protected static void hook(XC_LoadPackage.LoadPackageParam lpparam) {
-		findAndHookMethod("com.android.systemui.statusbar.policy.Clock", lpparam.classLoader, "updateClock", new XC_MethodReplacement() {
+		findAndHookMethod("com.android.systemui.statusbar.policy.Clock", lpparam.classLoader, "updateClock", new XC_MethodHook() {
 			@Override
-			protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				if (result != null) {
+					if (!enabled) enabled = true;
+					param.setResult(null);
 					TextView textView = (TextView) param.thisObject;
 					try {
 						if (!result.imagebased) throw new Exception();
@@ -60,27 +63,65 @@ public class StatusbarClockHook {
 						textView.setText(result.text);
 						textView.setCompoundDrawables(null, null, null, null);
 					}
+					startThread();
+				} else {
+					if (enabled) {
+						enabled = false;
+						//disable the service
+						//FIXME: this does not set defaults because its called one iteration too early
+						/*Log.d("hangoverclock", "beforeHookedMethod: clock not generated or disabled, trying to return to defaults");
+						TextView textView = (TextView) param.thisObject;
+						try {
+							//textView.setText("hmmmm");
+							//calling updateColors does not fix wrong colors, so we just set it to white
+							textView.setTextColor(Color.WHITE);
+							//XposedHelpers.callMethod(param.thisObject, "updateColors", null);
+							textView.setCompoundDrawables(null, null, null, null);
+						} catch (Exception ignored) {}*/
+					} else {
+						//since the background thread is not refreshing the result anymore, we need to check manually
+						if (getEnabled()) startThread();
+					}
 				}
 				
-				executorService.execute(updateRunnable);
-				//new Thread(runnable).start();
-				
-				return null;
 			}
 		});
 	}
 	
-	private static Result calculateClock() {
-		Context context = null;
+	private static void startThread() {
+		executorService.execute(updateRunnable);
+		//new Thread(runnable).start();
+	}
+	
+	private static Context getContext() {
 		try {
-			context = AndroidAppHelper.currentApplication().createPackageContext("com.JJ.hangoverclock", Context.CONTEXT_IGNORE_SECURITY);
+			return AndroidAppHelper.currentApplication().createPackageContext("com.JJ.hangoverclock", Context.CONTEXT_IGNORE_SECURITY);
 		} catch (PackageManager.NameNotFoundException e) {
-			Log.e("hangoverclock", "run: could not get context", e);
+			Log.e("hangoverclock", "getContext: could not get context", e);
 			return null;
 		}
+	}
+	
+	private static SharedPreferences getSharedPreferences(Context context) {
+		return new RemotePreferences(context, "com.JJ.hangoverclock.PreferencesProvider", "statusbar");
+	}
+	
+	private static boolean getEnabled() {
+		Context context = getContext();
+		if (context == null) throw new NullPointerException();
+		SharedPreferences sharedPreferences = getSharedPreferences(context);
+		return getEnabled(sharedPreferences);
+	}
+	
+	private static boolean getEnabled(SharedPreferences sharedPreferences) {
+		return sharedPreferences.getBoolean("enabled", false);
+	}
+	
+	private static Result calculateClock() {
+		Context context = getContext();
 		if (context == null) return null;
-		SharedPreferences sharedPreferences = new RemotePreferences(context, "com.JJ.hangoverclock.PreferencesProvider", "statusbar");
-		if (!sharedPreferences.getBoolean("enabled", false)) return null;
+		SharedPreferences sharedPreferences = getSharedPreferences(context);
+		if (!getEnabled(sharedPreferences)) return null;
 		int houroverhang = sharedPreferences.getInt("houroverhang", context.getResources().getInteger(R.integer.statusbardefaulthouroverhang));
 		int minuteoverhang = sharedPreferences.getInt("minuteoverhang", context.getResources().getInteger(R.integer.statusbardefaultminuteoverhang));
 		int secondoverhang = sharedPreferences.getInt("secondoverhang", context.getResources().getInteger(R.integer.statusbardefaultsecondoverhang));
