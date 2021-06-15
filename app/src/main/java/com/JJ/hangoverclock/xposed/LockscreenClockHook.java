@@ -5,13 +5,11 @@ import android.app.AndroidAppHelper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.TextClock;
-import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
@@ -19,7 +17,9 @@ import com.JJ.hangoverclock.ClockGenerator;
 import com.JJ.hangoverclock.R;
 import com.crossbowffs.remotepreferences.RemotePreferences;
 
-import de.robv.android.xposed.XC_MethodReplacement;
+import java.lang.reflect.Field;
+
+import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -29,14 +29,16 @@ public class LockscreenClockHook {
 	@RequiresApi(api = Build.VERSION_CODES.Q)
 	@SuppressLint("PrivateApi")
 	protected static void hook(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-		XposedHelpers.findAndHookMethod(TextClock.class, "onTimeChanged", new XC_MethodReplacement() {
+		XposedHelpers.findAndHookMethod("com.android.keyguard.KeyguardClockSwitch", lpparam.classLoader, "refresh", new XC_MethodHook() {
 			@Override
-			protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+				Log.d(TAG, "beforeHookedMethod: lockscreen hook called");
 				
 				Context context = AndroidAppHelper.currentApplication().createPackageContext("com.JJ.hangoverclock", Context.CONTEXT_IGNORE_SECURITY);
-				if (context == null) return null;
+				if (context == null) return;
 				SharedPreferences sharedPreferences = new RemotePreferences(context, "com.JJ.hangoverclock.PreferencesProvider", "lockscreen");
 				if (!sharedPreferences.getBoolean("enabled", false)) return;
+				param.setResult(null);
 				int houroverhang = sharedPreferences.getInt("houroverhang", context.getResources().getInteger(R.integer.lockscreendefaulthouroverhang));
 				int minuteoverhang = sharedPreferences.getInt("minuteoverhang", context.getResources().getInteger(R.integer.lockscreendefaultminuteoverhang));
 				int secondoverhang = sharedPreferences.getInt("secondoverhang", context.getResources().getInteger(R.integer.lockscreendefaultsecondoverhang));
@@ -50,24 +52,37 @@ public class LockscreenClockHook {
 				int color = sharedPreferences.getInt("color", context.getResources().getColor(R.color.lockscreendefaultcolor));
 				long timestamp = System.currentTimeMillis();
 				
+				//TextClock textClock = (TextClock) param.thisObject;
+				Field textClockField = XposedHelpers.findField(param.thisObject.getClass(), "mClockView");
+				TextClock textClock = (TextClock) textClockField.get(param.thisObject);
+				Field clockPluginField = XposedHelpers.findField(param.thisObject.getClass(), "mClockPlugin");
+				Object mClockPlugin = clockPluginField.get(param.thisObject);
+				if (mClockPlugin != null) {
+					textClockField = XposedHelpers.findFirstFieldByExactType(mClockPlugin.getClass(), TextClock.class);
+					textClock = (TextClock) textClockField.get(mClockPlugin);
+				}
+				Log.d(TAG, "beforeHookedMethod: clockplugin=" + mClockPlugin);
+				Log.d(TAG, "beforeHookedMethod: textClockField=" + textClockField);
+				Log.d(TAG, "beforeHookedMethod: textClock=" + textClock);
 				
 				String text = ClockGenerator.calculatetime(timestamp, houroverhang, minuteoverhang, secondoverhang, twelvehour, enableseconds);
 				textClock.setText(text);
 				
-				try {
-					if (!sharedPreferences.getBoolean("imagebased", false))
-						throw new Exception();
-					Bitmap bitmap = ClockGenerator.generateWidget(context, timestamp,
-							secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
-							twelvehour, enableseconds, enabledate, font, color, fontscale);
-					BitmapDrawable drawable = new BitmapDrawable(bitmap);
-					drawable.setTargetDensity(90);
-					textClock.setCompoundDrawablesWithIntrinsicBounds(null, null, null, drawable);
-					textClock.setText("");
-				} catch (Exception e) {
-					//Log.e(TAG, "replaceHookedMethod: ", e);
+				boolean imagebased = sharedPreferences.getBoolean("imagebased", false);
+				if (imagebased) {
+					try {
+						Bitmap bitmap = ClockGenerator.generateWidget(context, timestamp,
+								secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
+								twelvehour, enableseconds, enabledate, font, color, fontscale);
+						BitmapDrawable drawable = new BitmapDrawable(context.getResources(), bitmap);
+						//drawable.setTargetDensity(90);
+						drawable.setTargetDensity((int) (context.getResources().getDisplayMetrics().densityDpi * 0.25));
+						textClock.setCompoundDrawablesWithIntrinsicBounds(null, null, null, drawable);
+						textClock.setText("");
+					} catch (Exception e) {
+						Log.e(TAG, "beforeHookedMethod: ", e);
+					}
 				}
-				return null;
 			}
 		});
 	}
