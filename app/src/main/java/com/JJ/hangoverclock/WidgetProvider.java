@@ -40,18 +40,11 @@ public class WidgetProvider extends AppWidgetProvider {
 			ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
 			AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 			int[] ids = appWidgetManager.getAppWidgetIds(thisAppWidget);
-			boolean increaserefreshrate = false;
 			for (int appWidgetID : ids) {
 				if (sharedPreferences.getBoolean("enableseconds" + appWidgetID,
 						context.getResources().getBoolean(R.bool.widgetdefaultenableseconds)))
-					increaserefreshrate = true;
-				updateAppWidget(context, appWidgetManager, appWidgetID);
+					updateAppWidget(context, appWidgetManager, appWidgetID);
 			}
-			SharedPreferences.Editor editor = sharedPreferences.edit();
-			if (context.getResources().getBoolean(R.bool.alwayssavepreference)
-					| increaserefreshrate != context.getResources().getBoolean(R.bool.widgetdefaultincreaserefreshrate))
-				editor.putBoolean("increaserefreshrate", increaserefreshrate);
-			editor.apply();
 			setAlarmManager(context);
 		}
 	}
@@ -87,13 +80,7 @@ public class WidgetProvider extends AppWidgetProvider {
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
-		if (context.getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), Context.MODE_PRIVATE).getBoolean(
-				"increaserefreshrate",
-				context.getResources().getBoolean(R.bool.widgetdefaultincreaserefreshrate))) {
-			calendar.add(Calendar.SECOND, 1);
-		} else {
-			calendar.add(Calendar.SECOND, (60 - calendar.get(Calendar.SECOND)));
-		}
+		calendar.add(Calendar.SECOND, (60 - calendar.get(Calendar.SECOND)));
 		AlarmManagerCompat.setExact(alarmManager, AlarmManager.RTC, calendar.getTimeInMillis(), createClockTickIntent(context));
 	}
 	

@@ -127,12 +127,9 @@ I'm always on the quest to make this the best HangoverClock ever.
 * The fonts get dynamically collected from all available resource files 
     and saved in a static String array within the `FontsProvider` class.
 * The resulting bitmap resolution will be calculated to reach the best quality possible on every device.
-* The sharedPreference keys are defined in `*keys.xml` and their defaults in `*keydefaults.xml`.
-  * sharedPreferences are saved in following format: key and if needed a directly appended widget ID.
+* The sharedPreference key defaults are defined in `*keydefaults.xml`.
+  * sharedPreferences are saved in following format: key and for widgetsa directly appended widget ID.
   * If a key is not defined its default value is assumed and only gets saved when not default or when `alwayssavepreferences` bool is active.
-* if one of the widgets has seconds enabled, the `setalarmmanager` method will request intent for one second instead of one minute.
-  * That behaviour is dependent on sharedPreferences key `increaserefreshrate`.
-  * That key will be determined on every clock update by looping though all widgets and looking if any has seconds enabled.
 
 ## License
 

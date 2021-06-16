@@ -12,5 +12,4 @@
     <integer name="widgetdefaulthouroverhang">1</integer>
     <color name="widgetdefaultcolor">#FFFFFFFF</color>
     <integer name="widgetdefaultfontscale">50</integer>
-    <bool name="widgetdefaultincreaserefreshrate">false</bool>
 </resources>
