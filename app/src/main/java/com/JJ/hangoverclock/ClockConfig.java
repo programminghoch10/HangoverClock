@@ -40,7 +40,8 @@ public class ClockConfig {
 	}
 	
 	public ClockConfig(SharedPreferences sharedPreferences, ClockConfig defaults) {
-		autoTwelveHours = sharedPreferences.contains("twelvehours") && sharedPreferences.getBoolean("autotimeselector", defaults.autoTwelveHours);
+		autoTwelveHours = !sharedPreferences.contains("twelvehours") && defaults.autoTwelveHours;
+		//when autoTwelveHours is enabled, following does not automatically select system property
 		twelvehours = sharedPreferences.getBoolean("twelvehours", defaults.twelvehours);
 		enableseconds = sharedPreferences.getBoolean("enableseconds", defaults.enableseconds);
 		enabledate = sharedPreferences.getBoolean("enabledate", defaults.enabledate);
@@ -101,7 +102,7 @@ public class ClockConfig {
 			editor.putInt("monthoverhang", monthoverhang);
 		if (forceSave || defaults.color != color)
 			editor.putInt("color", color);
-		if (!autoTwelveHours || !defaults.autoTwelveHours)
+		if (!autoTwelveHours)
 			editor.putBoolean("twelvehours", twelvehours);
 		if (forceSave || defaults.enabledate != enabledate)
 			editor.putBoolean("enabledate", enabledate);

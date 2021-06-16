@@ -229,8 +229,7 @@ public class Configure {
 		overhangInputDateMonths.addTextChangedListener(inputwatcher);
 		overhangInputDateDays.addTextChangedListener(inputwatcher);
 		
-		CompoundButton.OnCheckedChangeListener updatepreviewlistener = (buttonView, isChecked) -> updatepreview();
-		twelveHourSwitch.setOnCheckedChangeListener(updatepreviewlistener);
+		twelveHourSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> updatepreview());
 		dateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -240,19 +239,50 @@ public class Configure {
 						overhangInputTimeSeconds,
 				};
 				if (isChecked) {
+					((View) overhangInputDateDays.getParent()).setVisibility(View.VISIBLE);
+					((View) overhangInputDateMonths.getParent()).setVisibility(View.VISIBLE);
+					dateFontSizeSeekBar.setVisibility(View.VISIBLE);
 					for (EditText editText : editTexts) {
 						try {
+							//limit max int number to prevent ANR
 							if (Integer.parseInt(editText.getText().toString()) >= Math.pow(2, 16))
 								editText.setText("");
 						} catch (NumberFormatException ignored) {
 						}
 					}
+				} else {
+					((View) overhangInputDateDays.getParent()).setVisibility(View.GONE);
+					((View) overhangInputDateMonths.getParent()).setVisibility(View.GONE);
+					dateFontSizeSeekBar.setVisibility(View.GONE);
 				}
 				updatepreview();
 			}
 		});
-		secondsSwitch.setOnCheckedChangeListener(updatepreviewlistener);
-		autoTwelveHourSwitch.setOnCheckedChangeListener(updatepreviewlistener);
+		secondsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					((View) overhangInputTimeSeconds.getParent()).setVisibility(View.VISIBLE);
+					//findViewById(R.id.secondsinfo).setVisibility(View.VISIBLE);
+				} else {
+					((View) overhangInputTimeSeconds.getParent()).setVisibility(View.GONE);
+					//findViewById(R.id.secondsinfo).setVisibility(View.GONE);
+				}
+				updatepreview();
+			}
+		});
+		autoTwelveHourSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					twelveHourSwitch.setEnabled(false);
+					twelveHourSwitch.setChecked(!DateFormat.is24HourFormat(context));
+				} else {
+					twelveHourSwitch.setEnabled(true);
+				}
+				updatepreview();
+			}
+		});
 		previewClock.setOnClickListener(v -> updatepreview());
 		fontSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
 			@Override
@@ -316,7 +346,7 @@ public class Configure {
 				overhangInputDateDays.getText().append(String.valueOf(config.dayoverhang));
 		}
 		autoTwelveHourSwitch.setChecked(config.autoTwelveHours);
-		twelveHourSwitch.setChecked(config.twelvehours);
+		twelveHourSwitch.setChecked(config.autoTwelveHours ? !DateFormat.is24HourFormat(context) : config.twelvehours);
 		twelveHourSwitch.setEnabled(!config.autoTwelveHours);
 		secondsSwitch.setChecked(secondsavailable && config.enableseconds);
 		secondsSwitch.setVisibility(secondsavailable ? View.VISIBLE : View.GONE);
@@ -373,28 +403,9 @@ public class Configure {
 		config.enableseconds = secondsSwitch.isChecked();
 		config.color = Color.argb(seekBarAlpha.getProgress(), seekBarRed.getProgress(), seekBarGreen.getProgress(), seekBarBlue.getProgress());
 		config.fontscale = (float) dateFontSizeSeekBar.getProgress() / 100;
-		if (dateSwitch.isChecked()) {
-			((View) overhangInputDateDays.getParent()).setVisibility(View.VISIBLE);
-			((View) overhangInputDateMonths.getParent()).setVisibility(View.VISIBLE);
-			dateFontSizeSeekBar.setVisibility(View.VISIBLE);
-		} else {
-			((View) overhangInputDateDays.getParent()).setVisibility(View.GONE);
-			((View) overhangInputDateMonths.getParent()).setVisibility(View.GONE);
-			dateFontSizeSeekBar.setVisibility(View.GONE);
-		}
-		if (secondsSwitch.isChecked()) {
-			//findViewById(R.id.secondsinfo).setVisibility(View.VISIBLE);
-			((View) overhangInputTimeSeconds.getParent()).setVisibility(View.VISIBLE);
-		} else {
-			//findViewById(R.id.secondsinfo).setVisibility(View.GONE);
-			((View) overhangInputTimeSeconds.getParent()).setVisibility(View.GONE);
-		}
-		if (autoTwelveHourSwitch.isChecked()) {
-			twelveHourSwitch.setEnabled(false);
-			twelveHourSwitch.setChecked(!DateFormat.is24HourFormat(context));
-		} else {
-			twelveHourSwitch.setEnabled(true);
-		}
+		config.enabledate = dateSwitch.isChecked();
+		config.enableseconds = secondsSwitch.isChecked();
+		config.autoTwelveHours = autoTwelveHourSwitch.isChecked();
 		config.twelvehours = twelveHourSwitch.isChecked();
 		try {
 			config.font = fontSpinner.getSelectedItem().toString();
