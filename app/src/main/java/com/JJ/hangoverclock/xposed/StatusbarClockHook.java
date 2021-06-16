@@ -21,9 +21,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-
-import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 public class StatusbarClockHook {
 	
@@ -43,7 +42,7 @@ public class StatusbarClockHook {
 	
 	@RequiresApi(api = Build.VERSION_CODES.Q)
 	protected static void hook(XC_LoadPackage.LoadPackageParam lpparam) {
-		findAndHookMethod("com.android.systemui.statusbar.policy.Clock", lpparam.classLoader, "updateClock", new XC_MethodHook() {
+		XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.policy.Clock", lpparam.classLoader, "updateClock", new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				if (result != null) {
