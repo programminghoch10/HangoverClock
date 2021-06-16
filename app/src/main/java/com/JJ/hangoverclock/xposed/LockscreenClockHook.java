@@ -65,6 +65,9 @@ public class LockscreenClockHook {
 				Log.d(TAG, "beforeHookedMethod: textClockField=" + textClockField);
 				Log.d(TAG, "beforeHookedMethod: textClock=" + textClock);
 				
+				// prevent TextClock auto ticking
+				XposedHelpers.setBooleanField(textClock, "mStopTicking", true);
+				
 				String text = ClockGenerator.calculatetime(timestamp, houroverhang, minuteoverhang, secondoverhang, twelvehour, enableseconds);
 				textClock.setText(text);
 				
