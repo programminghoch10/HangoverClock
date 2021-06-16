@@ -21,7 +21,7 @@ public class WidgetProvider extends AppWidgetProvider {
 	
 	static final String TAG = "WidgetProvider";
 	
-	private static String CLOCK_WIDGET_UPDATE = "com.JJ.hangoverclock.widgetupdate";
+	private static final String CLOCK_WIDGET_UPDATE = "com.JJ.hangoverclock.widgetupdate";
 	
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		for (int appWidgetId : appWidgetIds) {
@@ -112,7 +112,7 @@ public class WidgetProvider extends AppWidgetProvider {
 		int color = sharedPreferences.getInt("color" + appWidgetId, context.getResources().getColor(R.color.widgetdefaultcolor));
 		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
 		remoteViews.setImageViewBitmap(R.id.clock,
-				ClockGenerator.generateWidget(
+				ClockGenerator.generateClock(
 						context, Calendar.getInstance().getTimeInMillis(),
 						secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
 						twelvehour, enableseconds, enabledate, font, color, fontscale)

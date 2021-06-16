@@ -18,7 +18,6 @@ public class PreferencesProvider extends RemotePreferenceProvider {
 	protected boolean checkAccess(String prefFileName, String prefKey, boolean write) {
 		if (write) return false;
 		if ("com.android.systemui".equals(getCallingPackage())) return true;
-		if ("com.JJ.hangoverclock".equals(getCallingPackage())) return true;
-		return false;
+		return "com.JJ.hangoverclock".equals(getCallingPackage());
 	}
 }

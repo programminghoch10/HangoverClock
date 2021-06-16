@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -18,11 +19,21 @@ import java.util.Locale;
 
 public class ClockGenerator {
 	
-	public static Bitmap generateWidget(Context context, long timestamp,
-								 int secondoverhang, int minuteoverhang, int houroverhang,
-								 int dayoverhang, int monthoverhang,
-								 boolean twelvehours, boolean withseconds, boolean withdate,
-								 String font, int color, float fontscale) {
+	public static Bitmap generateClock(Context context, long timestamp, ClockConfig config) {
+		return ClockGenerator.generateClock(
+				context, timestamp,
+				config.secondoverhang, config.minuteoverhang, config.houroverhang,
+				config.dayoverhang, config.monthoverhang,
+				config.twelvehours, config.enableseconds, config.enabledate,
+				config.font, config.color, config.fontscale
+		);
+	}
+	
+	public static Bitmap generateClock(Context context, long timestamp,
+									   int secondoverhang, int minuteoverhang, int houroverhang,
+									   int dayoverhang, int monthoverhang,
+									   boolean twelvehours, boolean withseconds, boolean withdate,
+									   String font, int color, float fontscale) {
 		if (!withdate) {
 			return generateBitmap(context,
 					calculatetime(timestamp, houroverhang, minuteoverhang, secondoverhang, twelvehours, withseconds),
@@ -64,6 +75,14 @@ public class ClockGenerator {
 		//but i added the date myself
 		//int fontSizePX = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, fontresolution, context.getResources().getDisplayMetrics());
 		int fontSizePX = calculatefontsize(context, time, timefont);
+		
+		//get font scaling
+		TypedValue outValue = new TypedValue();
+		context.getResources().getValue(R.fraction.maxfontscale, outValue, true);
+		float maxfontscale = outValue.getFloat();
+		context.getResources().getValue(R.fraction.minfontscale, outValue, true);
+		float minfontscale = outValue.getFloat();
+		fontscale = maxfontscale + (1 - fontscale) * (minfontscale - maxfontscale);
 		
 		int pad = (fontSizePX / 9);
 		Typeface timetypeface = Typeface.defaultFromStyle(Typeface.NORMAL);

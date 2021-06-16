@@ -16,9 +16,9 @@ import java.util.List;
 
 public class CustomSpinnerAdapter extends ArrayAdapter<RowItem> {
 	
-	private int spinner = R.id.spinnerview;
-	private String TAG = "CustomSpinnerAdapter";
-	private LayoutInflater flater;
+	private final int spinner = R.id.spinnerview;
+	private final String TAG = "CustomSpinnerAdapter";
+	private final LayoutInflater flater;
 	
 	CustomSpinnerAdapter(Activity activity, int resouceId, int textviewId, List<RowItem> list) {
 		
@@ -65,7 +65,7 @@ public class CustomSpinnerAdapter extends ArrayAdapter<RowItem> {
 class RowItem {
 	
 	private final static String TAG = "rowitem";
-	private String title;
+	private final String title;
 	private Typeface typeface;
 	private int visibility;
 	

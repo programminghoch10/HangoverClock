@@ -4,12 +4,13 @@
     <bool name="widgetdefaultenableseconds">false</bool>
     <bool name="widgetdefaultenabledate">false</bool>
     <bool name="widgetdefaultautotimeselector">true</bool>
+    <bool name="widgetdefaulttwelvehours">false</bool>
     <integer name="widgetdefaultdayoverhang">0</integer>
     <integer name="widgetdefaultmonthoverhang">0</integer>
     <integer name="widgetdefaultsecondoverhang">0</integer>
     <integer name="widgetdefaultminuteoverhang">0</integer>
     <integer name="widgetdefaulthouroverhang">1</integer>
     <color name="widgetdefaultcolor">#FFFFFFFF</color>
-    <integer name="widgetdefaultfontscale">5</integer> <!-- scale date between 3 (largest) and maxfontscale (smallest) -->
+    <integer name="widgetdefaultfontscale">50</integer>
     <bool name="widgetdefaultincreaserefreshrate">false</bool>
 </resources>

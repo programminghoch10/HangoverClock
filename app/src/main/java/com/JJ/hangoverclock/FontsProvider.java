@@ -3,15 +3,16 @@ package com.JJ.hangoverclock;
 import android.content.Context;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 class FontsProvider {
-	private static ArrayList<String> fonts = new ArrayList<String>() {{
+	private static final List<String> fonts = new LinkedList<String>() {{
 		add("default");
 	}};
 	
-	static ArrayList<String> getFonts() {
-		return new ArrayList<>(fonts);
+	static List<String> getFonts() {
+		return new LinkedList<>(fonts);
 	}
 	
 	static void collectfonts(Context context) {

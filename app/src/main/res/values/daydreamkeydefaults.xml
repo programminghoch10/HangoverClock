@@ -4,11 +4,12 @@
     <bool name="daydreamdefaultenableseconds">true</bool>
     <bool name="daydreamdefaultenabledate">true</bool>
     <bool name="daydreamdefaultautotimeselector">true</bool>
+    <bool name="daydreamdefaulttwelvehours">false</bool>
     <integer name="daydreamdefaultdayoverhang">0</integer>
     <integer name="daydreamdefaultmonthoverhang">0</integer>
     <integer name="daydreamdefaultsecondoverhang">0</integer>
     <integer name="daydreamdefaultminuteoverhang">0</integer>
     <integer name="daydreamdefaulthouroverhang">1</integer>
     <color name="daydreamdefaultcolor">#FFFFFFFF</color>
-    <integer name="daydreamdefaultfontscale">4</integer> <!-- scale date between 3 (largest) and maxfontscale (smallest) -->
+    <integer name="daydreamdefaultfontscale">50</integer>
 </resources>

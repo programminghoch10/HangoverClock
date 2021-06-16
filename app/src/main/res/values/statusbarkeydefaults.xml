@@ -4,11 +4,12 @@
     <bool name="statusbardefaultenableseconds">true</bool>
     <bool name="statusbardefaultenabledate">false</bool>
     <bool name="statusbardefaultautotimeselector">true</bool>
+    <bool name="statusbardefaulttwelvehours">false</bool>
     <integer name="statusbardefaultdayoverhang">0</integer>
     <integer name="statusbardefaultmonthoverhang">0</integer>
     <integer name="statusbardefaultsecondoverhang">0</integer>
     <integer name="statusbardefaultminuteoverhang">0</integer>
     <integer name="statusbardefaulthouroverhang">1</integer>
     <color name="statusbardefaultcolor">#FFFFFFFF</color>
-    <integer name="statusbardefaultfontscale">4</integer> <!-- scale date between 3 (largest) and maxfontscale (smallest) -->
+    <integer name="statusbardefaultfontscale">100</integer>
 </resources>

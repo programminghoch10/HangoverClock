@@ -71,7 +71,7 @@ public class LockscreenClockHook {
 				boolean imagebased = sharedPreferences.getBoolean("imagebased", false);
 				if (imagebased) {
 					try {
-						Bitmap bitmap = ClockGenerator.generateWidget(context, timestamp,
+						Bitmap bitmap = ClockGenerator.generateClock(context, timestamp,
 								secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
 								twelvehour, enableseconds, enabledate, font, color, fontscale);
 						BitmapDrawable drawable = new BitmapDrawable(context.getResources(), bitmap);

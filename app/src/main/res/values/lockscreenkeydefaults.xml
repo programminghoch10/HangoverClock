@@ -4,11 +4,12 @@
     <bool name="lockscreendefaultenableseconds">false</bool>
     <bool name="lockscreendefaultenabledate">false</bool>
     <bool name="lockscreendefaultautotimeselector">true</bool>
+    <bool name="lockscreendefaulttwelvehours">false</bool>
     <integer name="lockscreendefaultdayoverhang">0</integer>
     <integer name="lockscreendefaultmonthoverhang">0</integer>
     <integer name="lockscreendefaultsecondoverhang">0</integer>
     <integer name="lockscreendefaultminuteoverhang">0</integer>
     <integer name="lockscreendefaulthouroverhang">1</integer>
     <color name="lockscreendefaultcolor">#FFFFFFFF</color>
-    <integer name="lockscreendefaultfontscale">4</integer> <!-- scale date between 3 (largest) and maxfontscale (smallest) -->
+    <integer name="lockscreendefaultfontscale">70</integer>
 </resources>

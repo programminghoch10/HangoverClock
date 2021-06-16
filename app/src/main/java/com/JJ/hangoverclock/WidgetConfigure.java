@@ -51,7 +51,7 @@ public class WidgetConfigure extends Activity {
 				//copy preferences into widget specific sharedPreferences
 				SharedPreferences.Editor editor = getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), MODE_PRIVATE).edit();
 				Map<String, ?> entries = sharedPreferences.getAll();
-				for (String key : Configure.keys) {
+				for (String key : ClockConfig.keys) {
 					if (!entries.containsKey(key)) continue;
 					String newKey = key + appWidgetID;
 					Object obj = entries.get(key);

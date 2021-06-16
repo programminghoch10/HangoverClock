@@ -141,7 +141,7 @@ public class StatusbarClockHook {
 		result.color = color;
 		result.text = ClockGenerator.calculatetime(timestamp, houroverhang, minuteoverhang, secondoverhang, twelvehour, enableseconds);
 		if (imagebased) {
-			Bitmap bitmap = ClockGenerator.generateWidget(context, timestamp,
+			Bitmap bitmap = ClockGenerator.generateClock(context, timestamp,
 					secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
 					twelvehour, enableseconds, enabledate, font, color, fontscale);
 			BitmapDrawable drawable = new BitmapDrawable(context.getResources(), bitmap);
