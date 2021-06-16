@@ -81,7 +81,7 @@ class RowItem {
 			//Log.d(TAG, "getView: typefont is " + ResourcesCompat.getFont(getContext(), getContext().getResources().getIdentifier(rowItem.getTitleFont(position), "font", getContext().getPackageName())));
 			typeface = ResourcesCompat.getFont(context, context.getResources().getIdentifier(getTitleFont(position), "font", context.getPackageName()));
 		} catch (Exception e) {
-			Log.e(TAG, "getView: error occured while determiting font " + title, e);
+			Log.e(TAG, "getView: error occured while determining font " + title, e);
 			//visibility = View.GONE;
 			visibility = View.INVISIBLE;
 		}

@@ -22,7 +22,7 @@ public class LockscreenConfigure extends Activity {
 		Context context = LockscreenConfigure.this;
 		SharedPreferences sharedPreferences = getSharedPreferences(context.getResources().getString(R.string.lockscreenpreferencesfilename), MODE_PRIVATE);
 		Configure configure = new Configure(context, this, "lockscreen");
-		configure.onCreate(sharedPreferences);
+		configure.onCreate(sharedPreferences, sharedPreferences.getBoolean("imagebased", false), true, false);
 		
 		findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
 			@Override

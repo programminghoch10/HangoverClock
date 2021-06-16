@@ -50,6 +50,9 @@ public class Configure {
 	ImageView previewClock;
 	Spinner fontSpinner;
 	SeekBar dateFontSizeSeekBar;
+	boolean imagebased = true;
+	boolean dateavailable = true;
+	boolean secondsavailable = true;
 	private SharedPreferences instantApply = null;
 	SeekBar.OnSeekBarChangeListener colorseekbarlistener = new SeekBar.OnSeekBarChangeListener() {
 		@Override
@@ -80,20 +83,21 @@ public class Configure {
 		public void onStopTrackingTouch(SeekBar seekBar) {
 		}
 	};
+	
 	Configure(Context context, Activity activity, String scope) {
 		this.context = context;
 		this.activity = activity;
 		this.scope = scope;
 	}
-
+	
 	public static Bitmap generatePreview(Context context, ClockConfig config) {
 		return ClockGenerator.generateClock(context, Calendar.getInstance().getTimeInMillis(), config);
 	}
-
+	
 	public void setInstantApply(SharedPreferences sharedPreferences) {
 		instantApply = sharedPreferences;
 	}
-
+	
 	public void onCreate(SharedPreferences sharedPreferences) {
 		onCreate(sharedPreferences, true);
 	}
@@ -127,8 +131,26 @@ public class Configure {
 		
 	}
 	
+	public void onCreate(ClockConfig config) {
+		onCreate(config, true);
+	}
+	
+	public void onCreate(ClockConfig config, boolean imagebased) {
+		onCreate(config, imagebased, true, true);
+	}
+	
 	public void onCreate(SharedPreferences sharedPreferences, boolean imagebased, boolean dateavailable, boolean secondsavailable) {
+		onCreate(new ClockConfig(sharedPreferences, ClockConfig.getDefaultsFromResources(context.getResources(), scope)), imagebased, dateavailable, secondsavailable);
+	}
+	
+	public void onCreate(ClockConfig config, boolean _imagebased, boolean _dateavailable, boolean _secondsavailable) {
 		getViewReferences();
+		
+		imagebased = _imagebased;
+		dateavailable = _dateavailable;
+		secondsavailable = _secondsavailable;
+		
+		if (!imagebased) dateavailable = false;
 		
 		// we need to prepare UI elements before loading data
 		FontsProvider.collectfonts(context);
@@ -143,7 +165,7 @@ public class Configure {
 		fontSpinner.setAdapter(spinnerAdapter);
 		
 		//load data
-		loadFromConfig(new ClockConfig(sharedPreferences, ClockConfig.getDefaultsFromResources(context.getResources(), scope)));
+		loadFromConfig(config);
 		
 		//visual changes and attach listeners
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -207,12 +229,7 @@ public class Configure {
 		overhangInputDateMonths.addTextChangedListener(inputwatcher);
 		overhangInputDateDays.addTextChangedListener(inputwatcher);
 		
-		CompoundButton.OnCheckedChangeListener updatepreviewlistener = new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				updatepreview();
-			}
-		};
+		CompoundButton.OnCheckedChangeListener updatepreviewlistener = (buttonView, isChecked) -> updatepreview();
 		twelveHourSwitch.setOnCheckedChangeListener(updatepreviewlistener);
 		dateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
@@ -273,34 +290,51 @@ public class Configure {
 	}
 	
 	private void loadFromConfig(ClockConfig config) {
+		if (!imagebased) dateavailable = false;
 		int color = config.color;
 		seekBarRed.setProgress(Color.red(color));
 		seekBarGreen.setProgress(Color.green(color));
 		seekBarBlue.setProgress(Color.blue(color));
 		seekBarAlpha.setProgress(Color.alpha(color));
 		overhangInputTimeHours.getText().clear();
+		if (config.houroverhang > 0)
+			overhangInputTimeHours.getText().append(String.valueOf(config.houroverhang));
 		overhangInputTimeMinutes.getText().clear();
+		if (config.minuteoverhang > 0)
+			overhangInputTimeMinutes.getText().append(String.valueOf(config.minuteoverhang));
 		overhangInputTimeSeconds.getText().clear();
+		if (secondsavailable) {
+			if (config.secondoverhang > 0)
+				overhangInputTimeSeconds.getText().append(String.valueOf(config.secondoverhang));
+		}
 		overhangInputDateMonths.getText().clear();
 		overhangInputDateDays.getText().clear();
-		if (config.houroverhang > 0) overhangInputTimeHours.getText().append(String.valueOf(config.houroverhang));
-		if (config.minuteoverhang > 0) overhangInputTimeMinutes.getText().append(String.valueOf(config.minuteoverhang));
-		if (config.secondoverhang > 0) overhangInputTimeSeconds.getText().append(String.valueOf(config.secondoverhang));
-		if (config.monthoverhang > 0) overhangInputDateMonths.getText().append(String.valueOf(config.monthoverhang));
-		if (config.dayoverhang > 0) overhangInputDateDays.getText().append(String.valueOf(config.dayoverhang));
+		if (dateavailable) {
+			if (config.monthoverhang > 0)
+				overhangInputDateMonths.getText().append(String.valueOf(config.monthoverhang));
+			if (config.dayoverhang > 0)
+				overhangInputDateDays.getText().append(String.valueOf(config.dayoverhang));
+		}
 		autoTwelveHourSwitch.setChecked(config.autoTwelveHours);
 		twelveHourSwitch.setChecked(config.twelvehours);
 		twelveHourSwitch.setEnabled(!config.autoTwelveHours);
-		dateSwitch.setChecked(config.enabledate);
-		secondsSwitch.setChecked(config.enableseconds);
-		List<String> fonts = FontsProvider.getFonts();
-		int fontselected = 0;
-		for (int i = 0; i < fonts.size(); i++) {
-			String font = fonts.get(i);
-			if (font.equals(config.font)) fontselected = i;
-		}
-		if (fontselected != 0) fontSpinner.setSelection(fontselected);
+		secondsSwitch.setChecked(secondsavailable && config.enableseconds);
+		secondsSwitch.setVisibility(secondsavailable ? View.VISIBLE : View.GONE);
+		dateSwitch.setChecked(dateavailable && config.enabledate);
 		dateFontSizeSeekBar.setProgress((int) (dateFontSizeSeekBar.getMax() * config.fontscale));
+		activity.findViewById(R.id.dateSelector).setVisibility(dateavailable ? View.VISIBLE : View.GONE);
+		if (imagebased) {
+			List<String> fonts = FontsProvider.getFonts();
+			int fontselected = 0;
+			for (int i = 0; i < fonts.size(); i++) {
+				String font = fonts.get(i);
+				if (font.equals(config.font)) fontselected = i;
+			}
+			if (fontselected != 0) fontSpinner.setSelection(fontselected);
+		} else {
+			fontSpinner.setSelection(0);
+		}
+		activity.findViewById(R.id.fontSelector).setVisibility(imagebased ? View.VISIBLE : View.GONE);
 	}
 	
 	private ClockConfig getCurrentConfig() {

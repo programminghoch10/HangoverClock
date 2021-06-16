@@ -19,18 +19,18 @@
         android:layout_height="3dp"
         android:background="?android:attr/listDivider" />
 
-    <TextView
-        android:id="@+id/overhangheader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="@string/overhangheader" />
-
     <LinearLayout
-        android:id="@+id/overhanginputlayout"
+        android:id="@+id/overhangSelector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/overhangheader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/overhangheader" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -110,18 +110,24 @@
         android:layout_height="2dp"
         android:background="?android:attr/listDivider" />
 
-    <TextView
-        android:id="@+id/colorheader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="@string/colorheader"
-        android:textAllCaps="false" />
-
     <TableLayout
-        android:id="@+id/colorselector"
+        android:id="@+id/colorSelector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/colorheader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="@string/colorheader"
+                android:textAllCaps="false" />
+        </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
@@ -278,20 +284,28 @@
             android:visibility="gone"
             tools:visibility="visible" />
 
-        <Switch
-            android:id="@+id/dateSwitch"
+        <LinearLayout
+            android:id="@+id/dateSelector"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:switchPadding="10dp"
-            android:text="@string/enabledateswitch" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <SeekBar
-            android:id="@+id/dateFontSizeSeekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="100"
-            android:progress="50" />
+            <Switch
+                android:id="@+id/dateSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:switchPadding="10dp"
+                android:text="@string/enabledateswitch" />
+
+            <SeekBar
+                android:id="@+id/dateFontSizeSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="50" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <View
@@ -300,24 +314,31 @@
         android:layout_height="2dp"
         android:background="?android:attr/listDivider" />
 
-    <TextView
-        android:id="@+id/fontheader"
+    <LinearLayout
+        android:id="@+id/fontSelector"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="@string/fontheader" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Spinner
-        android:id="@+id/fontSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dropDownWidth="wrap_content"
-        android:spinnerMode="dialog"
-        android:visibility="visible" />
+        <TextView
+            android:id="@+id/fontheader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/fontheader" />
 
-    <View
-        android:id="@+id/divider28"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="?android:attr/listDivider" />
+        <Spinner
+            android:id="@+id/fontSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dropDownWidth="wrap_content"
+            android:spinnerMode="dialog" />
+
+        <View
+            android:id="@+id/divider28"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider" />
+    </LinearLayout>
+
 </LinearLayout>

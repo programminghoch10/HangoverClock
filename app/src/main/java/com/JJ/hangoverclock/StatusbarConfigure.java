@@ -22,7 +22,7 @@ public class StatusbarConfigure extends Activity {
 		Context context = StatusbarConfigure.this;
 		SharedPreferences sharedPreferences = getSharedPreferences(context.getResources().getString(R.string.statusbarpreferencesfilename), MODE_PRIVATE);
 		Configure configure = new Configure(context, this, "statusbar");
-		configure.onCreate(sharedPreferences);
+		configure.onCreate(sharedPreferences, sharedPreferences.getBoolean("imagebased", false), false, true);
 		configure.setInstantApply(sharedPreferences);
 		
 		findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {

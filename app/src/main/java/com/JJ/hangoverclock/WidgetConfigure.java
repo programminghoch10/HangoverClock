@@ -42,7 +42,7 @@ public class WidgetConfigure extends Activity {
 		Context context = WidgetConfigure.this;
 		
 		Configure configure = new Configure(context, this, "widget");
-		configure.onCreate(sharedPreferences);
+		configure.onCreate(sharedPreferences, true, true, false);
 		findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
