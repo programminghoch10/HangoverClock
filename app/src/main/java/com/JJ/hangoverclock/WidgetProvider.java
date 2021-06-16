@@ -35,15 +35,12 @@ public class WidgetProvider extends AppWidgetProvider {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
-		SharedPreferences sharedPreferences = context.getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), Context.MODE_PRIVATE);
 		if (CLOCK_WIDGET_UPDATE.equals(intent.getAction())) {
 			ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
 			AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 			int[] ids = appWidgetManager.getAppWidgetIds(thisAppWidget);
 			for (int appWidgetID : ids) {
-				if (sharedPreferences.getBoolean("enableseconds" + appWidgetID,
-						context.getResources().getBoolean(R.bool.widgetdefaultenableseconds)))
-					updateAppWidget(context, appWidgetManager, appWidgetID);
+				updateAppWidget(context, appWidgetManager, appWidgetID);
 			}
 			setAlarmManager(context);
 		}
