@@ -1,13 +1,11 @@
 package com.JJ.hangoverclock;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.util.Log;
+import android.text.format.DateFormat;
 
 public class ClockConfig {
-	//private static final String TAG = ClockConfig.class.getName();
-	private static final String TAG = "hangoverclock"; //for debug, remove later
-	
 	//list of keys saved in sharedPreferences
 	public static final String[] keys = {
 			"twelvehours",
@@ -39,6 +37,11 @@ public class ClockConfig {
 	
 	}
 	
+	public ClockConfig(SharedPreferences sharedPreferences, ClockConfig defaults, Context context) {
+		this(sharedPreferences, defaults);
+		setAutoTwelveHours(context);
+	}
+	
 	public ClockConfig(SharedPreferences sharedPreferences, ClockConfig defaults) {
 		autoTwelveHours = !sharedPreferences.contains("twelvehours") && defaults.autoTwelveHours;
 		//when autoTwelveHours is enabled, following does not automatically select system property
@@ -47,7 +50,6 @@ public class ClockConfig {
 		enabledate = sharedPreferences.getBoolean("enabledate", defaults.enabledate);
 		font = sharedPreferences.getString("font", defaults.font);
 		font = font != null ? font.replace("_", " ") : null;
-		Log.d(TAG, "ClockConfig: saved font is " + font);
 		fontscale = sharedPreferences.getFloat("fontscale", defaults.fontscale);
 		color = sharedPreferences.getInt("color", defaults.color);
 		dayoverhang = sharedPreferences.getInt("dayoverhang", defaults.dayoverhang);
@@ -76,6 +78,10 @@ public class ClockConfig {
 	
 	private static int getDefaultValueIdentifier(Resources resources, String scope, String key, String type) {
 		return resources.getIdentifier(scope + "default" + key, type, "com.JJ.hangoverclock");
+	}
+	
+	public void setAutoTwelveHours(Context context) {
+		if (autoTwelveHours) twelvehours = !DateFormat.is24HourFormat(context);
 	}
 	
 	public void saveToSharedPreferences(SharedPreferences sharedPreferences, ClockConfig defaults, boolean forceSave) {
