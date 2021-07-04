@@ -18,4 +18,23 @@
     <string name="savebutton">Fertig</string>
     <string name="accessibilityClockPreviewString">Widget Vorschau</string>
     <string name="inputoverhangseconds">Sekunden</string>
+    <string name="settings_title">HangoverClock Einstellungen</string>
+    <string name="settings_widget_title">Widgets</string>
+    <string name="settings_widget_button">Widget Liste öffnen</string>
+    <string name="settings_daydream_title">Bildschirmschoner</string>
+    <string name="settings_daydream_button">Bildschirmschonereinstellungen öffnen</string>
+    <string name="settings_xposednotcompatible">Du brauchst Android 10 oder höher und XPosed um die Uhren in der Benachrichtigungsleiste und auf dem Sperrbildschrim zu verändern.</string>
+    <string name="settings_xposednotinstalled">Du brauchst ein aktives XPosed framework um die Uhren in der Benachrichtgungsleiste und auf dem Sperrbildschirm zu verändern.</string>
+    <string name="settings_statusbar_title">Benachrichtigungsleiste</string>
+    <string name="settings_switch_enabled">Aktiviert</string>
+    <string name="settings_textbased">Text-Basiert</string>
+    <string name="settings_imagebased">Bild-Basiert</string>
+    <string name="settings_statusbar_size">Größe</string>
+    <string name="settings_statusbar_button">Benachrichritigungseleistenuhr konfigurieren</string>
+    <string name="settings_lockscreen_title">Sperrbildschrim</string>
+    <string name="settings_lockscreen_button">Sperrbildschirmuhr konfigurieren</string>
+    <string name="settings_systemui_restart_description">Um die Änderungen anzuwenden, musst du eventuell SystemUI neustarten. (Root Zugriff notwendig)</string>
+    <string name="settings_systemui_restart_button">SystemUI neustarten</string>
+    <string name="settings_widget_activity_title">Widget Einstellungen</string>
+    <string name="settings_widget_activity_listitem_title">Widget %1$d</string>
 </resources>

@@ -11,6 +11,5 @@
         android:layout_weight="1"
         android:gravity="center"
         android:singleLine="true"
-        android:text="TextView"
         android:textSize="24sp" />
 </LinearLayout>

@@ -3,4 +3,7 @@
     <!-- font scaling: the higher, the smaller -->
     <item name="maxfontscale" format="float" type="fraction">2.5</item> <!-- defines maximum font division factor -->
     <item name="minfontscale" format="float" type="fraction">5</item> <!-- defines minimum font division factor -->
+    <string-array name="scope">
+        <item>com.android.systemui</item>
+    </string-array>
 </resources>

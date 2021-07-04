@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Widget Settings"
+        android:text="@string/settings_widget_activity_title"
         android:textSize="34sp"
         android:textStyle="bold" />
 

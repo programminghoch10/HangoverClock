@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="HangoverClock Settings"
+                android:text="@string/settings_title"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
@@ -58,7 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Widgets"
+                    android:text="@string/settings_widget_title"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -66,7 +66,7 @@
                     android:id="@+id/widgetopensettingsbutton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Open Widget list" />
+                    android:text="@string/settings_widget_button" />
             </LinearLayout>
 
             <LinearLayout
@@ -80,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Daydream"
+                    android:text="@string/settings_daydream_title"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -88,7 +88,7 @@
                     android:id="@+id/daydreamopensettingsbutton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Open Daydream settings" />
+                    android:text="@string/settings_daydream_button" />
             </LinearLayout>
 
             <View
@@ -107,7 +107,7 @@
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="You need Android 10 or higher and XPosed for changing statusbar and lockscreen clocks." />
+                    android:text="@string/settings_xposednotcompatible" />
             </LinearLayout>
 
             <LinearLayout
@@ -122,7 +122,7 @@
                     android:id="@+id/textView8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="You need an active XPosed framework for changing statusbar and lockscreen clocks" />
+                    android:text="@string/settings_xposednotinstalled" />
             </LinearLayout>
 
             <LinearLayout
@@ -143,7 +143,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Statusbar"
+                        android:text="@string/settings_statusbar_title"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -151,7 +151,7 @@
                         android:id="@+id/statusbarclockenabled"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Enabled" />
+                        android:text="@string/settings_switch_enabled" />
 
                     <RadioGroup
                         android:id="@+id/statusbarclocktype"
@@ -162,19 +162,19 @@
                             android:id="@+id/statusbarclocktextbased"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Text Based" />
+                            android:text="@string/settings_textbased" />
 
                         <RadioButton
                             android:id="@+id/statusbarclockimagebased"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Image Based" />
+                            android:text="@string/settings_imagebased" />
 
                         <TextView
                             android:id="@+id/textView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Size" />
+                            android:text="@string/settings_statusbar_size" />
 
                         <SeekBar
                             android:id="@+id/statusbarclockdensity"
@@ -188,7 +188,7 @@
                             android:id="@+id/statusbarclockconfigure"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Configure Statusbar Clock" />
+                            android:text="@string/settings_statusbar_button" />
                     </RadioGroup>
 
                 </LinearLayout>
@@ -203,7 +203,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Lockscreen"
+                        android:text="@string/settings_lockscreen_title"
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
@@ -211,7 +211,7 @@
                         android:id="@+id/lockscreenclockenabled"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Enabled" />
+                        android:text="@string/settings_switch_enabled" />
 
                     <RadioGroup
                         android:id="@+id/lockscreenclocktype"
@@ -222,19 +222,19 @@
                             android:id="@+id/lockscreenclocktextbased"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Text Based" />
+                            android:text="@string/settings_textbased" />
 
                         <RadioButton
                             android:id="@+id/lockscreenclockimagebased"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Image Based" />
+                            android:text="@string/settings_imagebased" />
 
                         <Button
                             android:id="@+id/lockscreenclockconfigure"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Configure Lockscreen Clock" />
+                            android:text="@string/settings_lockscreen_button" />
                     </RadioGroup>
 
                 </LinearLayout>
@@ -249,13 +249,13 @@
                     android:id="@+id/textView7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="To apply changes, you might need to restart SystemUI (root access needed)" />
+                    android:text="@string/settings_systemui_restart_description" />
 
                 <Button
                     android:id="@+id/restartsystemui"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Restart SystemUI" />
+                    android:text="@string/settings_systemui_restart_button" />
 
             </LinearLayout>
 
@@ -267,4 +267,5 @@
 
         </LinearLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

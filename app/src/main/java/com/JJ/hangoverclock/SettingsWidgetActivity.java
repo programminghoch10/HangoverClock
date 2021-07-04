@@ -48,7 +48,7 @@ public class SettingsWidgetActivity extends Activity {
 			LinearLayout layout = (LinearLayout) layoutInflater.inflate(R.layout.settings_widget_listlayout, null);
 			
 			TextView textView = layout.findViewById(R.id.settings_widget_title);
-			textView.setText("Widget " + widgetId);
+			textView.setText(getString(R.string.settings_widget_activity_listitem_title, widgetId));
 			
 			ImageView imageView = layout.findViewById(R.id.settings_widget_preview);
 			ClockConfig config = new ClockConfig(sharedPreferences, defaultWidgetConfig, String.valueOf(widgetId));
