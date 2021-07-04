@@ -37,15 +37,15 @@ public class SettingsActivity extends Activity {
 	RadioButton lockscreenclocktextbased;
 	RadioButton lockscreenclockimagebased;
 	RadioGroup lockscreenclocktype;
-	CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			configChanged();
-		}
-	};
 	RadioGroup.OnCheckedChangeListener onCheckedChangeListener1 = new RadioGroup.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
+			configChanged();
+		}
+	};
+	CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 			configChanged();
 		}
 	};
@@ -101,6 +101,10 @@ public class SettingsActivity extends Activity {
 			} else {
 				intent = new Intent(Settings.ACTION_DISPLAY_SETTINGS);
 			}
+			startActivity(intent);
+		});
+		findViewById(R.id.widgetopensettingsbutton).setOnClickListener(v -> {
+			Intent intent = new Intent(SettingsActivity.this, SettingsWidgetActivity.class);
 			startActivity(intent);
 		});
 		

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import java.util.Map;
 
@@ -30,27 +31,38 @@ public class WidgetConfigure extends Activity {
 		// Find the widget id from the intent.
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
+		boolean newWidget = true;
 		if (extras != null) {
 			appWidgetID = extras.getInt(
 					AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+			newWidget = !extras.getBoolean("editWidget", false);
 		}
 		// If they gave us an intent without the widget id, just bail.
 		if (appWidgetID == AppWidgetManager.INVALID_APPWIDGET_ID) {
 			finish();
 		}
-		SharedPreferences sharedPreferences = getSharedPreferences(WidgetConfigure.this.getResources().getString(R.string.lastwidgetpreferencesfilename), MODE_PRIVATE);
-		Context context = WidgetConfigure.this;
+		SharedPreferences lastWidgetPreferences = getSharedPreferences(getString(R.string.lastwidgetpreferencesfilename), MODE_PRIVATE);
+		SharedPreferences widgetPreferences = getSharedPreferences(getString(R.string.widgetpreferencesfilename), MODE_PRIVATE);
+		Context context = this;
 		
 		Configure configure = new Configure(context, this, "widget");
-		configure.onCreate(sharedPreferences, true, true, false);
-		findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+		if (newWidget) {
+			configure.onCreate(lastWidgetPreferences, true, true, false);
+		} else {
+			configure.onCreate(
+					new ClockConfig(widgetPreferences, ClockConfig.getDefaultsFromResources(context.getResources(), "widget"), String.valueOf(appWidgetID)),
+					true, true, false);
+		}
+		Button button = findViewById(R.id.save);
+		if (!newWidget) button.setText(R.string.savebutton);
+		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				configure.savesettings(sharedPreferences);
+				configure.savesettings(lastWidgetPreferences);
 				
 				//copy preferences into widget specific sharedPreferences
-				SharedPreferences.Editor editor = getSharedPreferences(context.getResources().getString(R.string.widgetpreferencesfilename), MODE_PRIVATE).edit();
-				Map<String, ?> entries = sharedPreferences.getAll();
+				SharedPreferences.Editor editor = widgetPreferences.edit();
+				Map<String, ?> entries = lastWidgetPreferences.getAll();
 				for (String key : ClockConfig.keys) {
 					if (!entries.containsKey(key)) continue;
 					String newKey = key + appWidgetID;

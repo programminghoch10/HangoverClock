@@ -43,20 +43,24 @@ public class ClockConfig {
 	}
 	
 	public ClockConfig(SharedPreferences sharedPreferences, ClockConfig defaults) {
-		autoTwelveHours = !sharedPreferences.contains("twelvehours") && defaults.autoTwelveHours;
+		this(sharedPreferences, defaults, "");
+	}
+	
+	public ClockConfig(SharedPreferences sharedPreferences, ClockConfig defaults, String keyappend) {
+		autoTwelveHours = !sharedPreferences.contains("twelvehours" + keyappend) && defaults.autoTwelveHours;
 		//when autoTwelveHours is enabled, following does not automatically select system property
-		twelvehours = sharedPreferences.getBoolean("twelvehours", defaults.twelvehours);
-		enableseconds = sharedPreferences.getBoolean("enableseconds", defaults.enableseconds);
-		enabledate = sharedPreferences.getBoolean("enabledate", defaults.enabledate);
-		font = sharedPreferences.getString("font", defaults.font);
+		twelvehours = sharedPreferences.getBoolean("twelvehours" + keyappend, defaults.twelvehours);
+		enableseconds = sharedPreferences.getBoolean("enableseconds" + keyappend, defaults.enableseconds);
+		enabledate = sharedPreferences.getBoolean("enabledate" + keyappend, defaults.enabledate);
+		font = sharedPreferences.getString("font" + keyappend, defaults.font);
 		font = font != null ? font.replace("_", " ") : null;
-		fontscale = sharedPreferences.getFloat("fontscale", defaults.fontscale);
-		color = sharedPreferences.getInt("color", defaults.color);
-		dayoverhang = sharedPreferences.getInt("dayoverhang", defaults.dayoverhang);
-		monthoverhang = sharedPreferences.getInt("monthoverhang", defaults.monthoverhang);
-		secondoverhang = sharedPreferences.getInt("secondoverhang", defaults.secondoverhang);
-		minuteoverhang = sharedPreferences.getInt("minuteoverhang", defaults.minuteoverhang);
-		houroverhang = sharedPreferences.getInt("houroverhang", defaults.houroverhang);
+		fontscale = sharedPreferences.getFloat("fontscale" + keyappend, defaults.fontscale);
+		color = sharedPreferences.getInt("color" + keyappend, defaults.color);
+		dayoverhang = sharedPreferences.getInt("dayoverhang" + keyappend, defaults.dayoverhang);
+		monthoverhang = sharedPreferences.getInt("monthoverhang" + keyappend, defaults.monthoverhang);
+		secondoverhang = sharedPreferences.getInt("secondoverhang" + keyappend, defaults.secondoverhang);
+		minuteoverhang = sharedPreferences.getInt("minuteoverhang" + keyappend, defaults.minuteoverhang);
+		houroverhang = sharedPreferences.getInt("houroverhang" + keyappend, defaults.houroverhang);
 	}
 	
 	public static ClockConfig getDefaultsFromResources(Resources resources, String scope) {

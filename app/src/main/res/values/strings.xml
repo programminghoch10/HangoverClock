@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">HangoverClock</string>
     <string name="widget_start_text" translatable="false">hangover</string>
-    <string name="savewidget">Create Widget</string>
+    <string name="createwidget">Create Widget</string>
     <string name="savebutton">Save</string>
     <string name="inputoverhangminutes">minutes</string>
     <string name="use12h">Use 12h format</string>

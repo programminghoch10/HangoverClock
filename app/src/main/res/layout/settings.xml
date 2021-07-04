@@ -49,6 +49,27 @@
                 android:background="?android:attr/listDivider" />
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Widgets"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/widgetopensettingsbutton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Open Widget list" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/daydreamlayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
