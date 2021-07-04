@@ -25,7 +25,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="HangoverClock Settings"
-                android:textSize="34sp" />
+                android:textSize="34sp"
+                android:textStyle="bold" />
 
             <View
                 android:id="@+id/divider5"
@@ -43,6 +44,34 @@
 
             <View
                 android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:id="@+id/daydreamlayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Daydream"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/daydreamopensettingsbutton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Open Daydream settings" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider" />
@@ -83,12 +112,6 @@
                 android:visibility="gone"
                 tools:visibility="visible">
 
-                <View
-                    android:id="@+id/divider2"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/listDivider" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -99,7 +122,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Statusbar Clock" />
+                        android:text="Statusbar"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <Switch
                         android:id="@+id/statusbarclockenabled"
@@ -157,7 +182,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Lockscreen Clock" />
+                        android:text="Lockscreen"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <Switch
                         android:id="@+id/lockscreenclockenabled"
@@ -210,6 +237,12 @@
                     android:text="Restart SystemUI" />
 
             </LinearLayout>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
         </LinearLayout>
     </ScrollView>

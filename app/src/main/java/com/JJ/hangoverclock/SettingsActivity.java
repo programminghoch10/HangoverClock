@@ -5,7 +5,9 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +52,7 @@ public class SettingsActivity extends Activity {
 	LinearLayout xposednotinstalled;
 	LinearLayout xposedinstalled;
 	LinearLayout xposednotcompatible;
+	LinearLayout daydreamclock;
 	
 	private void configChanged() {
 		saveconfig();
@@ -83,21 +86,25 @@ public class SettingsActivity extends Activity {
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 		
-		findViewById(R.id.statusbarclockconfigure).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(SettingsActivity.this, StatusbarConfigure.class);
-				startActivity(intent);
-			}
+		findViewById(R.id.statusbarclockconfigure).setOnClickListener(v -> {
+			Intent intent = new Intent(SettingsActivity.this, StatusbarConfigure.class);
+			startActivity(intent);
 		});
-		findViewById(R.id.lockscreenclockconfigure).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(SettingsActivity.this, LockscreenConfigure.class);
-				startActivity(intent);
+		findViewById(R.id.lockscreenclockconfigure).setOnClickListener(v -> {
+			Intent intent = new Intent(SettingsActivity.this, LockscreenConfigure.class);
+			startActivity(intent);
+		});
+		findViewById(R.id.daydreamopensettingsbutton).setOnClickListener(v -> {
+			Intent intent;
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+				intent = new Intent(Settings.ACTION_DREAM_SETTINGS);
+			} else {
+				intent = new Intent(Settings.ACTION_DISPLAY_SETTINGS);
 			}
+			startActivity(intent);
 		});
 		
+		daydreamclock = findViewById(R.id.daydreamlayout);
 		statusbarclockenabled = findViewById(R.id.statusbarclockenabled);
 		statusbarclocktextbased = findViewById(R.id.statusbarclocktextbased);
 		statusbarclockimagebased = findViewById(R.id.statusbarclockimagebased);
@@ -111,8 +118,10 @@ public class SettingsActivity extends Activity {
 		xposednotinstalled = findViewById(R.id.xposednotinstalled);
 		xposednotcompatible = findViewById(R.id.xposednotcompatible);
 		
+		daydreamclock.setVisibility(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 ? View.VISIBLE : View.GONE);
+		
 		boolean xposedactive = xposedHooked;
-		boolean xposedcompatible = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q;
+		boolean xposedcompatible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
 		xposedinstalled.setVisibility(xposedactive && xposedcompatible ? View.VISIBLE : View.GONE);
 		xposednotinstalled.setVisibility(xposedcompatible && !xposedactive ? View.VISIBLE : View.GONE);
 		xposednotcompatible.setVisibility(!xposedcompatible ? View.VISIBLE : View.GONE);
