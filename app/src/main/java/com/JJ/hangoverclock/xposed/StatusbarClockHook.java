@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.text.format.DateFormat;
@@ -17,6 +18,7 @@ import com.JJ.hangoverclock.ClockGenerator;
 import com.JJ.hangoverclock.R;
 import com.crossbowffs.remotepreferences.RemotePreferences;
 
+import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -45,44 +47,48 @@ public class StatusbarClockHook {
 		XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.policy.Clock", lpparam.classLoader, "updateClock", new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				if (result != null) {
-					if (!enabled) enabled = true;
+				TextView textView = (TextView) param.thisObject;
+				if (enabled) {
 					param.setResult(null);
-					TextView textView = (TextView) param.thisObject;
-					try {
-						if (!result.imagebased) throw new Exception();
-						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-							textView.setCompoundDrawablesWithIntrinsicBounds(result.drawable, null, null, null);
+					if (result != null) {
+						try {
+							if (!result.imagebased) throw new Exception();
+							if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+								textView.setCompoundDrawablesWithIntrinsicBounds(result.drawable, null, null, null);
+							}
+							textView.setText("");
+						} catch (Exception e) {
+							//well we're modding the system afterall
+							// anything could happen, so just fallback to text based clock
+							textView.setTextColor(result.color);
+							textView.setText(result.text);
+							textView.setCompoundDrawables(null, null, null, null);
 						}
-						textView.setText("");
-					} catch (Exception e) {
-						//well we're modding the system afterall
-						// anything could happen, so just fallback to text based clock
-						textView.setTextColor(result.color);
-						textView.setText(result.text);
-						textView.setCompoundDrawables(null, null, null, null);
-					}
-					startThread();
-				} else {
-					if (enabled) {
+						startThread();
+					} else {
 						enabled = false;
 						//disable the service
-						//FIXME: this does not set defaults because its called one iteration too early
-						/*Log.d("hangoverclock", "beforeHookedMethod: clock not generated or disabled, trying to return to defaults");
-						TextView textView = (TextView) param.thisObject;
+						Log.d("hangoverclock", "beforeHookedMethod: clock not generated or disabled, trying to return to defaults");
 						try {
-							//textView.setText("hmmmm");
 							//calling updateColors does not fix wrong colors, so we just set it to white
-							textView.setTextColor(Color.WHITE);
 							//XposedHelpers.callMethod(param.thisObject, "updateColors", null);
+							textView.setTextColor(Color.WHITE);
+							textView.setText("");
+							//this call weirdly does nothing
 							textView.setCompoundDrawables(null, null, null, null);
-						} catch (Exception ignored) {}*/
-					} else {
-						//since the background thread is not refreshing the result anymore, we need to check manually
-						if (getEnabled()) startThread();
+						} catch (Exception e) {
+							//Log.e("hangoverclock", "beforeHookedMethod: error resetting stuff", e);
+						}
 					}
+				} else {
+					//since the background thread is not refreshing the result anymore, we need to check manually
+					if (getEnabled()) {
+						startThread();
+						enabled = true;
+					}
+					//removing the compound drawables in disable routine is not enough, so for now just remove them every iteration
+					textView.setCompoundDrawables(null, null, null, null);
 				}
-				
 			}
 		});
 	}
