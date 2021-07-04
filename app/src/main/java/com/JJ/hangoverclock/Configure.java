@@ -350,8 +350,12 @@ public class Configure {
 		twelveHourSwitch.setEnabled(!config.autoTwelveHours);
 		secondsSwitch.setChecked(secondsavailable && config.enableseconds);
 		secondsSwitch.setVisibility(secondsavailable ? View.VISIBLE : View.GONE);
+		((View) overhangInputTimeSeconds.getParent()).setVisibility(secondsSwitch.isChecked() ? View.VISIBLE : View.GONE);
 		dateSwitch.setChecked(dateavailable && config.enabledate);
+		((View) overhangInputDateMonths.getParent()).setVisibility(dateSwitch.isChecked() ? View.VISIBLE : View.GONE);
+		((View) overhangInputDateDays.getParent()).setVisibility(dateSwitch.isChecked() ? View.VISIBLE : View.GONE);
 		dateFontSizeSeekBar.setProgress((int) (dateFontSizeSeekBar.getMax() * config.fontscale));
+		dateFontSizeSeekBar.setVisibility(dateSwitch.isChecked() ? View.VISIBLE : View.GONE);
 		activity.findViewById(R.id.dateSelector).setVisibility(dateavailable ? View.VISIBLE : View.GONE);
 		if (imagebased) {
 			List<String> fonts = FontsProvider.getFonts();
