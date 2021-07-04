@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -64,5 +65,7 @@ public class SettingsWidgetActivity extends Activity {
 			
 			rootLayout.addView(layout);
 		}
+		
+		findViewById(R.id.nowidgetsfound).setVisibility(widgetIds.length == 0 ? View.VISIBLE : View.GONE);
 	}
 }

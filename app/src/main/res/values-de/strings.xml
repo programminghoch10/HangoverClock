@@ -36,4 +36,5 @@
     <string name="settings_systemui_restart_button">SystemUI neustarten</string>
     <string name="settings_widget_activity_title">Widget Einstellungen</string>
     <string name="settings_widget_activity_listitem_title">Widget %1$d</string>
+    <string name="settings_nowidgetsfound">Keine Widgets gefunden. Um ein widget deinem Startbildschirm hinzuzufügen, drücke lange auf einen freien Platz, wähle Widgets und drücke und halte bei HangoverClock.</string>
 </resources>

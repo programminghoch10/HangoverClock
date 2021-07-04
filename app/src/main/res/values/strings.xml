@@ -37,4 +37,5 @@
     <string name="settings_systemui_restart_button">Restart SystemUI</string>
     <string name="settings_widget_activity_title">Widget Settings</string>
     <string name="settings_widget_activity_listitem_title">Widget %1$d</string>
+    <string name="settings_nowidgetsfound">No widgets found. To add a widget to your homescreen, long press on a free place, select widgets and press and hold on HangoverClock.</string>
 </resources>
