@@ -30,7 +30,6 @@
     <string name="settings_switch_enabled">Enabled</string>
     <string name="settings_textbased">Text Based</string>
     <string name="settings_imagebased">Image Based</string>
-    <string name="settings_statusbar_size">Size</string>
     <string name="settings_statusbar_button">Configure Statusbar Clock</string>
     <string name="settings_lockscreen_title">Lockscreen</string>
     <string name="settings_lockscreen_button">Configure Lockscreen Clock</string>

@@ -69,6 +69,12 @@
                     android:text="@string/settings_widget_button" />
             </LinearLayout>
 
+            <View
+                android:id="@+id/divider10"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
             <LinearLayout
                 android:id="@+id/daydreamlayout"
                 android:layout_width="match_parent"
@@ -83,6 +89,14 @@
                     android:text="@string/settings_daydream_title"
                     android:textSize="20sp"
                     android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/daydreamclockpreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="100dp"
+                    tools:srcCompat="@drawable/clockc" />
 
                 <Button
                     android:id="@+id/daydreamopensettingsbutton"
@@ -153,6 +167,14 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_switch_enabled" />
 
+                    <ImageView
+                        android:id="@+id/statusbarclockpreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxHeight="100dp"
+                        tools:srcCompat="@drawable/clockc" />
+
                     <RadioGroup
                         android:id="@+id/statusbarclocktype"
                         android:layout_width="match_parent"
@@ -169,12 +191,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_imagebased" />
-
-                        <TextView
-                            android:id="@+id/textView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/settings_statusbar_size" />
 
                         <SeekBar
                             android:id="@+id/statusbarclockdensity"
@@ -212,6 +228,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_switch_enabled" />
+
+                    <ImageView
+                        android:id="@+id/lockscreenclockpreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxHeight="100dp"
+                        tools:srcCompat="@drawable/clockc" />
 
                     <RadioGroup
                         android:id="@+id/lockscreenclocktype"

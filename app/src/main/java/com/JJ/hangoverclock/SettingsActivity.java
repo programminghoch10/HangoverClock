@@ -5,6 +5,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -28,12 +31,15 @@ public class SettingsActivity extends Activity {
 	private static boolean xposedHooked = false;
 	SharedPreferences sharedPreferencesStatusbar;
 	SharedPreferences sharedPreferencesLockscreen;
+	ImageView daydreamclockpreview;
 	Switch statusbarclockenabled;
+	ImageView statusbarclockpreview;
 	RadioButton statusbarclocktextbased;
 	RadioButton statusbarclockimagebased;
 	RadioGroup statusbarclocktype;
 	SeekBar statusbarclockdensity;
 	Switch lockscreenclockenabled;
+	ImageView lockscreenclockpreview;
 	RadioButton lockscreenclocktextbased;
 	RadioButton lockscreenclockimagebased;
 	RadioGroup lockscreenclocktype;
@@ -64,6 +70,12 @@ public class SettingsActivity extends Activity {
 		saveconfig();
 		finish();
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		updatePreviews();
 	}
 	
 	@Override
@@ -108,13 +120,16 @@ public class SettingsActivity extends Activity {
 			startActivity(intent);
 		});
 		
+		daydreamclockpreview = findViewById(R.id.daydreamclockpreview);
 		daydreamclock = findViewById(R.id.daydreamlayout);
 		statusbarclockenabled = findViewById(R.id.statusbarclockenabled);
+		statusbarclockpreview = findViewById(R.id.statusbarclockpreview);
 		statusbarclocktextbased = findViewById(R.id.statusbarclocktextbased);
 		statusbarclockimagebased = findViewById(R.id.statusbarclockimagebased);
 		statusbarclocktype = findViewById(R.id.statusbarclocktype);
 		statusbarclockdensity = findViewById(R.id.statusbarclockdensity);
 		lockscreenclockenabled = findViewById(R.id.lockscreenclockenabled);
+		lockscreenclockpreview = findViewById(R.id.lockscreenclockpreview);
 		lockscreenclocktextbased = findViewById(R.id.lockscreenclocktextbased);
 		lockscreenclockimagebased = findViewById(R.id.lockscreenclockimagebased);
 		lockscreenclocktype = findViewById(R.id.lockscreenclocktype);
@@ -123,6 +138,9 @@ public class SettingsActivity extends Activity {
 		xposednotcompatible = findViewById(R.id.xposednotcompatible);
 		
 		daydreamclock.setVisibility(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 ? View.VISIBLE : View.GONE);
+		daydreamclockpreview.setOnClickListener(v -> updatePreviews());
+		statusbarclockpreview.setOnClickListener(v -> updatePreviews());
+		lockscreenclockpreview.setOnClickListener(v -> updatePreviews());
 		
 		boolean xposedactive = xposedHooked;
 		boolean xposedcompatible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
@@ -131,6 +149,7 @@ public class SettingsActivity extends Activity {
 		xposednotcompatible.setVisibility(!xposedcompatible ? View.VISIBLE : View.GONE);
 		
 		loadConfig();
+		updatePreviews();
 	}
 	
 	private void addListeners() {
@@ -183,6 +202,7 @@ public class SettingsActivity extends Activity {
 	private void loadConfig() {
 		removeListeners();
 		statusbarclockenabled.setChecked(sharedPreferencesStatusbar.getBoolean("enabled", false));
+		statusbarclockpreview.setVisibility(statusbarclockenabled.isChecked() ? View.VISIBLE : View.GONE);
 		boolean statusbarclockimagebasedbool = sharedPreferencesStatusbar.getBoolean("imagebased", false);
 		statusbarclockimagebased.setChecked(statusbarclockimagebasedbool);
 		statusbarclocktextbased.setChecked(!statusbarclockimagebasedbool);
@@ -190,10 +210,29 @@ public class SettingsActivity extends Activity {
 		statusbarclockdensity.setProgress((int) ((sharedPreferencesStatusbar.getFloat("density", 1) - 0.5f) * statusbarclockdensity.getMax()));
 		findViewById(R.id.statusbarclocktype).setVisibility(statusbarclockenabled.isChecked() ? View.VISIBLE : View.GONE);
 		lockscreenclockenabled.setChecked(sharedPreferencesLockscreen.getBoolean("enabled", false));
+		lockscreenclockpreview.setVisibility(lockscreenclockenabled.isChecked() ? View.VISIBLE : View.GONE);
 		boolean lockscreenclockimagebasedbool = sharedPreferencesLockscreen.getBoolean("imagebased", false);
 		lockscreenclockimagebased.setChecked(lockscreenclockimagebasedbool);
 		lockscreenclocktextbased.setChecked(!lockscreenclockimagebasedbool);
 		findViewById(R.id.lockscreenclocktype).setVisibility(lockscreenclockenabled.isChecked() ? View.VISIBLE : View.GONE);
 		addListeners();
+	}
+	
+	private void updatePreviews() {
+		Object[][] previewMeta = {
+				{R.id.daydreamclockpreview, R.string.daydreampreferencesfilename, "daydream"},
+				{R.id.statusbarclockpreview, R.string.statusbarpreferencesfilename, "statusbar"},
+				{R.id.lockscreenclockpreview, R.string.lockscreenpreferencesfilename, "lockscreen"},
+		};
+		for (Object[] thisPreviewMeta : previewMeta) {
+			ImageView view = findViewById((Integer) thisPreviewMeta[0]);
+			Bitmap bitmap = getPreview(getString((Integer) thisPreviewMeta[1]), (String) thisPreviewMeta[2]);
+			view.setImageDrawable(new BitmapDrawable(bitmap));
+		}
+	}
+	
+	private Bitmap getPreview(String sharedPreferencesName, String scope) {
+		ClockConfig config = new ClockConfig(getSharedPreferences(sharedPreferencesName, MODE_PRIVATE), ClockConfig.getDefaultsFromResources(getResources(), scope));
+		return ClockGenerator.generateClock(this, System.currentTimeMillis(), config);
 	}
 }

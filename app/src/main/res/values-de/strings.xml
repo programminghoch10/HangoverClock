@@ -29,7 +29,6 @@
     <string name="settings_switch_enabled">Aktiviert</string>
     <string name="settings_textbased">Text-Basiert</string>
     <string name="settings_imagebased">Bild-Basiert</string>
-    <string name="settings_statusbar_size">Größe</string>
     <string name="settings_statusbar_button">Benachrichritigungseleistenuhr konfigurieren</string>
     <string name="settings_lockscreen_title">Sperrbildschrim</string>
     <string name="settings_lockscreen_button">Sperrbildschirmuhr konfigurieren</string>
