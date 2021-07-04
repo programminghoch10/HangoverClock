@@ -23,10 +23,9 @@ import java.io.IOException;
 
 public class SettingsActivity extends Activity {
 	private static final String TAG = SettingsActivity.class.getName();
-	
+	private static boolean xposedHooked = false;
 	SharedPreferences sharedPreferencesStatusbar;
 	SharedPreferences sharedPreferencesLockscreen;
-	
 	Switch statusbarclockenabled;
 	RadioButton statusbarclocktextbased;
 	RadioButton statusbarclockimagebased;
@@ -50,6 +49,7 @@ public class SettingsActivity extends Activity {
 	};
 	LinearLayout xposednotinstalled;
 	LinearLayout xposedinstalled;
+	LinearLayout xposednotcompatible;
 	
 	private void configChanged() {
 		saveconfig();
@@ -109,10 +109,13 @@ public class SettingsActivity extends Activity {
 		lockscreenclocktype = findViewById(R.id.lockscreenclocktype);
 		xposedinstalled = findViewById(R.id.xposedinstalled);
 		xposednotinstalled = findViewById(R.id.xposednotinstalled);
+		xposednotcompatible = findViewById(R.id.xposednotcompatible);
 		
-		boolean xposedactive = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q;
-		xposedinstalled.setVisibility(xposedactive ? View.VISIBLE : View.GONE);
-		xposednotinstalled.setVisibility(xposedactive ? View.GONE : View.VISIBLE);
+		boolean xposedactive = xposedHooked;
+		boolean xposedcompatible = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q;
+		xposedinstalled.setVisibility(xposedactive && xposedcompatible ? View.VISIBLE : View.GONE);
+		xposednotinstalled.setVisibility(xposedcompatible && !xposedactive ? View.VISIBLE : View.GONE);
+		xposednotcompatible.setVisibility(!xposedcompatible ? View.VISIBLE : View.GONE);
 		
 		loadConfig();
 	}

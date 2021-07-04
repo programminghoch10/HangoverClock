@@ -48,7 +48,7 @@
                 android:background="?android:attr/listDivider" />
 
             <LinearLayout
-                android:id="@+id/xposednotinstalled"
+                android:id="@+id/xposednotcompatible"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -61,24 +61,27 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/xposedinstalled"
+                android:id="@+id/xposednotinstalled"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:visibility="gone"
                 tools:visibility="visible">
 
-                <View
-                    android:id="@+id/divider3"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/listDivider" />
-
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/textView8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="This is only usable when XPosed module is activated" />
+                    android:text="You need an active XPosed framework for changing statusbar and lockscreen clocks" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/xposedinstalled"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <View
                     android:id="@+id/divider2"
@@ -188,25 +191,25 @@
 
                 </LinearLayout>
 
+                <View
+                    android:id="@+id/divider4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="To apply changes, you might need to restart SystemUI (root access needed)" />
+
+                <Button
+                    android:id="@+id/restartsystemui"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Restart SystemUI" />
+
             </LinearLayout>
-
-            <View
-                android:id="@+id/divider4"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
-
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="To apply changes, you might need to restart SystemUI (root access needed)" />
-
-            <Button
-                android:id="@+id/restartsystemui"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Restart SystemUI" />
 
         </LinearLayout>
     </ScrollView>
