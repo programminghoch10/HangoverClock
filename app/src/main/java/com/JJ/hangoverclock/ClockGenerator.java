@@ -136,23 +136,23 @@ public class ClockGenerator {
 		 */
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(timestamp);
-		int twelvehoursnumber = twelvehours ? 12 : 24;
 		long h = twelvehours ? calendar.get(Calendar.HOUR) : calendar.get(Calendar.HOUR_OF_DAY);
 		long m = calendar.get(Calendar.MINUTE);
 		long s = withseconds ? calendar.get(Calendar.SECOND) : 0;
 		if (withseconds) {
-			if (secondoverhang % 60 >= s) s += 60;
+			if (secondoverhang % 60 > s) s += 60;
 			s += (secondoverhang / 60) * 60;
 			m -= (s / 60) % 60;
 		}
 		if (minuteoverhang % 60 > m) m += 60;
 		m += (minuteoverhang / 60) * 60;
-		h -= (m / 60) % twelvehoursnumber;
-		if (houroverhang % twelvehoursnumber > h) h += twelvehoursnumber;
-		h += (houroverhang / twelvehoursnumber) * twelvehoursnumber;
+		h -= (m / 60) % 24;
+		if (houroverhang % 24 > h) h += 24;
+		h += (houroverhang / 24) * 24;
+		if (twelvehours && (h >= 12+houroverhang && h <= 24)) h -= 12;
 		if (withseconds)
-			return String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m) + ":" + String.format(Locale.GERMANY, "%02d", s);
-		return String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m);
+			return String.format(Locale.GERMANY, "%02d:%02d:%02d", h, m, s);
+		return String.format(Locale.GERMANY, "%02d:%02d", h, m);
 	}
  
 	private static String[] combinedcalculate(long timestamp,
@@ -178,8 +178,8 @@ public class ClockGenerator {
 		long m = calendar.get(Calendar.MINUTE);
 		long s = calendar.get(Calendar.SECOND);
 		//FIXME: ANR when going up to integer limit, don't know if it even is fixable, would need to overhaul entire calcutlation
-		while (day <= dayoverhang | month <= monthoverhang | m < minuteoverhang | h < houroverhang | (withseconds & s < secondoverhang)) {
-			if (withseconds & s < secondoverhang) {
+		while (day < dayoverhang || month < monthoverhang || m < minuteoverhang || h < houroverhang || (withseconds && s < secondoverhang)) {
+			if (withseconds && s < secondoverhang) {
 				s += 60;
 				m--;
 				calendar.add(Calendar.MINUTE, -1);
@@ -194,21 +194,21 @@ public class ClockGenerator {
 				day--;
 				calendar.add(Calendar.DAY_OF_MONTH, -1);
 			}
-			if (day <= dayoverhang) {
+			if (day < dayoverhang) {
 				calendar.add(Calendar.MONTH, -1);
 				day += calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-				month -= 1;
+				month--;
 			}
-			if (month <= monthoverhang) {
+			if (month < monthoverhang) {
 				month += calendar.getMaximum(Calendar.MONTH) + 1;
-				year -= 1;
+				year--;
 				calendar.add(Calendar.YEAR, -1);
 			}
 		}
-		if (twelvehours & (h >= 12+houroverhang & h <= 24)) h -= 12;
-		returnstring[0] = String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m);
+		if (twelvehours && (h >= 12+houroverhang && h <= 24)) h -= 12;
+		returnstring[0] = String.format(Locale.GERMANY, "%02d:%02d", h, m);
 		if (withseconds)
-			returnstring[0] = String.format(Locale.GERMANY, "%02d", h) + ":" + String.format(Locale.GERMANY, "%02d", m) + ":" + String.format(Locale.GERMANY, "%02d", s);
+			returnstring[0] = String.format(Locale.GERMANY, "%02d:%02d:%02d", h, m, s);
 		returnstring[1] = day + "." + month + "." + year;
 		return returnstring;
 	}
