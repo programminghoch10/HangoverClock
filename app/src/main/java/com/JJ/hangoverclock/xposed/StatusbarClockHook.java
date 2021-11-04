@@ -41,6 +41,7 @@ public class StatusbarClockHook {
 		}
 	};
 	private static volatile boolean enabled = false;
+	private static volatile boolean secondsAvailable = false;
 	
 	@RequiresApi(api = Build.VERSION_CODES.Q)
 	protected static void hook(XC_LoadPackage.LoadPackageParam lpparam) {
@@ -50,6 +51,7 @@ public class StatusbarClockHook {
 				TextView textView = (TextView) param.thisObject;
 				if (enabled) {
 					param.setResult(null);
+					secondsAvailable = XposedHelpers.getBooleanField(textView, "mShowSeconds");
 					if (result != null) {
 						try {
 							if (!result.imagebased) throw new Exception();
@@ -133,7 +135,7 @@ public class StatusbarClockHook {
 		int dayoverhang = sharedPreferences.getInt("dayoverhang", context.getResources().getInteger(R.integer.statusbardefaultdayoverhang));
 		int monthoverhang = sharedPreferences.getInt("monthoverhang", context.getResources().getInteger(R.integer.statusbardefaultmonthoverhang));
 		boolean twelvehour = sharedPreferences.getBoolean("twelvehours", !DateFormat.is24HourFormat(context));
-		boolean enableseconds = sharedPreferences.getBoolean("enableseconds", context.getResources().getBoolean(R.bool.statusbardefaultenableseconds));
+		boolean enableseconds = secondsAvailable && sharedPreferences.getBoolean("enableseconds", context.getResources().getBoolean(R.bool.statusbardefaultenableseconds));
 		boolean enabledate = sharedPreferences.getBoolean("enabledate", context.getResources().getBoolean(R.bool.statusbardefaultenabledate));
 		String font = sharedPreferences.getString("font", context.getResources().getString(R.string.defaultfonttext));
 		float fontscale = sharedPreferences.getFloat("fontscale", context.getResources().getInteger(R.integer.statusbardefaultfontscale));
