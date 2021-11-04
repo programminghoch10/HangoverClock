@@ -16,17 +16,7 @@ import java.util.Calendar;
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class DaydreamProvider extends DreamService {
 
-    private int houroverhang;
-    private int minuteoverhang;
-    private int secondoverhang;
-    private int dayoverhang;
-    private int monthoverhang;
-    private boolean twelvehour;
-    private boolean enableseconds;
-    private boolean enabledate;
-    private String font;
-    private float fontscale;
-    private int color;
+    private ClockConfig config;
     private int updateseconds;
     private boolean runUpdateThread = false;
     private static final String TAG = DaydreamProvider.class.getName();
@@ -50,28 +40,14 @@ public class DaydreamProvider extends DreamService {
 
     private void updateDisplay() {
         ((ImageView) findViewById(R.id.daydreamimageview)).setImageBitmap(
-                ClockGenerator.generateClock(
-                        DaydreamProvider.this, Calendar.getInstance().getTimeInMillis(),
-                        secondoverhang, minuteoverhang, houroverhang, dayoverhang, monthoverhang,
-                        twelvehour, enableseconds, enabledate, font, color, fontscale
-                )
+                ClockGenerator.generateClock(DaydreamProvider.this, Calendar.getInstance().getTimeInMillis(), config)
         );
     }
 
     private void updateConfiguration() {
         Context context = DaydreamProvider.this;
         SharedPreferences sharedPreferences = getSharedPreferences(DaydreamProvider.this);
-        houroverhang = sharedPreferences.getInt("houroverhang", context.getResources().getInteger(R.integer.daydreamdefaulthouroverhang));
-        minuteoverhang = sharedPreferences.getInt("minuteoverhang", context.getResources().getInteger(R.integer.daydreamdefaultminuteoverhang));
-        secondoverhang = sharedPreferences.getInt("secondoverhang", context.getResources().getInteger(R.integer.daydreamdefaultsecondoverhang));
-        dayoverhang = sharedPreferences.getInt("dayoverhang", context.getResources().getInteger(R.integer.daydreamdefaultdayoverhang));
-        monthoverhang = sharedPreferences.getInt("monthoverhang", context.getResources().getInteger(R.integer.daydreamdefaultmonthoverhang));
-        twelvehour = sharedPreferences.getBoolean("twelvehour", !DateFormat.is24HourFormat(context));
-        enableseconds = sharedPreferences.getBoolean("enableseconds", context.getResources().getBoolean(R.bool.daydreamdefaultenableseconds));
-        enabledate = sharedPreferences.getBoolean("enabledate", context.getResources().getBoolean(R.bool.daydreamdefaultenabledate));
-        font = sharedPreferences.getString("font", context.getResources().getString(R.string.defaultfonttext));
-        fontscale = sharedPreferences.getFloat("fontscale", context.getResources().getInteger(R.integer.daydreamdefaultfontscale));
-        color = sharedPreferences.getInt("color", context.getResources().getColor(R.color.daydreamdefaultcolor));
+        config = new ClockConfig(sharedPreferences, ClockConfig.getDefaultsFromResources(context.getResources(), "daydream"));
     }
 
     @Override
