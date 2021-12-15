@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">HangoverClock</string>
     <string name="createwidget">Create Widget</string>
@@ -6,10 +7,9 @@
     <string name="use12h">Use 12h format</string>
     <string name="defaultfonttext">default</string>
     <string name="enablesecondsswitch">Enable seconds</string>
-    <string name="secondsresourceheavywarning">Using seconds is a big system load and is not recommended!</string>
     <string name="enabledateswitch">Enable Date</string>
     <string name="inputoverhangday">days</string>
-    <string name="usesystemtimeformat">Use system timeformat</string>
+    <string name="usesystemtimeformat">Use system time format</string>
     <string name="overhangheader">Overhang</string>
     <string name="inputoverhanghours">hours</string>
     <string name="inputoverhangmonths">months</string>
@@ -24,8 +24,8 @@
     <string name="settings_widget_button">Open Widget List</string>
     <string name="settings_daydream_title">Daydream</string>
     <string name="settings_daydream_button">Open Daydream Settings</string>
-    <string name="settings_xposednotcompatible">You need Android 10 or higher and XPosed for changing statusbar and lockscreen clocks.</string>
-    <string name="settings_xposednotinstalled">You need an active XPosed framework for changing statusbar and lockscreen clocks.</string>
+    <string name="settings_xposednotcompatible">You need Android 10 or higher and XPosed to change statusbar and lockscreen clocks.</string>
+    <string name="settings_xposednotinstalled">You need an active XPosed framework to change statusbar and lockscreen clocks.</string>
     <string name="settings_statusbar_title">Statusbar</string>
     <string name="settings_switch_enabled">Enabled</string>
     <string name="settings_textbased">Text Based</string>

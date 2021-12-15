@@ -275,15 +275,6 @@
             android:switchPadding="10dp"
             android:text="@string/enablesecondsswitch" />
 
-        <TextView
-            android:id="@+id/secondsinfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/secondsresourceheavywarning"
-            android:textColor="#FFAF00"
-            android:visibility="gone"
-            tools:visibility="visible" />
-
         <LinearLayout
             android:id="@+id/dateSelector"
             android:layout_width="match_parent"
