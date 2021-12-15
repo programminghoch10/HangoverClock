@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextClock;
 
 import androidx.annotation.RequiresApi;
@@ -24,7 +25,7 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class LockscreenClockHook {
-	private static final String TAG = "hangoverclock";
+	private static final String TAG = "HangoverClock";
 	
 	@RequiresApi(api = Build.VERSION_CODES.Q)
 	@SuppressLint("PrivateApi")
@@ -52,7 +53,6 @@ public class LockscreenClockHook {
 				int color = sharedPreferences.getInt("color", context.getResources().getColor(R.color.lockscreendefaultcolor));
 				long timestamp = System.currentTimeMillis();
 				
-				//TextClock textClock = (TextClock) param.thisObject;
 				Field textClockField = XposedHelpers.findField(param.thisObject.getClass(), "mClockView");
 				TextClock textClock = (TextClock) textClockField.get(param.thisObject);
 				Field clockPluginField = XposedHelpers.findField(param.thisObject.getClass(), "mClockPlugin");
@@ -68,10 +68,9 @@ public class LockscreenClockHook {
 				// prevent TextClock auto ticking
 				XposedHelpers.setBooleanField(textClock, "mStopTicking", true);
 				
-				String text = ClockGenerator.calculatetime(timestamp, houroverhang, minuteoverhang, secondoverhang, twelvehour, enableseconds);
-				textClock.setText(text);
-				
 				boolean imagebased = sharedPreferences.getBoolean("imagebased", false);
+				((View) XposedHelpers.getObjectField(param.thisObject, "mKeyguardStatusArea"))
+						.setVisibility(imagebased && enabledate ? View.GONE : View.VISIBLE);
 				if (imagebased) {
 					try {
 						Bitmap bitmap = ClockGenerator.generateClock(context, timestamp,
@@ -85,6 +84,10 @@ public class LockscreenClockHook {
 					} catch (Exception e) {
 						Log.e(TAG, "beforeHookedMethod: ", e);
 					}
+				} else {
+					String text = ClockGenerator.calculatetime(timestamp, houroverhang, minuteoverhang, secondoverhang, twelvehour, enableseconds);
+					textClock.setText(text);
+					textClock.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 				}
 			}
 		});
