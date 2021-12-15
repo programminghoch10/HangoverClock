@@ -62,6 +62,7 @@ public class WidgetConfigure extends Activity {
                 
                 //copy preferences into widget specific sharedPreferences
                 SharedPreferences.Editor editor = widgetPreferences.edit();
+                editor.clear();
                 Map<String, ?> entries = lastWidgetPreferences.getAll();
                 for (String key : ClockConfig.keys) {
                     if (!entries.containsKey(key)) continue;
