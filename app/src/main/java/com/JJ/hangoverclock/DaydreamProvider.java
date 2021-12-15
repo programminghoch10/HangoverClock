@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.service.dreams.DreamService;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,11 +14,11 @@ import java.util.Calendar;
 
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class DaydreamProvider extends DreamService {
-
+    
+    private static final String TAG = DaydreamProvider.class.getName();
     private ClockConfig config;
     private int updateseconds;
     private boolean runUpdateThread = false;
-    private static final String TAG = DaydreamProvider.class.getName();
     private final Thread updateThread = new Thread() {
         @Override
         public void run() {
@@ -37,19 +36,19 @@ public class DaydreamProvider extends DreamService {
             }
         }
     };
-
+    
     private void updateDisplay() {
         ((ImageView) findViewById(R.id.daydreamimageview)).setImageBitmap(
                 ClockGenerator.generateClock(DaydreamProvider.this, Calendar.getInstance().getTimeInMillis(), config)
         );
     }
-
+    
     private void updateConfiguration() {
         Context context = DaydreamProvider.this;
         SharedPreferences sharedPreferences = getSharedPreferences(DaydreamProvider.this);
         config = new ClockConfig(sharedPreferences, ClockConfig.getDefaultsFromResources(context.getResources(), "daydream"));
     }
-
+    
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -63,11 +62,11 @@ public class DaydreamProvider extends DreamService {
         setScreenBright(false);    // wether to set screen brightness to 100%
         setContentView(R.layout.daydream);    // Set the dream layout
     }
-
+    
     private SharedPreferences getSharedPreferences(Context context) {
         return getSharedPreferences(context.getResources().getString(R.string.daydreampreferencesfilename), MODE_PRIVATE);
     }
-
+    
     @Override
     public void onDreamingStarted() {
         super.onDreamingStarted();
@@ -78,17 +77,17 @@ public class DaydreamProvider extends DreamService {
         runUpdateThread = true;
         updateThread.start();
     }
-
+    
     @Override
     public void onDreamingStopped() {
         super.onDreamingStopped();
         runUpdateThread = false;
     }
-
+    
     @Override
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         runUpdateThread = false;
     }
-
+    
 }

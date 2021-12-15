@@ -15,96 +15,96 @@ import androidx.core.content.res.ResourcesCompat;
 import java.util.List;
 
 public class CustomSpinnerAdapter extends ArrayAdapter<RowItem> {
-	
-	private final int spinner = R.id.spinnerview;
-	private final String TAG = "CustomSpinnerAdapter";
-	private final LayoutInflater flater;
-	
-	CustomSpinnerAdapter(Activity activity, int resouceId, int textviewId, List<RowItem> list) {
-		
-		super(activity, resouceId, textviewId, list);
-		flater = activity.getLayoutInflater();
-	}
-	
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		
-		RowItem rowItem = getItem(position);
-		
-		View rowview = flater.inflate(R.layout.listitems_layout, null, true);
-		
-		TextView txtTitle = rowview.findViewById(spinner);
-		txtTitle.setText(rowItem.getTitle());
-		txtTitle.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-		if (position == 0) return rowview;
-		try {
-			//Log.d(TAG, "getView: tf string is " + rowItem.getTitleFont(position));
-			//Log.d(TAG, "getView: identifier is " + getContext().getResources().getIdentifier(rowItem.getTitleFont(position), "font", getContext().getPackageName()));
-			//Log.d(TAG, "getView: typefont is " + ResourcesCompat.getFont(getContext(), getContext().getResources().getIdentifier(rowItem.getTitleFont(position), "font", getContext().getPackageName())));
-			txtTitle.setTypeface(ResourcesCompat.getFont(getContext(), getContext().getResources().getIdentifier(rowItem.getTitleFont(position), "font", getContext().getPackageName())));
-		} catch (Exception e) {
-			Log.e(TAG, "getView: error occured while determiting font", e);
-		}
-		return rowview;
-	}
-	
-	@Override
-	public View getDropDownView(int position, View view, ViewGroup parent) {
-		if (view == null) {
-			view = flater.inflate(R.layout.listitems_layout, parent, false);
-		}
-		RowItem rowItem = getItem(position);
-		TextView txtTitle = view.findViewById(spinner);
-		txtTitle.setText(rowItem.getTitle());
-		txtTitle.setTypeface(rowItem.getTypeface());
-		return view;
-	}
+    
+    private final int spinner = R.id.spinnerview;
+    private final String TAG = "CustomSpinnerAdapter";
+    private final LayoutInflater flater;
+    
+    CustomSpinnerAdapter(Activity activity, int resouceId, int textviewId, List<RowItem> list) {
+        
+        super(activity, resouceId, textviewId, list);
+        flater = activity.getLayoutInflater();
+    }
+    
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        
+        RowItem rowItem = getItem(position);
+        
+        View rowview = flater.inflate(R.layout.listitems_layout, null, true);
+        
+        TextView txtTitle = rowview.findViewById(spinner);
+        txtTitle.setText(rowItem.getTitle());
+        txtTitle.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+        if (position == 0) return rowview;
+        try {
+            //Log.d(TAG, "getView: tf string is " + rowItem.getTitleFont(position));
+            //Log.d(TAG, "getView: identifier is " + getContext().getResources().getIdentifier(rowItem.getTitleFont(position), "font", getContext().getPackageName()));
+            //Log.d(TAG, "getView: typefont is " + ResourcesCompat.getFont(getContext(), getContext().getResources().getIdentifier(rowItem.getTitleFont(position), "font", getContext().getPackageName())));
+            txtTitle.setTypeface(ResourcesCompat.getFont(getContext(), getContext().getResources().getIdentifier(rowItem.getTitleFont(position), "font", getContext().getPackageName())));
+        } catch (Exception e) {
+            Log.e(TAG, "getView: error occured while determiting font", e);
+        }
+        return rowview;
+    }
+    
+    @Override
+    public View getDropDownView(int position, View view, ViewGroup parent) {
+        if (view == null) {
+            view = flater.inflate(R.layout.listitems_layout, parent, false);
+        }
+        RowItem rowItem = getItem(position);
+        TextView txtTitle = view.findViewById(spinner);
+        txtTitle.setText(rowItem.getTitle());
+        txtTitle.setTypeface(rowItem.getTypeface());
+        return view;
+    }
 }
 
 
 class RowItem {
-	
-	private final static String TAG = "rowitem";
-	private final String title;
-	private Typeface typeface;
-	private int visibility;
-	
-	RowItem(Context context, String title, int position) {
-		this.title = title;
-		if (position == 0) {
-			typeface = Typeface.defaultFromStyle(Typeface.NORMAL);
-			return;
-		}
-		try {
-			//Log.d(TAG, "getView: tf string is " + rowItem.getTitleFont(position));
-			//Log.d(TAG, "getView: identifier is " + getContext().getResources().getIdentifier(rowItem.getTitleFont(position), "font", getContext().getPackageName()));
-			//Log.d(TAG, "getView: typefont is " + ResourcesCompat.getFont(getContext(), getContext().getResources().getIdentifier(rowItem.getTitleFont(position), "font", getContext().getPackageName())));
-			typeface = ResourcesCompat.getFont(context, context.getResources().getIdentifier(getTitleFont(position), "font", context.getPackageName()));
-		} catch (Exception e) {
-			Log.e(TAG, "getView: error occured while determining font " + title, e);
-			//visibility = View.GONE;
-			visibility = View.INVISIBLE;
-		}
-	}
-	
-	String getTitle() {
-		return title;
-	}
-	
-	String getTitleFont(int position) {
-		return FontsProvider.getFonts().get(position).replace(" ", "_");
-	}
-	
-	Typeface getTypeface() {
-		return typeface;
-	}
-	
-	int getVisibility() {
-		return visibility;
-	}
-	
-	@Override
-	public String toString() {
-		return title;
-	}
+    
+    private final static String TAG = "rowitem";
+    private final String title;
+    private Typeface typeface;
+    private int visibility;
+    
+    RowItem(Context context, String title, int position) {
+        this.title = title;
+        if (position == 0) {
+            typeface = Typeface.defaultFromStyle(Typeface.NORMAL);
+            return;
+        }
+        try {
+            //Log.d(TAG, "getView: tf string is " + rowItem.getTitleFont(position));
+            //Log.d(TAG, "getView: identifier is " + getContext().getResources().getIdentifier(rowItem.getTitleFont(position), "font", getContext().getPackageName()));
+            //Log.d(TAG, "getView: typefont is " + ResourcesCompat.getFont(getContext(), getContext().getResources().getIdentifier(rowItem.getTitleFont(position), "font", getContext().getPackageName())));
+            typeface = ResourcesCompat.getFont(context, context.getResources().getIdentifier(getTitleFont(position), "font", context.getPackageName()));
+        } catch (Exception e) {
+            Log.e(TAG, "getView: error occured while determining font " + title, e);
+            //visibility = View.GONE;
+            visibility = View.INVISIBLE;
+        }
+    }
+    
+    String getTitle() {
+        return title;
+    }
+    
+    String getTitleFont(int position) {
+        return FontsProvider.getFonts().get(position).replace(" ", "_");
+    }
+    
+    Typeface getTypeface() {
+        return typeface;
+    }
+    
+    int getVisibility() {
+        return visibility;
+    }
+    
+    @Override
+    public String toString() {
+        return title;
+    }
 }
