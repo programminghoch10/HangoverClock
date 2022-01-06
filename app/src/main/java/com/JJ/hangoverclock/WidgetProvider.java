@@ -9,6 +9,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -49,7 +50,9 @@ public class WidgetProvider extends AppWidgetProvider {
     private PendingIntent createClockTickIntent(Context context) {
         Intent intent = new Intent(context, getClass());
         intent.setAction(CLOCK_WIDGET_UPDATE);
-        return PendingIntent.getBroadcast(context, 23, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(context, 23, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT |
+                        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
     }
     
     @SuppressLint("ApplySharedPref")
