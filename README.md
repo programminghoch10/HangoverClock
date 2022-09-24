@@ -5,6 +5,15 @@ Welcome to HangoverClock, the only clock which displays the real time in an unre
 If you just want to see what the app looks like now, 
 please take a look at the [screenshots](#screenshots).
 
+<img src="icon/clockc.png" 
+   style="height: 10em;"
+   alt="HangoverClock Icon">
+<a href='https://play.google.com/store/apps/details?id=com.JJ.hangoverclock&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+   <img alt='Get it on Google Play' 
+      style="height: 10em;" 
+      src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/>
+</a>
+
 You can 
 [download the app from the Google Play Store](https://play.google.com/store/apps/details?id=com.JJ.hangoverclock)
 or look at the
@@ -12,7 +21,6 @@ or look at the
 
 For Wear OS Users, please look [here](https://github.com/programminghoch10/HangoverClock/tree/weardev).
 
-![HangoverClock Icon](icon/clockc.png)
 
 ## Usage
 
@@ -48,7 +56,9 @@ Here is how to open it:
 
 It all started with this meme:
 
-![Astrolodgermeme](pictures/astrolodgermeme.jpg)
+<img src="pictures/astrolodgermeme.jpg" 
+   style="width:90%;"
+   alt="You will meet your girlfriend today at 11 and the clock below shows 10 o'clock and 65 minutes">
 
 "You will meet your girlfriend today at 11" and the clock shows `10:65`.
 
