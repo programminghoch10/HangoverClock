@@ -242,6 +242,10 @@ public class ClockGenerator {
         int maxbytes = (int) (screenwidth * screenheight * 4 * 1.5);
         //Log.d(TAG, "generateBitmap: max bytes is " + maxbytes);
         //Log.d(TAG, "generateBitmap: width is " + screenwidth + ", height is " + screenheight);
+        // didn't yet figure out why, but on T the bitmap size counts double
+        // so reducing the size in half makes it fit
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            maxbytes /= 2;
         int fontsize = 0;
         int currentbytes = 0;
         Paint paint = new Paint();
