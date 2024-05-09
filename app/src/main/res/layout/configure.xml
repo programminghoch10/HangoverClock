@@ -32,75 +32,52 @@
             android:gravity="center_horizontal"
             android:text="@string/overhangheader" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <EditText
+            android:id="@+id/overhangInputDateMonths"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/inputoverhangmonths">
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/inputoverhangmonths"
+            android:inputType="numberSigned|numberDecimal"
+            tools:ignore="TextFields" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/overhangInputDateMonths"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberSigned|numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
+        <EditText
+            android:id="@+id/overhangInputDateDays"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/inputoverhangday">
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/inputoverhangday"
+            android:inputType="numberSigned|numberDecimal"
+            tools:ignore="TextFields" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/overhangInputDateDays"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberSigned|numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
+        <EditText
+            android:id="@+id/overhangInputTimeHours"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/inputoverhanghours">
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/inputoverhanghours"
+            android:inputType="numberSigned|numberDecimal" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/overhangInputTimeHours"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberSigned|numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
+        <EditText
+            android:id="@+id/overhangInputTimeMinutes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/inputoverhangminutes">
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/inputoverhangminutes"
+            android:inputType="numberSigned|numberDecimal" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/overhangInputTimeMinutes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberSigned|numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
+        <EditText
+            android:id="@+id/overhangInputTimeSeconds"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/inputoverhangseconds">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/overhangInputTimeSeconds"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberSigned|numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/inputoverhangseconds"
+            android:inputType="numberSigned|numberDecimal" />
 
     </LinearLayout>
 
@@ -257,7 +234,8 @@
             android:layout_height="wrap_content"
             android:checked="@bool/widgetdefaultautotimeselector"
             android:switchPadding="10dp"
-            android:text="@string/usesystemtimeformat" />
+            android:text="@string/usesystemtimeformat"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <Switch
             android:id="@+id/twelveHourSwitch"
@@ -265,7 +243,8 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:switchPadding="10dp"
-            android:text="@string/use12h" />
+            android:text="@string/use12h"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <Switch
             android:id="@+id/secondsSwitch"
@@ -273,7 +252,8 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:switchPadding="10dp"
-            android:text="@string/enablesecondsswitch" />
+            android:text="@string/enablesecondsswitch"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <LinearLayout
             android:id="@+id/dateSelector"
@@ -287,7 +267,8 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:switchPadding="10dp"
-                android:text="@string/enabledateswitch" />
+                android:text="@string/enabledateswitch"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
             <SeekBar
                 android:id="@+id/dateFontSizeSeekBar"

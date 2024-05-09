@@ -165,8 +165,7 @@ Many performance improvements have been made, such as that the clock now manages
 This is HangoverClock "[Mikado](https://open.spotify.com/track/5RiDCELjD5wFMEvF9xEDOt)":
 
 In Mikado almost everything has improved.
-With the inclusion of material design, 
-all configuration activites now look a lot better and are easier to navigate.
+All configuration activites now look a lot better and are easier to navigate.
 
 Mikado also introduces XPosed support, 
 which allows devices with Android 10 or higher and an active XPosed framework to replace the notification bar clock and the lockscreen clock.
