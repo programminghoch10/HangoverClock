@@ -263,10 +263,8 @@ public class Configure {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     ((View) overhangInputTimeSeconds.getParent()).setVisibility(View.VISIBLE);
-                    //findViewById(R.id.secondsinfo).setVisibility(View.VISIBLE);
                 } else {
                     ((View) overhangInputTimeSeconds.getParent()).setVisibility(View.GONE);
-                    //findViewById(R.id.secondsinfo).setVisibility(View.GONE);
                 }
                 updatepreview();
             }
@@ -350,7 +348,7 @@ public class Configure {
         twelveHourSwitch.setEnabled(!config.autoTwelveHours);
         secondsSwitch.setChecked(secondsavailable && config.enableseconds);
         secondsSwitch.setVisibility(secondsavailable ? View.VISIBLE : View.GONE);
-        ((View) overhangInputTimeSeconds.getParent()).setVisibility(secondsSwitch.isChecked() ? View.VISIBLE : View.GONE);
+        ((View) overhangInputTimeSeconds).setVisibility(secondsSwitch.isChecked() ? View.VISIBLE : View.GONE);
         dateSwitch.setChecked(dateavailable && config.enabledate);
         ((View) overhangInputDateMonths.getParent()).setVisibility(dateSwitch.isChecked() ? View.VISIBLE : View.GONE);
         ((View) overhangInputDateDays.getParent()).setVisibility(dateSwitch.isChecked() ? View.VISIBLE : View.GONE);
