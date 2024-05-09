@@ -1,295 +1,284 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/settings_title"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/divider5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxHeight="200dp"
+            android:src="@drawable/clockc" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textView9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/settings_title"
-                android:textSize="34sp"
+                android:text="@string/settings_widget_title"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <View
-                android:id="@+id/divider5"
+            <Button
+                android:id="@+id/widgetopensettingsbutton"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
+                android:layout_height="wrap_content"
+                android:text="@string/settings_widget_button" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider10"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+        <LinearLayout
+            android:id="@+id/daydreamlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/settings_daydream_title"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/daydreamclockpreview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:maxHeight="200dp"
-                android:src="@drawable/clockc" />
+                android:maxHeight="100dp"
+                tools:srcCompat="@drawable/clockc" />
 
-            <View
-                android:id="@+id/divider"
+            <Button
+                android:id="@+id/daydreamopensettingsbutton"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
+                android:layout_height="wrap_content"
+                android:text="@string/settings_daydream_button" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+        <LinearLayout
+            android:id="@+id/xposednotcompatible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_xposednotcompatible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/xposednotinstalled"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_xposednotinstalled" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/xposedinstalled"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView9"
+                    android:id="@+id/textView4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/settings_widget_title"
+                    android:text="@string/settings_statusbar_title"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/widgetopensettingsbutton"
+                <Switch
+                    android:id="@+id/statusbarclockenabled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/settings_widget_button" />
-            </LinearLayout>
-
-            <View
-                android:id="@+id/divider10"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
-
-            <LinearLayout
-                android:id="@+id/daydreamlayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/settings_daydream_title"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:text="@string/settings_switch_enabled" />
 
                 <ImageView
-                    android:id="@+id/daydreamclockpreview"
+                    android:id="@+id/statusbarclockpreview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:maxHeight="100dp"
                     tools:srcCompat="@drawable/clockc" />
 
-                <Button
-                    android:id="@+id/daydreamopensettingsbutton"
+                <RadioGroup
+                    android:id="@+id/statusbarclocktype"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/settings_daydream_button" />
+                    android:layout_height="match_parent">
+
+                    <RadioButton
+                        android:id="@+id/statusbarclocktextbased"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_textbased" />
+
+                    <RadioButton
+                        android:id="@+id/statusbarclockimagebased"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_imagebased" />
+
+                    <SeekBar
+                        android:id="@+id/statusbarclockdensity"
+                        style="@style/Widget.AppCompat.SeekBar.Discrete"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:max="1000"
+                        android:progress="500" />
+
+                    <Button
+                        android:id="@+id/statusbarclockconfigure"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_statusbar_button" />
+                </RadioGroup>
+
             </LinearLayout>
 
-            <View
-                android:id="@+id/divider3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
-
             <LinearLayout
-                android:id="@+id/xposednotcompatible"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/textView5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/settings_xposednotcompatible" />
-            </LinearLayout>
+                    android:gravity="center"
+                    android:text="@string/settings_lockscreen_title"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-            <LinearLayout
-                android:id="@+id/xposednotinstalled"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <TextView
-                    android:id="@+id/textView8"
+                <Switch
+                    android:id="@+id/lockscreenclockenabled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/settings_xposednotinstalled" />
-            </LinearLayout>
+                    android:text="@string/settings_switch_enabled" />
 
-            <LinearLayout
-                android:id="@+id/xposedinstalled"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <LinearLayout
+                <ImageView
+                    android:id="@+id/lockscreenclockpreview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:adjustViewBounds="true"
+                    android:maxHeight="100dp"
+                    tools:srcCompat="@drawable/clockc" />
 
-                    <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/settings_statusbar_title"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <Switch
-                        android:id="@+id/statusbarclockenabled"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_switch_enabled" />
-
-                    <ImageView
-                        android:id="@+id/statusbarclockpreview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:maxHeight="100dp"
-                        tools:srcCompat="@drawable/clockc" />
-
-                    <RadioGroup
-                        android:id="@+id/statusbarclocktype"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <RadioButton
-                            android:id="@+id/statusbarclocktextbased"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/settings_textbased" />
-
-                        <RadioButton
-                            android:id="@+id/statusbarclockimagebased"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/settings_imagebased" />
-
-                        <SeekBar
-                            android:id="@+id/statusbarclockdensity"
-                            style="@style/Widget.AppCompat.SeekBar.Discrete"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:max="1000"
-                            android:progress="500" />
-
-                        <Button
-                            android:id="@+id/statusbarclockconfigure"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/settings_statusbar_button" />
-                    </RadioGroup>
-
-                </LinearLayout>
-
-                <LinearLayout
+                <RadioGroup
+                    android:id="@+id/lockscreenclocktype"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/textView5"
+                    <RadioButton
+                        android:id="@+id/lockscreenclocktextbased"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/settings_lockscreen_title"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:text="@string/settings_textbased" />
 
-                    <Switch
-                        android:id="@+id/lockscreenclockenabled"
+                    <RadioButton
+                        android:id="@+id/lockscreenclockimagebased"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_switch_enabled" />
+                        android:text="@string/settings_imagebased" />
 
-                    <ImageView
-                        android:id="@+id/lockscreenclockpreview"
+                    <Button
+                        android:id="@+id/lockscreenclockconfigure"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
-                        android:maxHeight="100dp"
-                        tools:srcCompat="@drawable/clockc" />
-
-                    <RadioGroup
-                        android:id="@+id/lockscreenclocktype"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <RadioButton
-                            android:id="@+id/lockscreenclocktextbased"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/settings_textbased" />
-
-                        <RadioButton
-                            android:id="@+id/lockscreenclockimagebased"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/settings_imagebased" />
-
-                        <Button
-                            android:id="@+id/lockscreenclockconfigure"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/settings_lockscreen_button" />
-                    </RadioGroup>
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/divider4"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/listDivider" />
-
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/settings_systemui_restart_description" />
-
-                <Button
-                    android:id="@+id/restartsystemui"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/settings_systemui_restart_button" />
+                        android:text="@string/settings_lockscreen_button" />
+                </RadioGroup>
 
             </LinearLayout>
 
             <View
-                android:id="@+id/divider2"
+                android:id="@+id/divider4"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider" />
 
-        </LinearLayout>
-    </ScrollView>
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_systemui_restart_description" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/restartsystemui"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_systemui_restart_button" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+    </LinearLayout>
+</ScrollView>
