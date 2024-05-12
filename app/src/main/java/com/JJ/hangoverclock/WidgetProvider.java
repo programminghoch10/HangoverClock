@@ -14,7 +14,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import androidx.core.app.AlarmManagerCompat;
+import com.JJ.hangoverclock.compat.AlarmManagerCompat;
 
 import java.util.Calendar;
 
@@ -81,9 +81,6 @@ public class WidgetProvider extends AppWidgetProvider {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.add(Calendar.SECOND, (60 - calendar.get(Calendar.SECOND)));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
-            alarmManager.setWindow(AlarmManager.RTC, calendar.getTimeInMillis(), 1000, createClockTickIntent(context));
-        }
         AlarmManagerCompat.setExact(alarmManager, AlarmManager.RTC, calendar.getTimeInMillis(), createClockTickIntent(context));
     }
     

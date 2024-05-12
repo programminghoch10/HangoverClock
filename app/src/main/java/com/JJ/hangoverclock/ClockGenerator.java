@@ -12,7 +12,7 @@ import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
 
-import androidx.core.content.res.ResourcesCompat;
+import com.JJ.hangoverclock.compat.ResourcesCompat;
 
 import java.util.Calendar;
 import java.util.Locale;

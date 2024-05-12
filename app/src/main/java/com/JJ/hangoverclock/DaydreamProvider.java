@@ -1,5 +1,6 @@
 package com.JJ.hangoverclock;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -8,11 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.annotation.RequiresApi;
-
 import java.util.Calendar;
 
-@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class DaydreamProvider extends DreamService {
     
     private static final String TAG = DaydreamProvider.class.getName();

@@ -1,12 +1,10 @@
 package com.JJ.hangoverclock;
 
+import android.annotation.TargetApi;
 import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 import com.crossbowffs.remotepreferences.RemotePreferenceProvider;
 
-@RequiresApi(api = Build.VERSION_CODES.Q)
 public class PreferencesProvider extends RemotePreferenceProvider {
     private static final String[] files = {"statusbar", "lockscreen"};
     
@@ -14,6 +12,7 @@ public class PreferencesProvider extends RemotePreferenceProvider {
         super("com.JJ.hangoverclock.PreferencesProvider", files);
     }
     
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     protected boolean checkAccess(String prefFileName, String prefKey, boolean write) {
         if (write) return false;

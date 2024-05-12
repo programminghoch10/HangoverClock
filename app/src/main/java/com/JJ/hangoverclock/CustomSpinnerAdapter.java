@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import androidx.core.content.res.ResourcesCompat;
+import com.JJ.hangoverclock.compat.ResourcesCompat;
 
 import java.util.List;
 

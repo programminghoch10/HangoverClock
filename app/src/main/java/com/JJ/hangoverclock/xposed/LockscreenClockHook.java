@@ -12,8 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextClock;
 
-import androidx.annotation.RequiresApi;
-
 import com.JJ.hangoverclock.ClockGenerator;
 import com.JJ.hangoverclock.R;
 import com.crossbowffs.remotepreferences.RemotePreferences;
@@ -27,7 +25,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class LockscreenClockHook {
     private static final String TAG = "HangoverClock";
     
-    @RequiresApi(api = Build.VERSION_CODES.Q)
     @SuppressLint("PrivateApi")
     protected static void hook(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         XposedHelpers.findAndHookMethod("com.android.keyguard.KeyguardClockSwitch", lpparam.classLoader, "refresh", new XC_MethodHook() {

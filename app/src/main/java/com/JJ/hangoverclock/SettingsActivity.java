@@ -21,9 +21,6 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Switch;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import java.io.IOException;
 
 public class SettingsActivity extends Activity {
@@ -66,7 +63,7 @@ public class SettingsActivity extends Activity {
     }
     
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         saveconfig();
         finish();
         return super.onOptionsItemSelected(item);
@@ -79,7 +76,7 @@ public class SettingsActivity extends Activity {
     }
     
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
         sharedPreferencesStatusbar = getSharedPreferences(getString(R.string.statusbarpreferencesfilename), MODE_PRIVATE);

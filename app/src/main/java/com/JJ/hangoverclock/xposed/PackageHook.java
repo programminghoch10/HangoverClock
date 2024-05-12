@@ -2,8 +2,6 @@ package com.JJ.hangoverclock.xposed;
 
 import android.os.Build;
 
-import androidx.annotation.RequiresApi;
-
 import com.JJ.hangoverclock.BuildConfig;
 import com.JJ.hangoverclock.SettingsActivity;
 
@@ -14,7 +12,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class PackageHook implements IXposedHookLoadPackage {
     
-    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q) {

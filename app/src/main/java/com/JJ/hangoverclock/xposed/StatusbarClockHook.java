@@ -12,8 +12,6 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
-
 import com.JJ.hangoverclock.ClockGenerator;
 import com.JJ.hangoverclock.R;
 import com.crossbowffs.remotepreferences.RemotePreferences;
@@ -42,7 +40,6 @@ public class StatusbarClockHook {
         }
     };
     
-    @RequiresApi(api = Build.VERSION_CODES.Q)
     protected static void hook(XC_LoadPackage.LoadPackageParam lpparam) {
         XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.policy.Clock", lpparam.classLoader, "updateClock", new XC_MethodHook() {
             @Override
