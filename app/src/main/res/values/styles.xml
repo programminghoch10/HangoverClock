@@ -2,6 +2,8 @@
 
     <style name="AppTheme.Base" parent="@android:style/Theme.DeviceDefault" />
 
-    <style name="AppTheme" parent="AppTheme.Base" />
+    <style name="AppTheme" parent="AppTheme.Base" >
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
 
 </resources>
