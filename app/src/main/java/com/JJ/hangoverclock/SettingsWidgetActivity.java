@@ -1,5 +1,6 @@
 package com.JJ.hangoverclock;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -21,7 +22,18 @@ public class SettingsWidgetActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_widget);
+        // add back button
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         setupPreviews();
+    }
+    
+    @Override
+    public boolean onNavigateUp() {
+        finish();
+        return true;
     }
     
     @Override
