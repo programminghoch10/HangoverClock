@@ -1,5 +1,8 @@
 package com.JJ.hangoverclock;
 
+import static com.JJ.hangoverclock.xposed.Compatibility.isXposedCompatible;
+import static com.JJ.hangoverclock.xposed.Compatibility.xposedHooked;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -25,7 +28,6 @@ import java.io.IOException;
 
 public class SettingsActivity extends Activity {
     private static final String TAG = SettingsActivity.class.getName();
-    static boolean xposedHooked = false;
     SharedPreferences sharedPreferencesStatusbar;
     SharedPreferences sharedPreferencesLockscreen;
     ImageView daydreamclockpreview;
@@ -54,7 +56,6 @@ public class SettingsActivity extends Activity {
     };
     LinearLayout xposednotinstalled;
     LinearLayout xposedinstalled;
-    LinearLayout xposednotcompatible;
     LinearLayout daydreamclock;
     
     private void configChanged() {
@@ -132,7 +133,6 @@ public class SettingsActivity extends Activity {
         lockscreenclocktype = findViewById(R.id.lockscreenclocktype);
         xposedinstalled = findViewById(R.id.xposedinstalled);
         xposednotinstalled = findViewById(R.id.xposednotinstalled);
-        xposednotcompatible = findViewById(R.id.xposednotcompatible);
         
         daydreamclock.setVisibility(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 ? View.VISIBLE : View.GONE);
         daydreamclockpreview.setOnClickListener(v -> updatePreviews());
@@ -140,10 +140,9 @@ public class SettingsActivity extends Activity {
         lockscreenclockpreview.setOnClickListener(v -> updatePreviews());
         
         boolean xposedactive = xposedHooked;
-        boolean xposedcompatible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
+        boolean xposedcompatible = isXposedCompatible();
         xposedinstalled.setVisibility(xposedactive && xposedcompatible ? View.VISIBLE : View.GONE);
         xposednotinstalled.setVisibility(xposedcompatible && !xposedactive ? View.VISIBLE : View.GONE);
-        xposednotcompatible.setVisibility(!xposedcompatible ? View.VISIBLE : View.GONE);
         
         loadConfig();
         updatePreviews();

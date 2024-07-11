@@ -22,7 +22,6 @@
     <string name="settings_widget_button">Widget Liste öffnen</string>
     <string name="settings_daydream_title">Bildschirmschoner</string>
     <string name="settings_daydream_button">Bildschirmschonereinstellungen öffnen</string>
-    <string name="settings_xposednotcompatible">Du brauchst Android 10 oder höher und XPosed um die Uhren in der Benachrichtigungsleiste und auf dem Sperrbildschirm zu verändern.</string>
     <string name="settings_xposednotinstalled">Du brauchst ein aktives XPosed-Framework um die Uhren in der Benachrichtgungsleiste und auf dem Sperrbildschirm zu verändern.</string>
     <string name="settings_statusbar_title">Benachrichtigungsleiste</string>
     <string name="settings_switch_enabled">Aktiviert</string>
