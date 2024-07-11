@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -90,7 +91,7 @@ public class SettingsActivity extends Activity {
             }
         });
         
-        ///add back button
+        // add back button
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -229,6 +230,7 @@ public class SettingsActivity extends Activity {
     
     private Bitmap getPreview(String sharedPreferencesName, String scope) {
         ClockConfig config = new ClockConfig(getSharedPreferences(sharedPreferencesName, MODE_PRIVATE), ClockConfig.getDefaultsFromResources(getResources(), scope));
+        config.color = obtainStyledAttributes(new int[]{android.R.attr.textColorPrimary}).getColor(0, config.color);
         return ClockGenerator.generateClock(this, System.currentTimeMillis(), config);
     }
 }
